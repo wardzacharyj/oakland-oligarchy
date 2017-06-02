@@ -13,6 +13,7 @@ public class Board {
     public Board(int size){
         this.size = size;
         try{
+            //Here
             if(this.size % 4 == 0 ){
                 tiles = new Tile[size];
             }
