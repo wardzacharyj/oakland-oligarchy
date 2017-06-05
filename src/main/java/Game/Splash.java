@@ -4,15 +4,15 @@ import Utilities.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Splash extends JPanel implements ItemListener, ActionListener {
+public class Splash extends JPanel implements ItemListener, ActionListener, WindowListener {
 
     private JPanel topPane;
     private JPanel middlePane;
+    private List<JTextField> playerNameFields;
     private JPanel bottomPane;
 
     private Splash() {
@@ -93,6 +93,7 @@ public class Splash extends JPanel implements ItemListener, ActionListener {
                 numPlayers = Integer.parseInt((String) e.getItem());
             }
 
+            playerNameFields = new ArrayList<>();
 
             middlePane.removeAll();
 
@@ -100,9 +101,9 @@ public class Splash extends JPanel implements ItemListener, ActionListener {
                 JTextField nameInput = new JTextField();
 
                 nameInput.setPreferredSize(new Dimension(150, 20));
-                nameInput.setText("Player " + (numPlayers + 1) + " Name");
+                nameInput.setText("Player " + (numPlayers + 1));
                 nameInput.setHorizontalAlignment(SwingConstants.CENTER);
-
+                playerNameFields.add(nameInput);
                 middlePane.add(nameInput);
             }
 
@@ -115,6 +116,11 @@ public class Splash extends JPanel implements ItemListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        List<String> playerNames = new ArrayList<>();
+        for (JTextField j : playerNameFields) {
+            playerNames.add(j.getText());
+        }
+
 
     }
 
@@ -132,5 +138,40 @@ public class Splash extends JPanel implements ItemListener, ActionListener {
 
         splashFrame.pack();
         splashFrame.setVisible(true);
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }
