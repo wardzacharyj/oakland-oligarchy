@@ -1,3 +1,6 @@
+
+//Used for middle pane dynamic modification on Splash.java
+
 /*
  * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *
