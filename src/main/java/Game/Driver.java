@@ -5,7 +5,7 @@ package Game;
  */
 public class Driver {
     public static void main(String[] args){
-       /* new Board(4);
+       /* new Board();
 
         System.out.println("HI");
         System.out.println("HI");
