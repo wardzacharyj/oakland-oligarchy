@@ -23,7 +23,14 @@ public class Board {
 
         //Initializing the tiles array.
         for (int i = 0; i < 36; i++) {
-            tiles[i] = new Property("", i, new JPanel());
+            if(i % 5 == 0 && (i != 0 || i != 35))
+            {
+                tiles[i] = new ActionTile("", i, new JPanel());
+            }
+            else
+            {
+                tiles[i] = new Property("", i, new JPanel());
+            }
         }
 
         //initializing the game board panels.
@@ -91,43 +98,43 @@ public class Board {
         //adding text and buttons to all game tiles other than corners.
         //south row
         addTileInformation(tiles[1].getTilePanel(), 0, Color.black, "Hemingway's");
-        addTileInformation(tiles[2].getTilePanel(), 0, Color.black, "");
-        addTileInformation(tiles[3].getTilePanel(), 0, Color.black, "");
-        addTileInformation(tiles[4].getTilePanel(), 0, Color.blue, "");
-        addTileInformation(tiles[5].getTilePanel(), 0, Color.blue, "");
-        addTileInformation(tiles[6].getTilePanel(), 0, Color.blue, "");
-        addTileInformation(tiles[7].getTilePanel(), 0, Color.red, "");
-        addTileInformation(tiles[8].getTilePanel(), 0, Color.red, "");
+        addTileInformation(tiles[2].getTilePanel(), 0, Color.black, "Peter's Pub");
+        addTileInformation(tiles[3].getTilePanel(), 0, Color.black, "G-Door");
+        addTileInformation(tiles[4].getTilePanel(), 0, Color.blue, "The Pete");
+        addTileInformation(tiles[5].getTilePanel(), 0, "PNC Bank");
+        addTileInformation(tiles[6].getTilePanel(), 0, Color.blue, "Trees");
+        addTileInformation(tiles[7].getTilePanel(), 0, Color.red, "Pamela's");
+        addTileInformation(tiles[8].getTilePanel(), 0, Color.red, "Brueggers");
 
         //west row
-        addTileInformation(tiles[10].getTilePanel(), 1, Color.red, "");
-        addTileInformation(tiles[11].getTilePanel(), 1, Color.yellow, "");
-        addTileInformation(tiles[12].getTilePanel(), 1, Color.yellow, "");
-        addTileInformation(tiles[13].getTilePanel(), 1, Color.yellow, "");
-        addTileInformation(tiles[14].getTilePanel(), 1, Color.orange, "");
-        addTileInformation(tiles[15].getTilePanel(), 1, Color.orange, "");
-        addTileInformation(tiles[16].getTilePanel(), 1, Color.orange, "");
-        addTileInformation(tiles[17].getTilePanel(), 1, Color.green, "");
+        addTileInformation(tiles[10].getTilePanel(), 1,"PNC Bank");
+        addTileInformation(tiles[11].getTilePanel(), 1, Color.yellow, "Starbucks");
+        addTileInformation(tiles[12].getTilePanel(), 1, Color.yellow, "Dunkin Donuts");
+        addTileInformation(tiles[13].getTilePanel(), 1, Color.yellow, "Einsteins");
+        addTileInformation(tiles[14].getTilePanel(), 1, Color.orange, "Shenley Plaza");
+        addTileInformation(tiles[15].getTilePanel(), 1, "PNC Bank");
+        addTileInformation(tiles[16].getTilePanel(), 1, Color.orange, "Flagstaff Hill");
+        addTileInformation(tiles[17].getTilePanel(), 1, Color.green, "Frenchies Subs");
 
         //north row
-        addTileInformation(tiles[19].getTilePanel(), 2, Color.green, "");
-        addTileInformation(tiles[20].getTilePanel(), 2, Color.green, "");
-        addTileInformation(tiles[21].getTilePanel(), 2, Color.GRAY, "");
-        addTileInformation(tiles[22].getTilePanel(), 2, Color.GRAY, "");
-        addTileInformation(tiles[23].getTilePanel(), 2, Color.GRAY, "");
-        addTileInformation(tiles[24].getTilePanel(), 2, Color.PINK, "");
-        addTileInformation(tiles[25].getTilePanel(), 2, Color.PINK, "");
-        addTileInformation(tiles[26].getTilePanel(), 2, Color.PINK, "");
+        addTileInformation(tiles[19].getTilePanel(), 2, Color.green, "Campus Deli");
+        addTileInformation(tiles[20].getTilePanel(), 2,"PNC Bank");
+        addTileInformation(tiles[21].getTilePanel(), 2, Color.GRAY, "Hillman");
+        addTileInformation(tiles[22].getTilePanel(), 2, Color.GRAY, "Cathy");
+        addTileInformation(tiles[23].getTilePanel(), 2, Color.GRAY, "Posvar");
+        addTileInformation(tiles[24].getTilePanel(), 2, Color.PINK, "Forbes");
+        addTileInformation(tiles[25].getTilePanel(), 2, "PNC Bank");
+        addTileInformation(tiles[26].getTilePanel(), 2, Color.PINK, "Fifth");
 
         //east row
-        addTileInformation(tiles[28].getTilePanel(), 3, Color.WHITE, "");
-        addTileInformation(tiles[29].getTilePanel(), 3, Color.WHITE, "");
-        addTileInformation(tiles[30].getTilePanel(), 3, Color.WHITE, "");
-        addTileInformation(tiles[31].getTilePanel(), 3, Color.CYAN, "");
-        addTileInformation(tiles[32].getTilePanel(), 3, Color.CYAN, "");
-        addTileInformation(tiles[33].getTilePanel(), 3, Color.CYAN, "");
-        addTileInformation(tiles[34].getTilePanel(), 3, Color.magenta, "");
-        addTileInformation(tiles[35].getTilePanel(), 3, Color.magenta, "");
+        addTileInformation(tiles[28].getTilePanel(), 3, Color.WHITE, "Oishi Bento");
+        addTileInformation(tiles[29].getTilePanel(), 3, Color.WHITE, "Schezwan");
+        addTileInformation(tiles[30].getTilePanel(), 3, "PNC Bank");
+        addTileInformation(tiles[31].getTilePanel(), 3, Color.CYAN, "Antoons");
+        addTileInformation(tiles[32].getTilePanel(), 3, Color.CYAN, "Sorentos");
+        addTileInformation(tiles[33].getTilePanel(), 3, Color.CYAN, "Pizza Romano");
+        addTileInformation(tiles[34].getTilePanel(), 3, Color.magenta, "CVS");
+        addTileInformation(tiles[35].getTilePanel(), 3, Color.magenta, "Rite Aid");
 
         frame.add(boardPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -171,6 +178,7 @@ public class Board {
         b.setBackground(c);
         //JLabel label = new JLabel(tileName);
         JTextArea label = new JTextArea(tileName, 5, 5);
+        label.setEditable(false);
         label.setLineWrap(true);
 
         if(orientation == 0) {
@@ -201,6 +209,41 @@ public class Board {
             panel.setLayout(new BorderLayout());
             b.setPreferredSize(new Dimension(30, 20));
             panel.add(b, BorderLayout.WEST);
+            label.setPreferredSize(new Dimension(60, 20));
+            label.setMaximumSize(new Dimension(60, 20));
+            label.setMinimumSize(new Dimension(60, 20));
+        }
+        panel.add(label);
+    }
+
+    //Add ActionTile information (no color or button needed)
+    protected void addTileInformation(JPanel panel, int orientation, String tileName) {
+
+        //JLabel label = new JLabel(tileName);
+        JTextArea label = new JTextArea(tileName, 5, 5);
+        label.setEditable(false);
+        label.setLineWrap(true);
+
+        if(orientation == 0) {
+            panel.setLayout(new BorderLayout());
+            label.setPreferredSize(new Dimension(20, 60));
+            label.setMaximumSize(new Dimension(20, 60));
+            label.setMinimumSize(new Dimension(20, 60));
+        }
+        else if(orientation == 1) {
+            panel.setLayout(new BorderLayout());
+            label.setPreferredSize(new Dimension(60, 20));
+            label.setMaximumSize(new Dimension(60, 20));
+            label.setMinimumSize(new Dimension(60, 20));
+        }
+        else if(orientation == 2) {
+            panel.setLayout(new BorderLayout());
+            label.setPreferredSize(new Dimension(20, 60));
+            label.setMaximumSize(new Dimension(20, 60));
+            label.setMinimumSize(new Dimension(20, 60));
+        }
+        else if(orientation == 3) {
+            panel.setLayout(new BorderLayout());
             label.setPreferredSize(new Dimension(60, 20));
             label.setMaximumSize(new Dimension(60, 20));
             label.setMinimumSize(new Dimension(60, 20));
