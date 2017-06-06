@@ -1,5 +1,6 @@
 package Game;
 
+import Game.Board.Board;
 import Utilities.SpringUtilities;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public class Splash extends JPanel implements ItemListener, ActionListener, WindowListener {
 
+    private static JFrame splashFrame;
     private JPanel topPane;
     private JPanel middlePane;
     private List<JTextField> playerNameFields;
@@ -116,9 +118,16 @@ public class Splash extends JPanel implements ItemListener, ActionListener, Wind
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        List<String> playerNames = new ArrayList<>();
-        for (JTextField j : playerNameFields) {
-            playerNames.add(j.getText());
+        if (playerNameFields == null) {
+            //ERROR HERE
+        } else {
+            List<String> playerNames = new ArrayList<>();
+            for (JTextField j : playerNameFields) {
+                playerNames.add(j.getText());
+            }
+            new Board();
+
+            splashFrame.dispose();
         }
 
 
@@ -126,7 +135,7 @@ public class Splash extends JPanel implements ItemListener, ActionListener, Wind
 
     static void splashInit() {
 
-        JFrame splashFrame = new JFrame("Oakland Oligarchy");
+        splashFrame = new JFrame("Oakland Oligarchy");
         splashFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         splashFrame.setResizable(false);
         splashFrame.setPreferredSize(new Dimension(640, 480));
