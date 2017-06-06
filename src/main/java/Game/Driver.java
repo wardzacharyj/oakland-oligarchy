@@ -7,7 +7,7 @@ import Game.Board.Board;
  */
 public class Driver {
     public static void main(String[] args){
-        new Board(31);
+        new Board();
 
         System.out.println("HI");
         System.out.println("HI");
@@ -16,7 +16,5 @@ public class Driver {
 
         System.out.println("HI");
         System.out.println("HI");
-
-
     }
 }

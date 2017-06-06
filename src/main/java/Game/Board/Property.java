@@ -2,6 +2,7 @@ package Game.Board;
 
 import Game.Player;
 
+import javax.swing.*;
 import java.math.BigDecimal;
 
 /**
@@ -17,8 +18,7 @@ public class Property extends Tile {
 
 
 
-    Property(String name, int position){
-        super(name,position);
-
+    Property(String name, int position, JPanel tilePanel){
+        super(name,position, tilePanel);
     }
 }
