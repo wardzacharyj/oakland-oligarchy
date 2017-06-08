@@ -1,8 +1,6 @@
 package Game.UI;
 
 import Game.Player;
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -62,6 +60,10 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
     public void rollDice(){
         leftDie.roll();
         rightDie.roll();
+    }
+
+    public int getDiceSum(){
+        return leftDie.getState()+rightDie.getState();
     }
 
 
