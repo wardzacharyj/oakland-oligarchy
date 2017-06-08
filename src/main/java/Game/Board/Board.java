@@ -1,253 +1,237 @@
 package Game.Board;
 
 
+import Game.Player;
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by Zach on 6/1/17.
- */
-public class Board {
+
+public class Board extends JPanel {
 
     private final int SIZE = 36;
-    private Tile[] tiles;
-    private JFrame frame = new JFrame("Oakland Oligarchy");
-    JPanel boardPanel;
 
-    public Board() {
+    private int CORNER_TOP_RIGHT = 0;
+    private int CORNER_BOTTOM_RIGHT = SIZE/4;
+    private int CORNER_BOTTOM_LEFT = 2*(SIZE/4);
+    private int CORNER_TOP_LEFT = 3*(SIZE/4);
+
+
+    private Tile[] tiles;
+    private JPanel boardPanel;
+
+    private GridBagLayout gridBagLayout;
+    private GridBagConstraints gridBagConstraints;
+
+    private Player[] players;
+
+    public Board(Player[] players) {
+
+        this.players = players;
+
+
+
+
+        setLayout(new BorderLayout());
+        setBackground(Color.WHITE);
+
         boardPanel = new JPanel();
         tiles = new Tile[SIZE];
-        GridBagLayout gbl = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
-        boardPanel.setLayout(gbl);
+        gridBagLayout = new GridBagLayout();
 
-        //Initializing the tiles array.
-        for (int i = 0; i < 36; i++) {
-            if(i % 5 == 0 && (i != 0 || i != 35))
-            {
-                tiles[i] = new ActionTile("", i, new JPanel());
-            }
-            else
-            {
-                tiles[i] = new Property("", i, new JPanel());
-            }
-        }
 
-        //initializing the game board panels.
-        //bottom right corner.
-        gbc.weightx = 2.0;
-        gbc.weighty = 2.0;
-        addTile(10, 10, 2, 2, gbl, gbc, boardPanel, tiles[0].getTilePanel());
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        //south row.
-        addTile(9, 10, 1, 1, gbl, gbc, boardPanel, tiles[1].getTilePanel());
-        addTile(8, 10, 1, 1, gbl, gbc, boardPanel, tiles[2].getTilePanel());
-        addTile(7, 10, 1, 1, gbl, gbc, boardPanel, tiles[3].getTilePanel());
-        addTile(6, 10, 1, 1, gbl, gbc, boardPanel, tiles[4].getTilePanel());
-        addTile(5, 10, 1, 1, gbl, gbc, boardPanel, tiles[5].getTilePanel());
-        addTile(4, 10, 1, 1, gbl, gbc, boardPanel, tiles[6].getTilePanel());
-        addTile(3, 10, 1, 1, gbl, gbc, boardPanel, tiles[7].getTilePanel());
-        addTile(2, 10, 1, 1, gbl, gbc, boardPanel, tiles[8].getTilePanel());
-        //bottom left corner.
-        gbc.weightx = 2.0;
-        gbc.weighty = 2.0;
-        addTile(0, 10, 2, 2, gbl, gbc, boardPanel, tiles[9].getTilePanel());
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        //west row.
-        addTile(0, 9, 1, 1, gbl, gbc, boardPanel, tiles[10].getTilePanel());
-        addTile(0, 8, 1, 1, gbl, gbc, boardPanel, tiles[11].getTilePanel());
-        addTile(0, 7, 1, 1, gbl, gbc, boardPanel, tiles[12].getTilePanel());
-        addTile(0, 6, 1, 1, gbl, gbc, boardPanel, tiles[13].getTilePanel());
-        addTile(0, 5, 1, 1, gbl, gbc, boardPanel, tiles[14].getTilePanel());
-        addTile(0, 4, 1, 1, gbl, gbc, boardPanel, tiles[15].getTilePanel());
-        addTile(0, 3, 1, 1, gbl, gbc, boardPanel, tiles[16].getTilePanel());
-        addTile(0, 2, 1, 1, gbl, gbc, boardPanel, tiles[17].getTilePanel());
-        //upper left corner.
-        gbc.weightx = 2.0;
-        gbc.weighty = 2.0;
-        addTile(0, 0, 2, 2, gbl, gbc, boardPanel, tiles[18].getTilePanel());
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        //north row.
-        addTile(2, 0, 1, 1, gbl, gbc, boardPanel, tiles[19].getTilePanel());
-        addTile(3, 0, 1, 1, gbl, gbc, boardPanel, tiles[20].getTilePanel());
-        addTile(4, 0, 1, 1, gbl, gbc, boardPanel, tiles[21].getTilePanel());
-        addTile(5, 0, 1, 1, gbl, gbc, boardPanel, tiles[22].getTilePanel());
-        addTile(6, 0, 1, 1, gbl, gbc, boardPanel, tiles[23].getTilePanel());
-        addTile(7, 0, 1, 1, gbl, gbc, boardPanel, tiles[24].getTilePanel());
-        addTile(8, 0, 1, 1, gbl, gbc, boardPanel, tiles[25].getTilePanel());
-        addTile(9, 0, 1, 1, gbl, gbc, boardPanel, tiles[26].getTilePanel());
-        //upper right corner.
-        gbc.weightx = 2.0;
-        gbc.weighty = 2.0;
-        addTile(10, 0, 2, 2, gbl, gbc, boardPanel, tiles[27].getTilePanel());
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        //east row.
-        addTile(11, 2, 1, 1, gbl, gbc, boardPanel, tiles[28].getTilePanel());
-        addTile(11, 3, 1, 1, gbl, gbc, boardPanel, tiles[29].getTilePanel());
-        addTile(11, 4, 1, 1, gbl, gbc, boardPanel, tiles[30].getTilePanel());
-        addTile(11, 5, 1, 1, gbl, gbc, boardPanel, tiles[31].getTilePanel());
-        addTile(11, 6, 1, 1, gbl, gbc, boardPanel, tiles[32].getTilePanel());
-        addTile(11, 7, 1, 1, gbl, gbc, boardPanel, tiles[33].getTilePanel());
-        addTile(11, 8, 1, 1, gbl, gbc, boardPanel, tiles[34].getTilePanel());
-        addTile(11, 9, 1, 1, gbl, gbc, boardPanel, tiles[35].getTilePanel());
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
 
-        //adding text and buttons to all game tiles other than corners.
-        //south row
-        addTileInformation(tiles[1].getTilePanel(), 0, Color.black, "Hemingway's");
-        addTileInformation(tiles[2].getTilePanel(), 0, Color.black, "Peter's Pub");
-        addTileInformation(tiles[3].getTilePanel(), 0, Color.black, "G-Door");
-        addTileInformation(tiles[4].getTilePanel(), 0, Color.blue, "The Pete");
-        addTileInformation(tiles[5].getTilePanel(), 0, "PNC Bank");
-        addTileInformation(tiles[6].getTilePanel(), 0, Color.blue, "Trees");
-        addTileInformation(tiles[7].getTilePanel(), 0, Color.red, "Pamela's");
-        addTileInformation(tiles[8].getTilePanel(), 0, Color.red, "Brueggers");
+        boardPanel.setLayout(gridBagLayout);
 
-        //west row
-        addTileInformation(tiles[10].getTilePanel(), 1,"PNC Bank");
-        addTileInformation(tiles[11].getTilePanel(), 1, Color.yellow, "Starbucks");
-        addTileInformation(tiles[12].getTilePanel(), 1, Color.yellow, "Dunkin Donuts");
-        addTileInformation(tiles[13].getTilePanel(), 1, Color.yellow, "Einsteins");
-        addTileInformation(tiles[14].getTilePanel(), 1, Color.orange, "Shenley Plaza");
-        addTileInformation(tiles[15].getTilePanel(), 1, "PNC Bank");
-        addTileInformation(tiles[16].getTilePanel(), 1, Color.orange, "Flagstaff Hill");
-        addTileInformation(tiles[17].getTilePanel(), 1, Color.green, "Frenchies Subs");
+        initBoard();
 
-        //north row
-        addTileInformation(tiles[19].getTilePanel(), 2, Color.green, "Campus Deli");
-        addTileInformation(tiles[20].getTilePanel(), 2,"PNC Bank");
-        addTileInformation(tiles[21].getTilePanel(), 2, Color.GRAY, "Hillman");
-        addTileInformation(tiles[22].getTilePanel(), 2, Color.GRAY, "Cathy");
-        addTileInformation(tiles[23].getTilePanel(), 2, Color.GRAY, "Posvar");
-        addTileInformation(tiles[24].getTilePanel(), 2, Color.PINK, "Forbes");
-        addTileInformation(tiles[25].getTilePanel(), 2, "PNC Bank");
-        addTileInformation(tiles[26].getTilePanel(), 2, Color.PINK, "Fifth");
+        add(boardPanel, BorderLayout.CENTER);
+        setPreferredSize(new Dimension(1000, 1000));
 
-        //east row
-        addTileInformation(tiles[28].getTilePanel(), 3, Color.WHITE, "Oishi Bento");
-        addTileInformation(tiles[29].getTilePanel(), 3, Color.WHITE, "Schezwan");
-        addTileInformation(tiles[30].getTilePanel(), 3, "PNC Bank");
-        addTileInformation(tiles[31].getTilePanel(), 3, Color.CYAN, "Antoons");
-        addTileInformation(tiles[32].getTilePanel(), 3, Color.CYAN, "Sorentos");
-        addTileInformation(tiles[33].getTilePanel(), 3, Color.CYAN, "Pizza Romano");
-        addTileInformation(tiles[34].getTilePanel(), 3, Color.magenta, "CVS");
-        addTileInformation(tiles[35].getTilePanel(), 3, Color.magenta, "Rite Aid");
-
-        frame.add(boardPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 1000);
-        frame.setVisible(true);
     }
 
-    /**
-     * This method places panels on the GridBagLayout based on the parameters given.
-     * @param x the x coordinate to place the panel.
-     * @param y the y coordinate to place the panel.
-     * @param height height of the panel in the GridBagLayout.
-     * @param width width of the panel in the GridBagLayout.
-     * @param l GridBagLayout object reference.
-     * @param c GridBagConstraints object reference.
-     * @param p JPanel that the new panel needs to be added to.
-     * @param panelToAdd The JPanel that needs to be added.
-     */
-    protected void addTile(int x, int y, int height, int width, GridBagLayout l, GridBagConstraints c, JPanel p, JPanel panelToAdd) {
-        c.gridx = x;
-        c.gridy = y;
-        c.gridheight = height;
-        c.gridwidth = width;
+    // For Future
+    private void initBoardFromJson(){
 
-        panelToAdd.setBorder(BorderFactory.createLineBorder(Color.black));
-        c.fill = GridBagConstraints.BOTH;
-        l.setConstraints(panelToAdd, c);
-        p.add(panelToAdd);
     }
 
-    /**
-     * This method adds information to each tile, including a text field displaying the name of the property, and a button with a given color.
-     * @param panel The panel that the text field, and button will be added to.
-     * @param orientation An integer representing the orientation of the tile. 0 for north, 1 for east, 2 for south, and 3 for west.
-     * @param c The color that the button will be displayed as.
-     * @param tileName The name that will be added to the text field.
-     */
-    protected void addTileInformation(JPanel panel, int orientation, Color c, String tileName) {
+    // Replace later
+    private void initBoard(){
 
-        JButton b = new JButton("");
-        b.setBackground(c);
-        //JLabel label = new JLabel(tileName);
-        JTextArea label = new JTextArea(tileName, 5, 5);
-        label.setEditable(false);
-        label.setLineWrap(true);
+        // tiles[0] TOP RIGHT CORNER
 
-        if(orientation == 0) {
-            panel.setLayout(new BorderLayout());
-            b.setPreferredSize(new Dimension(20, 30));
-            panel.add(b, BorderLayout.NORTH);
-            label.setPreferredSize(new Dimension(20, 60));
-            label.setMaximumSize(new Dimension(20, 60));
-            label.setMinimumSize(new Dimension(20, 60));
+        tiles[0] = new ActionTile("Pitt Start",0);
+
+        tiles[1] = new Property("Oishi Bento",1, Color.WHITE);
+        tiles[2] = new Property("Schezwan",2, Color.WHITE);
+        tiles[3] = new ActionTile("PNC Bank",3);
+        tiles[4] = new Property("Antoons",4, Color.CYAN);
+        tiles[5] = new Property("Sorentos",5, Color.CYAN);
+        tiles[6] = new Property("Pizza Romano",6, Color.CYAN);
+        tiles[7] = new Property("CVS",7, Color.MAGENTA);
+        tiles[8] = new Property("Rite Aid",8, Color.MAGENTA);
+
+
+        // tiles[9] Bottom RIGHT CORNER
+        tiles[9] = new ActionTile("Market",9);
+
+        tiles[10] = new Property("Hemingway's",10, Color.BLACK);
+        tiles[11] = new Property("Peter's Pub",11, Color.BLACK);
+        tiles[12] = new ActionTile("PNC Bank",12);
+        tiles[13] = new Property("G-Door",13, Color.BLACK);
+        tiles[14] = new Property("The Pete",14, Color.BLUE);
+        tiles[15] = new Property("Trees",15, Color.BLUE);
+        tiles[16] = new Property("Pamela's",16, Color.RED);
+        tiles[17] = new Property("Brueggers",17, Color.RED);
+
+        // tiles[18] Bottom LEFT CORNER
+        tiles[18] = new ActionTile("Soldiers and Sailors",18);
+
+        tiles[19] = new Property("Starbucks",19, Color.YELLOW);
+        tiles[20] = new Property("Dunkin Donuts",20, Color.YELLOW);
+        tiles[21] = new ActionTile("PNC Bank",21);
+        tiles[22] = new Property("Einsteins",22, Color.YELLOW);
+        tiles[23] = new Property("Shenley Plaza",23, Color.ORANGE);
+        tiles[24] = new Property("Flagstaff Hill",24, Color.ORANGE);
+        tiles[25] = new ActionTile("PNC Bank",25);
+        tiles[26] = new Property("Frenchies Subs",26, Color.GREEN);
+
+        // tiles[27] TOP LEFT CORNER
+        tiles[27] = new ActionTile("Go To Market",27);
+
+        tiles[28] = new Property("Campus Deli",28, Color.GREEN);
+        tiles[29] = new ActionTile("PNC Bank",29);
+        tiles[30] = new Property("Hillman",30, Color.LIGHT_GRAY);
+        tiles[31] = new Property("Cathy",31, Color.LIGHT_GRAY);
+        tiles[32] = new Property("Posvar",32, Color.LIGHT_GRAY);
+        tiles[33] = new Property("Forbes",33, Color.PINK);
+        tiles[34] = new ActionTile("PNC Bank",34);
+        tiles[35] = new Property("Fifth",35, Color.PINK);
+
+
+        for(int i = 0; i < SIZE; i++){
+            setTile(i,tiles[i]);
         }
-        else if(orientation == 1) {
-            panel.setLayout(new BorderLayout());
-            b.setPreferredSize(new Dimension(30, 20));
-            panel.add(b, BorderLayout.EAST);
-            label.setPreferredSize(new Dimension(60, 20));
-            label.setMaximumSize(new Dimension(60, 20));
-            label.setMinimumSize(new Dimension(60, 20));
+
+        for (Player p : players){
+            tiles[0].addPlayer(p);
         }
-        else if(orientation == 2) {
-            panel.setLayout(new BorderLayout());
-            b.setPreferredSize(new Dimension(20, 30));
-            panel.add(b, BorderLayout.SOUTH);
-            label.setPreferredSize(new Dimension(20, 60));
-            label.setMaximumSize(new Dimension(20, 60));
-            label.setMinimumSize(new Dimension(20, 60));
-        }
-        else if(orientation == 3) {
-            panel.setLayout(new BorderLayout());
-            b.setPreferredSize(new Dimension(30, 20));
-            panel.add(b, BorderLayout.WEST);
-            label.setPreferredSize(new Dimension(60, 20));
-            label.setMaximumSize(new Dimension(60, 20));
-            label.setMinimumSize(new Dimension(60, 20));
-        }
-        panel.add(label);
+
     }
 
-    //Add ActionTile information (no color or button needed)
-    protected void addTileInformation(JPanel panel, int orientation, String tileName) {
+    public void setTile(int pos, Tile tile){
 
-        //JLabel label = new JLabel(tileName);
-        JTextArea label = new JTextArea(tileName, 5, 5);
-        label.setEditable(false);
-        label.setLineWrap(true);
 
-        if(orientation == 0) {
-            panel.setLayout(new BorderLayout());
-            label.setPreferredSize(new Dimension(20, 60));
-            label.setMaximumSize(new Dimension(20, 60));
-            label.setMinimumSize(new Dimension(20, 60));
+        // East Row
+        if(isCorner(pos)){
+            gridBagConstraints.weightx = 2.0;
+            gridBagConstraints.weighty = 2.0;
+            setCorner(pos, tile);
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.weighty = 1.0;
         }
-        else if(orientation == 1) {
-            panel.setLayout(new BorderLayout());
-            label.setPreferredSize(new Dimension(60, 20));
-            label.setMaximumSize(new Dimension(60, 20));
-            label.setMinimumSize(new Dimension(60, 20));
+        else if(pos > CORNER_TOP_RIGHT && pos < CORNER_BOTTOM_RIGHT){
+            setInnerTile(pos,tile, Tile.ORIENTATION_EAST);
         }
-        else if(orientation == 2) {
-            panel.setLayout(new BorderLayout());
-            label.setPreferredSize(new Dimension(20, 60));
-            label.setMaximumSize(new Dimension(20, 60));
-            label.setMinimumSize(new Dimension(20, 60));
+        // South Row
+        else if(pos > CORNER_BOTTOM_RIGHT && pos < CORNER_BOTTOM_LEFT){
+            setInnerTile(pos,tile, Tile.ORIENTATION_SOUTH);
         }
-        else if(orientation == 3) {
-            panel.setLayout(new BorderLayout());
-            label.setPreferredSize(new Dimension(60, 20));
-            label.setMaximumSize(new Dimension(60, 20));
-            label.setMinimumSize(new Dimension(60, 20));
+        // West Row
+        else if(pos > CORNER_BOTTOM_LEFT && pos < CORNER_TOP_LEFT){
+            setInnerTile(pos,tile, Tile.ORIENTATION_WEST);
         }
-        panel.add(label);
+        else if(pos > CORNER_TOP_LEFT && pos < SIZE){
+            setInnerTile(pos,tile, Tile.ORIENTATION_NORTH);
+        }
+        else {
+            System.out.println(pos);
+            throw new ArrayIndexOutOfBoundsException("Invalid Board Position");
+        }
+
     }
+
+
+    private void setInnerTile(int pos, Tile tile, int orientation){
+
+
+        TilePanel panel = tile.getTilePanel(orientation);
+
+
+        if(orientation == Tile.ORIENTATION_EAST){
+
+            gridBagConstraints.gridx = 11;
+            gridBagConstraints.gridy = pos+1;
+
+        }
+        else if(orientation == Tile.ORIENTATION_SOUTH){
+
+            gridBagConstraints.gridx = 9 - (pos % 10);
+            gridBagConstraints.gridy = 10;
+
+
+        }
+        else if(orientation == Tile.ORIENTATION_WEST){
+
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 9 - (pos % 19);
+
+        }
+        else if(orientation == Tile.ORIENTATION_NORTH){
+
+            gridBagConstraints.gridx = pos-26;
+            gridBagConstraints.gridy = 0;
+
+        }
+
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.gridwidth = 1;
+
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        gridBagLayout.setConstraints(panel, gridBagConstraints);
+        boardPanel.add(panel);
+
+    }
+
+    private void setCorner(int pos, Tile tile){
+
+        TilePanel panel  = tile.getTilePanel(Tile.ORIENTATION_CORNER);
+
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.gridwidth = 2;
+
+        if(pos == CORNER_TOP_RIGHT){
+            gridBagConstraints.gridx = 10;
+            gridBagConstraints.gridy = 0;
+        }
+        else if(pos == CORNER_BOTTOM_RIGHT){
+            gridBagConstraints.gridx = 10;
+            gridBagConstraints.gridy = 10;
+        }
+        else if(pos == CORNER_BOTTOM_LEFT){
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 10;
+        }
+        else if(pos == CORNER_TOP_LEFT){
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 0;
+        }
+
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        gridBagLayout.setConstraints(panel, gridBagConstraints);
+
+        boardPanel.add(panel);
+    }
+
+
+
+    private boolean isCorner(int pos){
+        return pos == CORNER_BOTTOM_LEFT || pos == CORNER_BOTTOM_RIGHT
+                || pos == CORNER_TOP_RIGHT || pos == CORNER_TOP_LEFT;
+    }
+
 }

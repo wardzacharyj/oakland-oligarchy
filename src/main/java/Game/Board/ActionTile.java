@@ -8,7 +8,7 @@ public class ActionTile extends Tile {
     //private String action;
 
 
-    ActionTile(String name, int position, JPanel tilePanel){
-        super(name,position, tilePanel);
+    ActionTile(String name, int position){
+        super(name,position);
     }
 }

@@ -3,6 +3,7 @@ package Game.Board;
 import Game.Player;
 
 import javax.swing.*;
+import java.awt.*;
 import java.math.BigDecimal;
 
 /**
@@ -12,13 +13,29 @@ public class Property extends Tile {
 
     private Player owner;
 
-    private BigDecimal rent;
-    private BigDecimal price;
-    private BigDecimal improvementFee;
+    private boolean isForSale;
+    private int rent;
+    private int price;
+    private int improvementFee;
+    private boolean isImproved;
+    private String improvementType;
+    private Color color;
 
 
+    Property(String name, int position, Color color){
+        super(name,position);
+        this.color = color;
+    }
 
-    Property(String name, int position, JPanel tilePanel){
-        super(name,position, tilePanel);
+    public int getPrice(){
+        return price;
+    }
+
+    public String getPriceBanner(){
+        return "$"+price;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

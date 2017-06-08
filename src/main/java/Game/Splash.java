@@ -1,6 +1,7 @@
 package Game;
 
 import Game.Board.Board;
+import Game.UI.GameCreatedListener;
 import Utilities.SpringUtilities;
 
 import javax.swing.*;
@@ -9,20 +10,37 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Splash extends JPanel implements ItemListener, ActionListener, WindowListener {
+public class Splash extends JFrame implements ItemListener, ActionListener {
 
-    private static JFrame splashFrame;
+    //private static JFrame splashFrame;
+
+    private GameCreatedListener gameCreatedListener;
     private JPanel topPane;
     private JPanel middlePane;
     private List<JTextField> playerNameFields;
     private JPanel bottomPane;
 
-    private Splash() {
-        super(new GridLayout(3, 1));
+    Splash(GameCreatedListener listener) {
+        super("Welcome to Oakland Oligarchy");
+        this.gameCreatedListener = listener;
+        setLayout(new GridLayout(3,1));
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        setPreferredSize(new Dimension(640, 480));
+
+        int x = (int) ((dimension.getWidth() - getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - getHeight()) / 2);
 
         add(setupTopPane());
         add(setupMiddlePane());
         add(setupBottomPane());
+
+
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
 
     }
 
@@ -103,7 +121,7 @@ public class Splash extends JPanel implements ItemListener, ActionListener, Wind
                 JTextField nameInput = new JTextField();
 
                 nameInput.setPreferredSize(new Dimension(150, 20));
-                nameInput.setText("Player " + (numPlayers + 1));
+                nameInput.setText("Player " + (i + 1));
                 nameInput.setHorizontalAlignment(SwingConstants.CENTER);
                 playerNameFields.add(nameInput);
                 middlePane.add(nameInput);
@@ -116,71 +134,25 @@ public class Splash extends JPanel implements ItemListener, ActionListener, Wind
         }
     }
 
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (playerNameFields == null) {
             //ERROR HERE
         } else {
-            List<String> playerNames = new ArrayList<>();
-            for (JTextField j : playerNameFields) {
-                playerNames.add(j.getText());
-            }
-            new Board();
+            Player[] players = new Player[playerNameFields.size()];
 
-            splashFrame.dispose();
+            Color[] colors = {Color.RED,Color.BLUE,Color.CYAN,Color.GREEN};
+
+            for (int i = 0; i < players.length; i++) {
+                players[i] = new Player(playerNameFields.get(i).getText(),colors[i]);
+            }
+
+            gameCreatedListener.onGameCreated(players);
+            this.dispose();
         }
 
-
     }
 
-    static void splashInit() {
-
-        splashFrame = new JFrame("Oakland Oligarchy");
-        splashFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        splashFrame.setResizable(false);
-        splashFrame.setPreferredSize(new Dimension(640, 480));
-        splashFrame.setLocationRelativeTo(null);
-
-        JComponent contentPane = new Splash();
-        contentPane.setOpaque(true);
-        splashFrame.setContentPane(contentPane);
-
-        splashFrame.pack();
-        splashFrame.setVisible(true);
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-
-    }
 }
