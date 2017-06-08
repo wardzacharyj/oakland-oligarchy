@@ -3,7 +3,7 @@ package Game;
 import Game.Board.Board;
 import Game.UI.GameCreatedListener;
 import Game.UI.RightPanel;
-import com.apple.eawt.FullScreenUtilities;
+//import com.apple.eawt.FullScreenUtilities;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class Driver extends JFrame implements GameCreatedListener {
         add(rightPanel,BorderLayout.EAST);
         setPreferredSize(new Dimension(1920,1080));
         // For OSX
-        FullScreenUtilities.setWindowCanFullScreen(this,true);
+        //FullScreenUtilities.setWindowCanFullScreen(this,true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
