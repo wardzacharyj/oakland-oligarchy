@@ -4,7 +4,6 @@ import Game.Board.Board;
 import Game.UI.GameCreatedListener;
 import Game.UI.RightPanel;
 //import com.apple.eawt.FullScreenUtilities;
-
 import javax.swing.*;
 import java.awt.*;
 
