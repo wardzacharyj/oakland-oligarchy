@@ -8,7 +8,7 @@ Sam - Movement, Starting Money
 Rich - Turns, Turn Notifications
 
 
-For User Stories: ("As a User I want.. so that..") 
+## For User Stories: ("As a User I want.. so that..") 
 
 Email functionality: strings across email – save state of game 
 
