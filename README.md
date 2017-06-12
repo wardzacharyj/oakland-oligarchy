@@ -1,5 +1,13 @@
 # oakland-oligarchy
 
+
+## Sprint 2 Assignments
+Stephen - Property Acquisition, Viewing other player's properties
+Zach - Property Information, Rent
+Sam - Movement, Starting Money
+Rich - Turns, Turn Notifications
+
+
 For User Stories: ("As a User I want.. so that..") 
 
 Email functionality: strings across email – save state of game 
