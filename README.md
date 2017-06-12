@@ -3,8 +3,11 @@
 
 ## Sprint 2 Assignments
 Stephen - Property Acquisition, Viewing other player's properties
+
 Zach - Property Information, Rent
+
 Sam - Movement, Starting Money
+
 Rich - Turns, Turn Notifications
 
 
