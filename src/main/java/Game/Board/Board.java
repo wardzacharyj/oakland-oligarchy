@@ -2,12 +2,13 @@ package Game.Board;
 
 
 import Game.Player;
+import Game.UI.PlayerListener;
 
 import javax.swing.*;
 import java.awt.*;
 
 
-public class Board extends JPanel {
+public class Board extends JPanel implements PlayerListener{
 
     private final int SIZE = 36;
 
@@ -233,4 +234,24 @@ public class Board extends JPanel {
                 || pos == CORNER_TOP_RIGHT || pos == CORNER_TOP_LEFT;
     }
 
+    @Override
+    public void onPlayerMove(Player p) {
+        tiles[p.getPreviousPosition()].removePlayer(p);
+        tiles[p.getPosition()].addPlayer(p);
+    }
+
+    @Override
+    public void onTrade() {
+
+    }
+
+    @Override
+    public void onPurchase() {
+
+    }
+
+    @Override
+    public void onLose() {
+
+    }
 }

@@ -8,10 +8,11 @@ import java.awt.*;
 import java.util.Arrays;
 
 
-public class RightPanel extends JPanel {
+public class RightPanel extends JPanel implements PlayerListener {
 
     private Player localPlayer;
     private Player[] gamePlayers;
+    private TurnPanel turnPanel;
 
     /*
         For online Games
@@ -34,10 +35,41 @@ public class RightPanel extends JPanel {
         this.gamePlayers = gamePlayers;
         setLayout(new BorderLayout());
         add(new Leaderboard(gamePlayers),BorderLayout.CENTER);
-        add(new TurnPanel(), BorderLayout.SOUTH);
+        turnPanel = new TurnPanel(this);
+        add(turnPanel, BorderLayout.SOUTH);
 
 
     }
 
 
+    @Override
+    public void onPlayerMove(Player p) {
+        int playerPosition = p.getPosition();
+        int move = turnPanel.getDiceSum();
+        int newPosition = move + playerPosition;
+        if(newPosition < 36)
+        {
+            p.setPosition(newPosition);
+        }
+        else
+        {
+            int loopedPosition = newPosition - 36;
+            p.setPosition(loopedPosition);
+        }
+    }
+
+    @Override
+    public void onTrade() {
+
+    }
+
+    @Override
+    public void onPurchase() {
+
+    }
+
+    @Override
+    public void onLose() {
+
+    }
 }

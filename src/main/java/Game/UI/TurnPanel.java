@@ -10,11 +10,11 @@ import java.util.Random;
 /**
  * Created by Zach on 6/6/17.
  */
-public class TurnPanel extends JPanel implements ActionListener, PlayerListener {
+public class TurnPanel extends JPanel implements ActionListener {
     public final int ROLL_MODE = 0;
     public final int END_TURN = 1;
 
-
+    private PlayerListener playerListener;
     private JButton mainButton;
     private DiceButton leftDie;
     private DiceButton rightDie;
@@ -22,7 +22,7 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
 
 
 
-    public TurnPanel(){
+    public TurnPanel(PlayerListener listener){
         Dimension dimension = new Dimension(300,75);
         setLayout(new BorderLayout());
         this.mode = ROLL_MODE;
@@ -31,7 +31,7 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
         this.mainButton.addActionListener(this);
         this.leftDie = new DiceButton();
         this.rightDie = new DiceButton();
-
+        this.playerListener = listener;
         JPanel diceHolder = new JPanel(new FlowLayout());
         diceHolder.add(leftDie);
         diceHolder.add(rightDie);
@@ -60,6 +60,7 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
     public void rollDice(){
         leftDie.roll();
         rightDie.roll();
+       // playerListener.onPlayerMove());
     }
 
     public int getDiceSum(){
@@ -81,25 +82,6 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
         }
     }
 
-    @Override
-    public void onPlayerMove(Player p) {
-
-    }
-
-    @Override
-    public void onTrade() {
-
-    }
-
-    @Override
-    public void onPurchase() {
-
-    }
-
-    @Override
-    public void onLose() {
-
-    }
 
     private class DiceButton extends JButton{
 

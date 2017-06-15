@@ -1,7 +1,6 @@
 package Game.Board;
 
 import Game.Player;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -149,9 +148,6 @@ public class TilePanel extends JPanel {
             g.fillOval(x0[i],y0[i],markerSize,markerSize);
         }
     }
-
-
-
 
 
     public void drawPlayer(){
