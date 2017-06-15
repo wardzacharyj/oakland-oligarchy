@@ -2,9 +2,7 @@ package Game.Board;
 
 import Game.Player;
 
-import javax.swing.*;
 import java.awt.*;
-import java.math.BigDecimal;
 
 /**
  * Created by Zach on 6/1/17.
@@ -37,5 +35,20 @@ public class Property extends Tile {
 
     public Color getColor() {
         return color;
+    }
+
+    public boolean isForSale() {
+        return this.isForSale;
+    }
+
+    public boolean purchaseProperty(Player newOwner) {
+        if (newOwner.hasEnoughCash(price)) {
+            this.owner = newOwner;
+            this.isForSale = false;
+            this.owner.addProperty(this);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

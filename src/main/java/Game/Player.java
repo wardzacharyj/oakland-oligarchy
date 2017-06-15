@@ -1,8 +1,9 @@
 package Game;
 
+import Game.Board.Property;
+
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Properties;
 
 /**
  * Created by Zach on 5/31/17.
@@ -16,7 +17,7 @@ public class Player {
     private String name;
     private int currentPosition;
     private int cash;
-    private ArrayList<Properties> properties;
+    private ArrayList<Property> properties;
     private int shape;
 
     private Color color;
@@ -48,6 +49,22 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean hasEnoughCash(int cashAmount) {
+        if (this.cash >= cashAmount) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void addProperty(Property newProperty) {
+        if (properties == null) {
+
+        } else {
+            properties.add(newProperty);
+        }
     }
 
     @Override
