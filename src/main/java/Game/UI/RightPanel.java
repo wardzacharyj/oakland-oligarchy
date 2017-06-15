@@ -48,18 +48,8 @@ public class RightPanel extends JPanel implements PlayerListener {
 
     @Override
     public void onPlayerMove(Player p) {
-        int playerPosition = p.getPosition();
-        int move = turnPanel.getDiceSum();
-        int newPosition = move + playerPosition;
-        if(newPosition < 36)
-        {
-            p.setPosition(newPosition);
-        }
-        else
-        {
-            int loopedPosition = newPosition - 36;
-            p.setPosition(loopedPosition);
-        }
+        int moveBy = turnPanel.getDiceSum();
+        p.move(moveBy);
     }
 
     @Override

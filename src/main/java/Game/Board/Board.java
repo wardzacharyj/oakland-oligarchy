@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class Board extends JPanel implements PlayerListener{
 
-    private final int SIZE = 36;
+    public static final int SIZE = 36;
 
     private int CORNER_TOP_RIGHT = 0;
     private int CORNER_BOTTOM_RIGHT = SIZE/4;
@@ -29,8 +29,6 @@ public class Board extends JPanel implements PlayerListener{
     public Board(Player[] players) {
 
         this.players = players;
-
-
 
 
         setLayout(new BorderLayout());
@@ -52,6 +50,10 @@ public class Board extends JPanel implements PlayerListener{
         add(boardPanel, BorderLayout.CENTER);
         setPreferredSize(new Dimension(1000, 1000));
 
+    }
+
+    public int getBoardSize(){
+        return SIZE;
     }
 
     // For Future

@@ -1,5 +1,6 @@
 package Game;
 
+import Game.Board.Board;
 import Game.UI.PlayerListener;
 import java.awt.*;
 import java.util.ArrayList;
@@ -53,6 +54,20 @@ public class Player{
         this.previousPosition = this.currentPosition;
         this.currentPosition = newPosition;
     }
+
+    public void move(int moveBy){
+        int newPosition = currentPosition + moveBy;
+
+        if(newPosition < Board.SIZE) {
+            setPosition(newPosition);
+        }
+        else {
+            int loopedPosition = newPosition - Board.SIZE;
+            setPosition(loopedPosition);
+        }
+    }
+
+
     /**
      * Gets position of player
      */

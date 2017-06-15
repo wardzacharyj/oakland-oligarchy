@@ -12,6 +12,8 @@ import java.util.Random;
  * Created by Zach on 6/6/17.
  */
 public class TurnPanel extends JPanel implements ActionListener {
+    private Dimension TURN_PANEL_DIMENSION = new Dimension(300,75);
+
     public final int ROLL_MODE = 0;
     public final int END_TURN = 1;
 
@@ -26,7 +28,7 @@ public class TurnPanel extends JPanel implements ActionListener {
 
 
     public TurnPanel(PlayerListener panel, Player[] players, PlayerListener board){
-        Dimension dimension = new Dimension(300,75);
+        Dimension dimension = new Dimension(TURN_PANEL_DIMENSION);
         setLayout(new BorderLayout());
         this.mode = ROLL_MODE;
         this.mainButton = new JButton("Roll");
@@ -37,6 +39,7 @@ public class TurnPanel extends JPanel implements ActionListener {
         this.panelListeners = panel;
         this.boardListeners = board;
         this.players = players;
+
         JPanel diceHolder = new JPanel(new FlowLayout());
         diceHolder.add(leftDie);
         diceHolder.add(rightDie);
@@ -65,6 +68,8 @@ public class TurnPanel extends JPanel implements ActionListener {
     public void rollDice(){
         leftDie.roll();
         rightDie.roll();
+
+        // Update To Consider Turn Switches
         panelListeners.onPlayerMove(players[0]);
         boardListeners.onPlayerMove(players[0]);
     }
