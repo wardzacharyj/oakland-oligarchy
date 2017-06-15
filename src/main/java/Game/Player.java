@@ -8,12 +8,11 @@ import java.util.Properties;
 /**
  * Created by Zach on 5/31/17.
  */
-public class Player implements PlayerListener{
+public class Player{
 
     public static final int SHAPE_CIRCLE = 0;
     public static final int SHAPE_SQUARE = 1;
 
-    private ArrayList<PlayerListener> playerListeners;
     private String name;
     private int currentPosition;
     private int previousPosition;
@@ -82,23 +81,4 @@ public class Player implements PlayerListener{
         return name+" | Cash: $"+cash;
     }
 
-    @Override
-    public void onPlayerMove(Player p) {
-
-    }
-
-    @Override
-    public void onTrade() {
-
-    }
-
-    @Override
-    public void onPurchase() {
-
-    }
-
-    @Override
-    public void onLose() {
-
-    }
 }

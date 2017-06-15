@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -14,7 +15,9 @@ public class TurnPanel extends JPanel implements ActionListener {
     public final int ROLL_MODE = 0;
     public final int END_TURN = 1;
 
-    private PlayerListener playerListener;
+    private PlayerListener boardListeners;
+    private PlayerListener panelListeners;
+    private Player[] players;
     private JButton mainButton;
     private DiceButton leftDie;
     private DiceButton rightDie;
@@ -22,7 +25,7 @@ public class TurnPanel extends JPanel implements ActionListener {
 
 
 
-    public TurnPanel(PlayerListener listener){
+    public TurnPanel(PlayerListener panel, Player[] players, PlayerListener board){
         Dimension dimension = new Dimension(300,75);
         setLayout(new BorderLayout());
         this.mode = ROLL_MODE;
@@ -31,7 +34,9 @@ public class TurnPanel extends JPanel implements ActionListener {
         this.mainButton.addActionListener(this);
         this.leftDie = new DiceButton();
         this.rightDie = new DiceButton();
-        this.playerListener = listener;
+        this.panelListeners = panel;
+        this.boardListeners = board;
+        this.players = players;
         JPanel diceHolder = new JPanel(new FlowLayout());
         diceHolder.add(leftDie);
         diceHolder.add(rightDie);
@@ -60,7 +65,8 @@ public class TurnPanel extends JPanel implements ActionListener {
     public void rollDice(){
         leftDie.roll();
         rightDie.roll();
-       // playerListener.onPlayerMove());
+        panelListeners.onPlayerMove(players[0]);
+        boardListeners.onPlayerMove(players[0]);
     }
 
     public int getDiceSum(){

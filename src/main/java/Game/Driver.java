@@ -20,7 +20,7 @@ public class Driver extends JFrame implements GameCreatedListener {
     public void onGameCreated(Player[] players) {
 
         Board board = new Board(players);
-        RightPanel rightPanel = new RightPanel(players);
+        RightPanel rightPanel = new RightPanel(players, board);
 
         add(new GameToolbar(),BorderLayout.NORTH);
         add(board,BorderLayout.CENTER);

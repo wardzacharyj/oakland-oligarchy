@@ -238,6 +238,8 @@ public class Board extends JPanel implements PlayerListener{
     public void onPlayerMove(Player p) {
         tiles[p.getPreviousPosition()].removePlayer(p);
         tiles[p.getPosition()].addPlayer(p);
+        tiles[p.getPosition()].getTilePanel().repaint();
+        tiles[p.getPreviousPosition()].getTilePanel().repaint();
     }
 
     @Override

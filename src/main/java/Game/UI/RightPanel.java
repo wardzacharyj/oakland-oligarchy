@@ -1,10 +1,12 @@
 package Game.UI;
 
 import Game.Player;
+import Game.Board.Board;
 import Game.UI.Chat.ChatPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -13,6 +15,7 @@ public class RightPanel extends JPanel implements PlayerListener {
     private Player localPlayer;
     private Player[] gamePlayers;
     private TurnPanel turnPanel;
+    private Board board;
 
     /*
         For online Games
@@ -31,11 +34,12 @@ public class RightPanel extends JPanel implements PlayerListener {
         For local Games
         No Chat Panel
      */
-    public RightPanel(Player[] gamePlayers){
+    public RightPanel(Player[] gamePlayers, Board gameBoard){
         this.gamePlayers = gamePlayers;
+        this.board = gameBoard;
         setLayout(new BorderLayout());
         add(new Leaderboard(gamePlayers),BorderLayout.CENTER);
-        turnPanel = new TurnPanel(this);
+        turnPanel = new TurnPanel(this, gamePlayers, gameBoard);
         add(turnPanel, BorderLayout.SOUTH);
 
 
