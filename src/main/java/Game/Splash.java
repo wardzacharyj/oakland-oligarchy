@@ -182,7 +182,7 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
             Color[] colors = {Color.RED,Color.BLUE,Color.CYAN,Color.GREEN};
 
             for (int i = 0; i < players.length; i++) {
-                players[i] = new Player(playerNameFields.get(i).getText(),colors[i]);
+                players[i] = new Player(playerNameFields.get(i).getText(),colors[i], 0, 1);
             }
 
             gameCreatedListener.onGameCreated(players);
