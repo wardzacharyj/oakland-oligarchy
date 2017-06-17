@@ -31,6 +31,10 @@ public class Board extends JPanel {
 
     private Player[] players;
 
+    /**
+     * Sets up the basics of the game board, and calls initBoard to display the game board to the UI.
+     * @param players list of players that are in the current game.
+     */
     public Board(Player[] players) {
 
         this.players = players;

@@ -17,7 +17,10 @@ public class Leaderboard extends JPanel {
 
     private Player[] players;
 
-
+    /**
+     * Initializes the Leaderboard panel to display information on all of the players.
+     * @param players A list of current players.
+     */
     Leaderboard(Player[] players){
         this.players = players;
 
