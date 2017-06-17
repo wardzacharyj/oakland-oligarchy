@@ -130,7 +130,7 @@ public class Board extends JPanel {
      * @param pos the position of the tile
      * @param tile the tile object to populate tile
      */
-    public void setTile(int pos, Tile tile){
+    private void setTile(int pos, Tile tile){
 
 
         // East Row

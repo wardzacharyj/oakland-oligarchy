@@ -41,6 +41,10 @@ public class TilePanel extends JPanel {
     }
 
 
+    /**
+     * EDIT THIS METHOD TO ADD DISPLAY INFORMATION TO TILES.
+     * Initializes the layout of this tile.  This includes adding Layouts, JButtons, and JLabels, depending on the type of Tile, to this TilePanel.
+     */
     private void initLayout(){
         setLayout(new BorderLayout());
 
@@ -129,6 +133,10 @@ public class TilePanel extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
+    /**
+     * This method is being overridden to show the player icons on the board.
+     * @param g
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -149,9 +157,6 @@ public class TilePanel extends JPanel {
             g.fillOval(x0[i],y0[i],markerSize,markerSize);
         }
     }
-
-
-
 
 
     public void drawPlayer(){
