@@ -122,10 +122,10 @@ public class Board extends JPanel {
 
     }
 
-    public void setTile(int pos, Tile tile){
+    private void setTile(int pos, Tile tile){
 
 
-        // East Row
+        // Corner
         if(isCorner(pos)){
             gridBagConstraints.weightx = 2.0;
             gridBagConstraints.weighty = 2.0;
@@ -133,6 +133,7 @@ public class Board extends JPanel {
             gridBagConstraints.weightx = 1.0;
             gridBagConstraints.weighty = 1.0;
         }
+        // East Row
         else if(pos > CORNER_TOP_RIGHT && pos < CORNER_BOTTOM_RIGHT){
             setInnerTile(pos,tile, Tile.ORIENTATION_EAST);
         }
@@ -144,6 +145,7 @@ public class Board extends JPanel {
         else if(pos > CORNER_BOTTOM_LEFT && pos < CORNER_TOP_LEFT){
             setInnerTile(pos,tile, Tile.ORIENTATION_WEST);
         }
+        //North Row
         else if(pos > CORNER_TOP_LEFT && pos < SIZE){
             setInnerTile(pos,tile, Tile.ORIENTATION_NORTH);
         }
@@ -196,6 +198,12 @@ public class Board extends JPanel {
 
     }
 
+    /**
+     * This is a helper method that adds a corner tile to the game board UI.
+     * IMPORTANT NOTE - This method assumes that the given tile is a corner tile.
+     * @param pos the position of the tile
+     * @param tile the corner tile to be added.
+     */
     private void setCorner(int pos, Tile tile){
 
         TilePanel panel  = tile.getTilePanel(Tile.ORIENTATION_CORNER);
@@ -227,7 +235,11 @@ public class Board extends JPanel {
     }
 
 
-
+    /**
+     * This helper method determines if the given position is a corner.
+     * @param pos the position of the tile
+     * @return true if the tile in question is a corner tile.  false if the tile in question is an edge tile.
+     */
     private boolean isCorner(int pos){
         return pos == CORNER_BOTTOM_LEFT || pos == CORNER_BOTTOM_RIGHT
                 || pos == CORNER_TOP_RIGHT || pos == CORNER_TOP_LEFT;
