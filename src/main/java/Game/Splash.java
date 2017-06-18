@@ -12,14 +12,22 @@ import java.util.List;
 
 public class Splash extends JFrame implements ItemListener, ActionListener {
 
-    //private static JFrame splashFrame;
-
     private GameCreatedListener gameCreatedListener;
     private JPanel topPane;
     private JPanel middlePane;
     private List<JTextField> playerNameFields;
     private JPanel bottomPane;
 
+
+    /**
+     * Initializes and sets up the initial window for the game.
+     * The window is split into three seperate panels.
+     *
+     * @param listener A listener that will trigger the start of the game.
+     * @see #setupTopPane()
+     * @see #setupMiddlePane()
+     * @see #setupBottomPane()
+     */
     Splash(GameCreatedListener listener) {
         super("Welcome to Oakland Oligarchy");
         this.gameCreatedListener = listener;
@@ -27,9 +35,10 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         setPreferredSize(new Dimension(640, 480));
 
-        int x = (int) ((dimension.getWidth() - getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - getHeight()) / 2);
+        //int x = (int) ((dimension.getWidth() - getWidth()) / 2);
+        //int y = (int) ((dimension.getHeight() - getHeight()) / 2);
 
+        //Sets up all three panels and adds them to the window.
         add(setupTopPane());
         add(setupMiddlePane());
         add(setupBottomPane());
@@ -44,6 +53,11 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
 
     }
 
+    /**
+     * Sets up a panel to display the combo box to select the number of players for the game.
+     *
+     * @return Number of players selection panel.
+     */
     private JPanel setupTopPane() {
         String[] numPlayersList = {" ", "2", "3", "4"};
         JComboBox numPlayersBox = new JComboBox<>(numPlayersList);
@@ -76,6 +90,10 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
 
     }
 
+    /**
+     * Sets up a blank panel as a canvas for name input boxes.
+     * @return Blank panel.
+     */
     private JPanel setupMiddlePane() {
         JPanel middlePanel = new JPanel();
         middlePane = middlePanel;
@@ -83,6 +101,10 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
         return middlePanel;
     }
 
+    /**
+     * Sets up a panel for a start button.
+     * @return Panel with start button and action listener attached.
+     */
     private JPanel setupBottomPane() {
         JButton startButton = new JButton("Start");
         startButton.addActionListener(this);
@@ -103,6 +125,13 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
         return bottomPanel;
     }
 
+    /**
+     * An item event listener for the number of players combo box. Alters the middle panel to display a number
+     * of textboxes corresponding to the number of players selected.
+     * @param e The fired item event.
+     * @see #setupTopPane()
+     * @see #setupMiddlePane()
+     */
     @Override
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -135,7 +164,12 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
     }
 
 
-
+    /**
+     * Action event listener for the start button. Checks to see that the number of players selected is valid
+     * before starting the game.
+     * @param e Fired action event.
+     * @see #setupBottomPane()
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (playerNameFields == null) {

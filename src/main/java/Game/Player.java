@@ -1,10 +1,9 @@
 package Game;
 
 import Game.Board.Board;
-import Game.UI.PlayerListener;
+import Game.Board.Property;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Properties;
 
 /**
  * Created by Zach on 5/31/17.
@@ -18,7 +17,7 @@ public class Player{
     private int currentPosition;
     private int previousPosition;
     private int cash;
-    private ArrayList<Properties> properties;
+    private ArrayList<Property> properties;
     private int shape;
     private Color color;
 
@@ -95,5 +94,4 @@ public class Player{
     public String toString() {
         return name+" | Cash: $"+cash;
     }
-
 }

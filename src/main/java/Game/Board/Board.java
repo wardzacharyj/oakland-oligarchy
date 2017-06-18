@@ -10,7 +10,13 @@ import java.awt.*;
 
 public class Board extends JPanel implements PlayerListener{
 
-    public static final int SIZE = 36;
+
+
+    private final Dimension BOARD_DIMENSIONS = new Dimension(1000,1000);
+    private final double CORNER_TILE_WEIGHT = 2.0;
+    private final double TILE_WEIGHT = 1.0;
+
+    private final int SIZE = 36;
 
     private int CORNER_TOP_RIGHT = 0;
     private int CORNER_BOTTOM_RIGHT = SIZE/4;
@@ -26,10 +32,13 @@ public class Board extends JPanel implements PlayerListener{
 
     private Player[] players;
 
+    /**
+     * Sets up the basics of the game board, and calls initBoard to display the game board to the UI.
+     * @param players list of players that are in the current game.
+     */
     public Board(Player[] players) {
 
         this.players = players;
-
 
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
@@ -40,31 +49,31 @@ public class Board extends JPanel implements PlayerListener{
 
 
         gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weightx = TILE_WEIGHT;
+        gridBagConstraints.weighty = TILE_WEIGHT;
 
         boardPanel.setLayout(gridBagLayout);
 
         initBoard();
 
         add(boardPanel, BorderLayout.CENTER);
-        setPreferredSize(new Dimension(1000, 1000));
+        setPreferredSize(BOARD_DIMENSIONS);
 
     }
 
-    public int getBoardSize(){
-        return SIZE;
-    }
-
-    // For Future
+    /**
+     * Reads game configuration from JSON
+     */
     private void initBoardFromJson(){
 
     }
 
     // Replace later
-    private void initBoard(){
 
-        // tiles[0] TOP RIGHT CORNER
+    /**
+     * Initializes board with tile information
+     */
+    private void initBoard(){
 
         tiles[0] = new ActionTile("Pitt Start",0);
 
@@ -77,8 +86,6 @@ public class Board extends JPanel implements PlayerListener{
         tiles[7] = new Property("CVS",7, Color.MAGENTA);
         tiles[8] = new Property("Rite Aid",8, Color.MAGENTA);
 
-
-        // tiles[9] Bottom RIGHT CORNER
         tiles[9] = new ActionTile("Market",9);
 
         tiles[10] = new Property("Hemingway's",10, Color.BLACK);
@@ -90,7 +97,6 @@ public class Board extends JPanel implements PlayerListener{
         tiles[16] = new Property("Pamela's",16, Color.RED);
         tiles[17] = new Property("Brueggers",17, Color.RED);
 
-        // tiles[18] Bottom LEFT CORNER
         tiles[18] = new ActionTile("Soldiers and Sailors",18);
 
         tiles[19] = new Property("Starbucks",19, Color.YELLOW);
@@ -102,7 +108,6 @@ public class Board extends JPanel implements PlayerListener{
         tiles[25] = new ActionTile("PNC Bank",25);
         tiles[26] = new Property("Frenchies Subs",26, Color.GREEN);
 
-        // tiles[27] TOP LEFT CORNER
         tiles[27] = new ActionTile("Go To Market",27);
 
         tiles[28] = new Property("Campus Deli",28, Color.GREEN);
@@ -125,16 +130,21 @@ public class Board extends JPanel implements PlayerListener{
 
     }
 
-    public void setTile(int pos, Tile tile){
+    /**
+     * Sets or Updates any Tile on the board
+     * @param pos the position of the tile
+     * @param tile the tile object to populate tile
+     */
+    private void setTile(int pos, Tile tile){
 
 
         // East Row
         if(isCorner(pos)){
-            gridBagConstraints.weightx = 2.0;
-            gridBagConstraints.weighty = 2.0;
+            gridBagConstraints.weightx = CORNER_TILE_WEIGHT;
+            gridBagConstraints.weighty = CORNER_TILE_WEIGHT;
             setCorner(pos, tile);
-            gridBagConstraints.weightx = 1.0;
-            gridBagConstraints.weighty = 1.0;
+            gridBagConstraints.weightx = TILE_WEIGHT;
+            gridBagConstraints.weighty = TILE_WEIGHT;
         }
         else if(pos > CORNER_TOP_RIGHT && pos < CORNER_BOTTOM_RIGHT){
             setInnerTile(pos,tile, Tile.ORIENTATION_EAST);
@@ -157,7 +167,12 @@ public class Board extends JPanel implements PlayerListener{
 
     }
 
-
+    /**
+     * Sets a non-corner tile on the board
+     * @param pos position the tile will appear on the board
+     * @param tile tile object to populate non-corner tile
+     * @param orientation orientation of inner-tile
+     */
     private void setInnerTile(int pos, Tile tile, int orientation){
 
 
@@ -199,6 +214,11 @@ public class Board extends JPanel implements PlayerListener{
 
     }
 
+    /**
+     * Sets a corner tile on the board
+     * @param pos position for corner to be updated
+     * @param tile tile object to populate corner
+     */
     private void setCorner(int pos, Tile tile){
 
         TilePanel panel  = tile.getTilePanel(Tile.ORIENTATION_CORNER);
@@ -230,7 +250,11 @@ public class Board extends JPanel implements PlayerListener{
     }
 
 
-
+    /**
+     * Checks if Tile position is a corner
+     * @param pos tile position
+     * @return
+     */
     private boolean isCorner(int pos){
         return pos == CORNER_BOTTOM_LEFT || pos == CORNER_BOTTOM_RIGHT
                 || pos == CORNER_TOP_RIGHT || pos == CORNER_TOP_LEFT;
