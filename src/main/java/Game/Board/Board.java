@@ -11,13 +11,11 @@ import java.awt.*;
 public class Board extends JPanel implements PlayerListener{
 
 
+    public static final int SIZE = 36;
 
     private final Dimension BOARD_DIMENSIONS = new Dimension(1000,1000);
     private final double CORNER_TILE_WEIGHT = 2.0;
     private final double TILE_WEIGHT = 1.0;
-
-    private final int SIZE = 36;
-
     private int CORNER_TOP_RIGHT = 0;
     private int CORNER_BOTTOM_RIGHT = SIZE/4;
     private int CORNER_BOTTOM_LEFT = 2*(SIZE/4);
