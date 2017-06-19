@@ -102,4 +102,12 @@ public class Player implements PlayerListener{
     public void onLose() {
 
     }
+
+    public boolean hasLost() {
+        if(properties.isEmpty() && cash <= 0) {
+            return true;
+        }
+        else
+            return false;
+    }
 }

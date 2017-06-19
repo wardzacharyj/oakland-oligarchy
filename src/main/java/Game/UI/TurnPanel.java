@@ -19,10 +19,13 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
     private DiceButton leftDie;
     private DiceButton rightDie;
     private int mode;
+    private Player[] players;
+    private unsigned int currentPlayer;
 
 
-
-    public TurnPanel(){
+    public TurnPanel(Player[] players){
+        this.players = players;
+        currentPlayer = 0;
         Dimension dimension = new Dimension(300,75);
         setLayout(new BorderLayout());
         this.mode = ROLL_MODE;
@@ -41,6 +44,7 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
 
         setBackground(Color.GREEN);
 
+        notifyPlayer();
     }
 
     public void setTurnButtonMode(int mode) {
@@ -78,7 +82,36 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
             resetDice();
             mainButton.setText("Roll");
             mode = ROLL_MODE;
+            if(winCondition()) {
+
+            }
+            currentPlayer = (currentPlayer + 1) % players.length;
+            notifyPlayer();
         }
+    }
+
+    private boolean winCondition() {
+        int outCount;
+        for (int i = 0; i < players.length; i++) {
+            Player p = players[i];
+            if(p.hasLost()) {
+                outCount += 1;
+            }
+        }
+        if(players.length - outCount == 1) {
+            //there is only one player left, that player has won.
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    private void notifyPlayer() {
+        while(players[currentPlayer].hasLost()) {
+            currentPlayer = (currentPlayer + 1) % players.length;
+        }
+        JOptionPane.showMessageDialog(null, players[currentPlayer].getName() + ", it is your turn to move.");
     }
 
     @Override

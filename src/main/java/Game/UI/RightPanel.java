@@ -34,8 +34,7 @@ public class RightPanel extends JPanel {
         this.gamePlayers = gamePlayers;
         setLayout(new BorderLayout());
         add(new Leaderboard(gamePlayers),BorderLayout.CENTER);
-        add(new TurnPanel(), BorderLayout.SOUTH);
-
+        add(new TurnPanel(gamePlayers), BorderLayout.SOUTH);
 
     }
 
