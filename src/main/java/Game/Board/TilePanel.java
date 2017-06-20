@@ -50,14 +50,14 @@ public class TilePanel extends JPanel {
         if(tile instanceof Property){
             Property p = (Property) tile;
             tileButton = new JButton();
-            tileButton.setBackground(p.getColor());
+            tileButton.setBackground(p.getTileColor());
             tileButton.setOpaque(true);
             tileButton.setBorderPainted(false);
 
             JPanel holder = new JPanel(new GridLayout(2,1));
             nameLabel = new JLabel(p.getName());
             nameLabel.setHorizontalAlignment(JLabel.CENTER);
-            costLabel = new JLabel(p.getPriceBanner());
+            costLabel = new JLabel("$"+p.getPurchaseCost());
             costLabel.setHorizontalAlignment(JLabel.CENTER);
 
             holder.add(nameLabel);
@@ -92,6 +92,37 @@ public class TilePanel extends JPanel {
             }
 
             add(holder,BorderLayout.CENTER);
+
+        }
+        if(tile instanceof RailRoad){
+            RailRoad p = (RailRoad) tile;
+
+            nameLabel = new JLabel(tile.getName());
+            nameLabel.setOpaque(false);
+            nameLabel.setHorizontalAlignment(JLabel.CENTER);
+
+            switch (orientation){
+                case Tile.ORIENTATION_CORNER:
+                    // Property in Corner?
+
+                    break;
+                case Tile.ORIENTATION_NORTH:
+                    nameLabel.setPreferredSize(LABEL_NORTH_SOUTH);
+                    break;
+                case Tile.ORIENTATION_EAST:
+                    nameLabel.setPreferredSize(LABEL_EAST_WEST);
+                    break;
+                case Tile.ORIENTATION_SOUTH:
+                    nameLabel.setPreferredSize(LABEL_NORTH_SOUTH);
+                    break;
+                case Tile.ORIENTATION_WEST:
+                    nameLabel.setPreferredSize(LABEL_EAST_WEST);
+                    break;
+                default:
+                    break;
+            }
+
+            add(nameLabel,BorderLayout.CENTER);
 
         }
         else if(tile instanceof ActionTile){
