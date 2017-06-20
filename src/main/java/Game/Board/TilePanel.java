@@ -1,7 +1,6 @@
 package Game.Board;
 
 import Game.Player;
-
 import javax.swing.*;
 import java.awt.*;
 
