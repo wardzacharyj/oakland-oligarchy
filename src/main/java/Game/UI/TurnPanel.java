@@ -47,8 +47,6 @@ public class TurnPanel extends JPanel implements ActionListener {
         add(mainButton,BorderLayout.CENTER);
 
         setBackground(Color.GREEN);
-
-        notifyPlayer();
     }
 
     public void setTurnButtonMode(int mode) {
