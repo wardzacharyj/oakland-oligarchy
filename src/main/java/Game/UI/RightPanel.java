@@ -41,8 +41,6 @@ public class RightPanel extends JPanel implements PlayerListener {
         add(new Leaderboard(gamePlayers),BorderLayout.CENTER);
         turnPanel = new TurnPanel(this, gamePlayers, gameBoard);
         add(turnPanel, BorderLayout.SOUTH);
-
-
     }
 
 

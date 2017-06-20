@@ -94,4 +94,13 @@ public class Player{
     public String toString() {
         return name+" | Cash: $"+cash;
     }
+
+    public boolean hasLost() {
+        if(properties.isEmpty() && cash <= 0) {
+            return true;
+        }
+        else
+            return false;
+    }
+
 }
