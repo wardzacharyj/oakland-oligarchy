@@ -5,16 +5,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Created by Zach on 6/6/17.
  */
-public class TurnPanel extends JPanel implements ActionListener, PlayerListener {
+public class TurnPanel extends JPanel implements ActionListener {
+    private Dimension TURN_PANEL_DIMENSION = new Dimension(300,75);
+
     public final int ROLL_MODE = 0;
     public final int END_TURN = 1;
 
-
+    private PlayerListener boardListeners;
+    private PlayerListener panelListeners;
+    private Player[] players;
     private JButton mainButton;
     private DiceButton leftDie;
     private DiceButton rightDie;
@@ -22,11 +27,9 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
     private Player[] players;
     private unsigned int currentPlayer;
 
-
-    public TurnPanel(Player[] players){
-        this.players = players;
-        currentPlayer = 0;
-        Dimension dimension = new Dimension(300,75);
+    public TurnPanel(PlayerListener panel, Player[] players, PlayerListener board){
+        Dimension dimension = new Dimension(TURN_PANEL_DIMENSION);
+        this.player = players;
         setLayout(new BorderLayout());
         this.mode = ROLL_MODE;
         this.mainButton = new JButton("Roll");
@@ -34,6 +37,9 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
         this.mainButton.addActionListener(this);
         this.leftDie = new DiceButton();
         this.rightDie = new DiceButton();
+        this.panelListeners = panel;
+        this.boardListeners = board;
+        this.players = players;
 
         JPanel diceHolder = new JPanel(new FlowLayout());
         diceHolder.add(leftDie);
@@ -64,6 +70,10 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
     public void rollDice(){
         leftDie.roll();
         rightDie.roll();
+
+        // Update To Consider Turn Switches
+        panelListeners.onPlayerMove(players[0]);
+        boardListeners.onPlayerMove(players[0]);
     }
 
     public int getDiceSum(){
@@ -114,25 +124,6 @@ public class TurnPanel extends JPanel implements ActionListener, PlayerListener 
         JOptionPane.showMessageDialog(null, players[currentPlayer].getName() + ", it is your turn to move.");
     }
 
-    @Override
-    public void onPlayerMove(Player p) {
-
-    }
-
-    @Override
-    public void onTrade() {
-
-    }
-
-    @Override
-    public void onPurchase() {
-
-    }
-
-    @Override
-    public void onLose() {
-
-    }
 
     private class DiceButton extends JButton{
 

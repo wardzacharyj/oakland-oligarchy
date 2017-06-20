@@ -2,21 +2,20 @@ package Game.Board;
 
 
 import Game.Player;
+import Game.UI.PlayerListener;
 
 import javax.swing.*;
 import java.awt.*;
 
 
-public class Board extends JPanel {
+public class Board extends JPanel implements PlayerListener{
 
 
+    public static final int SIZE = 36;
 
     private final Dimension BOARD_DIMENSIONS = new Dimension(1000,1000);
     private final double CORNER_TILE_WEIGHT = 2.0;
     private final double TILE_WEIGHT = 1.0;
-
-    private final int SIZE = 36;
-
     private int CORNER_TOP_RIGHT = 0;
     private int CORNER_BOTTOM_RIGHT = SIZE/4;
     private int CORNER_BOTTOM_LEFT = 2*(SIZE/4);
@@ -259,4 +258,26 @@ public class Board extends JPanel {
                 || pos == CORNER_TOP_RIGHT || pos == CORNER_TOP_LEFT;
     }
 
+    @Override
+    public void onPlayerMove(Player p) {
+        tiles[p.getPreviousPosition()].removePlayer(p);
+        tiles[p.getPosition()].addPlayer(p);
+        tiles[p.getPosition()].getTilePanel().repaint();
+        tiles[p.getPreviousPosition()].getTilePanel().repaint();
+    }
+
+    @Override
+    public void onTrade() {
+
+    }
+
+    @Override
+    public void onPurchase() {
+
+    }
+
+    @Override
+    public void onLose() {
+
+    }
 }

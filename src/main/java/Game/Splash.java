@@ -1,14 +1,12 @@
 package Game;
 
+import Game.Board.Board;
 import Game.UI.GameCreatedListener;
 import Utilities.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -182,7 +180,7 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
             Color[] colors = {Color.RED,Color.BLUE,Color.CYAN,Color.GREEN};
 
             for (int i = 0; i < players.length; i++) {
-                players[i] = new Player(playerNameFields.get(i).getText(),colors[i], 100, 1);
+                players[i] = new Player(playerNameFields.get(i).getText(),colors[i], 1200, 0);
             }
 
             gameCreatedListener.onGameCreated(players);

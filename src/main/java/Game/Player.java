@@ -1,7 +1,6 @@
 package Game;
 
-
-import Game.UI.PlayerListener;
+import Game.Board.Board;
 import Game.Board.Property;
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,12 +8,11 @@ import java.util.ArrayList;
 /**
  * Created by Zach on 5/31/17.
  */
-public class Player implements PlayerListener{
+public class Player{
 
     public static final int SHAPE_CIRCLE = 0;
     public static final int SHAPE_SQUARE = 1;
 
-    private ArrayList<PlayerListener> playerListeners;
     private String name;
     private int currentPosition;
     private int previousPosition;
@@ -55,6 +53,20 @@ public class Player implements PlayerListener{
         this.previousPosition = this.currentPosition;
         this.currentPosition = newPosition;
     }
+
+    public void move(int moveBy){
+        int newPosition = currentPosition + moveBy;
+
+        if(newPosition < Board.SIZE) {
+            setPosition(newPosition);
+        }
+        else {
+            int loopedPosition = newPosition - Board.SIZE;
+            setPosition(loopedPosition);
+        }
+    }
+
+
     /**
      * Gets position of player
      */
@@ -83,26 +95,6 @@ public class Player implements PlayerListener{
         return name+" | Cash: $"+cash;
     }
 
-    @Override
-    public void onPlayerMove(Player p) {
-
-    }
-
-    @Override
-    public void onTrade() {
-
-    }
-
-    @Override
-    public void onPurchase() {
-
-    }
-
-    @Override
-    public void onLose() {
-
-    }
-
     public boolean hasLost() {
         if(properties.isEmpty() && cash <= 0) {
             return true;
@@ -110,4 +102,5 @@ public class Player implements PlayerListener{
         else
             return false;
     }
+
 }
