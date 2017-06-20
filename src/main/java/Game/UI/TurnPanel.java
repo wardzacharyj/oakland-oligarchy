@@ -19,17 +19,15 @@ public class TurnPanel extends JPanel implements ActionListener {
 
     private PlayerListener boardListeners;
     private PlayerListener panelListeners;
-    private Player[] players;
     private JButton mainButton;
     private DiceButton leftDie;
     private DiceButton rightDie;
     private int mode;
     private Player[] players;
-    private unsigned int currentPlayer;
+    private int currentPlayer;
 
     public TurnPanel(PlayerListener panel, Player[] players, PlayerListener board){
         Dimension dimension = new Dimension(TURN_PANEL_DIMENSION);
-        this.player = players;
         setLayout(new BorderLayout());
         this.mode = ROLL_MODE;
         this.mainButton = new JButton("Roll");
@@ -101,7 +99,7 @@ public class TurnPanel extends JPanel implements ActionListener {
     }
 
     private boolean winCondition() {
-        int outCount;
+        int outCount = 0;
         for (int i = 0; i < players.length; i++) {
             Player p = players[i];
             if(p.hasLost()) {
