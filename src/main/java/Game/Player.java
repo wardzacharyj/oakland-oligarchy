@@ -2,12 +2,10 @@ package Game;
 
 import Game.Board.Board;
 import Game.Board.Property;
+
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by Zach on 5/31/17.
- */
 public class Player{
 
     public static final int SHAPE_CIRCLE = 0;
@@ -66,7 +64,6 @@ public class Player{
         }
     }
 
-
     /**
      * Gets position of player
      */
@@ -96,11 +93,27 @@ public class Player{
     }
 
     public boolean hasLost() {
-        if(properties.isEmpty() && cash <= 0) {
+        return properties.isEmpty() && cash <= 0;
+    }
+
+    public boolean hasEnoughCash(int amount) {
+        return this.cash >= amount;
+    }
+
+    public boolean buyProperty(Property property) {
+        int cost = property.getPrice();
+        if (hasEnoughCash(cost)) {
+            this.cash -= cost;
+            this.addProperty(property);
             return true;
-        }
-        else
+        } else {
             return false;
+        }
+    }
+
+    private void addProperty(Property property) {
+        this.properties.add(property);
+        property.setBought(this);
     }
 
 }

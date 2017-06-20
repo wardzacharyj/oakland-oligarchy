@@ -23,6 +23,7 @@ public class Property extends Tile {
     Property(String name, int position, Color color){
         super(name,position);
         this.color = color;
+        this.isForSale = true;
     }
 
     public int getPrice(){
@@ -41,14 +42,8 @@ public class Property extends Tile {
         return this.isForSale;
     }
 
-    public boolean purchaseProperty(Player newOwner) {
-        if (newOwner.hasEnoughCash(price)) {
-            this.owner = newOwner;
-            this.isForSale = false;
-            this.owner.addProperty(this);
-            return true;
-        } else {
-            return false;
-        }
+    public void setBought(Player newOwner) {
+        this.isForSale = false;
+        this.owner = newOwner;
     }
 }
