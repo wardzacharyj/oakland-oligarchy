@@ -20,7 +20,7 @@ public class Driver extends JFrame implements GameCreatedListener {
     public void onGameCreated(Player[] players) {
 
         Board board = new Board(players);
-        RightPanel rightPanel = new RightPanel(players);
+        RightPanel rightPanel = new RightPanel(players, board);
 
         add(new GameToolbar(),BorderLayout.NORTH);
         add(board,BorderLayout.CENTER);
@@ -32,7 +32,7 @@ public class Driver extends JFrame implements GameCreatedListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
-
+        JOptionPane.showMessageDialog(null, players[0].getName() + ", it is your turn to move.");
     }
 
     public static void main(String[] args){
