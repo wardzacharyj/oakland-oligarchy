@@ -66,10 +66,8 @@ public class TurnPanel extends JPanel implements ActionListener {
     public void rollDice(){
         leftDie.roll();
         rightDie.roll();
-
-        // Update To Consider Turn Switches
-        panelListeners.onPlayerMove(players[0]);
-        boardListeners.onPlayerMove(players[0]);
+        panelListeners.onPlayerMove(players[currentPlayer]);
+        boardListeners.onPlayerMove(players[currentPlayer]);
     }
 
     public int getDiceSum(){

@@ -33,9 +33,12 @@ public abstract class Tile {
 
     }
 
+    public abstract void notifyPlayerLanded(Player p);
+
     // Check i
     public void addPlayer(Player p){
         activePlayers.add(p);
+        notifyPlayerLanded(p);
     }
 
     public void removePlayer(Player p){
@@ -70,6 +73,13 @@ public abstract class Tile {
         return tilePanel;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Tile{" +
+                "name='" + name + '\'' +
+                ", position=" + position +
+                ", tilePanel=" + tilePanel +
+                ", activePlayers=" + activePlayers +
+                '}';
+    }
 }

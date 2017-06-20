@@ -3,12 +3,22 @@ package Game.Board;
 
 import Game.Player;
 import Game.UI.PlayerListener;
+import com.google.gson.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.InputStream;
+import java.util.Scanner;
 
 
 public class Board extends JPanel implements PlayerListener{
+
+
+    private final String JSON_PROPERTIES = "properties";
+    private final String JSON_RAIL_ROADS = "rail_roads";
+    private final String JSON_ACTION_TILES = "action_tiles";
+    private final String JSON_CORNERS = "corners";
+
 
 
     public static final int SIZE = 36;
@@ -52,7 +62,8 @@ public class Board extends JPanel implements PlayerListener{
 
         boardPanel.setLayout(gridBagLayout);
 
-        initBoard();
+        initBoardFromJson();
+        //initBoard();
 
         add(boardPanel, BorderLayout.CENTER);
         setPreferredSize(BOARD_DIMENSIONS);
@@ -60,73 +71,82 @@ public class Board extends JPanel implements PlayerListener{
     }
 
     /**
-     * Reads game configuration from JSON
+     * Loads All tiles and information based on configuration file
      */
     private void initBoardFromJson(){
+        ClassLoader classLoader = Board.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("config.json");
+        Scanner s = new Scanner(inputStream).useDelimiter("\\A");
+        String result = s.hasNext() ? s.next() : "";
 
-    }
+        Gson g = new Gson();
 
-    // Replace later
+        JsonObject parent = new JsonParser().parse(result).getAsJsonObject();
+        JsonArray properties = parent.getAsJsonArray(JSON_PROPERTIES);
+        for (JsonElement j :properties){
+            JsonObject obj = j.getAsJsonObject();
 
-    /**
-     * Initializes board with tile information
-     */
-    private void initBoard(){
+            Property property = new Property(
+                obj.get(Property.JSON_NAME).getAsString(),
+                g.fromJson(obj.get(Property.JSON_OWNER),Player.class),
+                obj.get(Property.JSON_HOUSE_COUNT).getAsInt(),
+                obj.get(Property.JSON_IMPROVEMENT_COST).getAsInt(),
+                g.fromJson(obj.get(Property.JSON_RENT),int[].class),
+                obj.get(Property.JSON_MORTGAGE).getAsInt(),
+                obj.get(Property.JSON_IS_IMPROVED).getAsBoolean(),
+                obj.get(Property.JSON_IS_MONOPOLY).getAsBoolean(),
+                obj.get(Property.JSON_PURCHASE_COST).getAsInt(),
+                obj.get(Property.JSON_TILE_GROUP).getAsString(),
+                obj.get(Property.JSON_TILE_POSITION).getAsInt()
+            );
+            tiles[obj.get(Property.JSON_TILE_POSITION).getAsInt()] = property;
+        }
 
-        tiles[0] = new ActionTile("Pitt Start",0);
+        JsonArray railroads = parent.getAsJsonArray(JSON_RAIL_ROADS);
+        for (JsonElement r :railroads){
+            JsonObject obj = r.getAsJsonObject();
 
-        tiles[1] = new Property("Oishi Bento",1, Color.WHITE);
-        tiles[2] = new Property("Schezwan",2, Color.WHITE);
-        tiles[3] = new ActionTile("PNC Bank",3);
-        tiles[4] = new Property("Antoons",4, Color.CYAN);
-        tiles[5] = new Property("Sorentos",5, Color.CYAN);
-        tiles[6] = new Property("Pizza Romano",6, Color.CYAN);
-        tiles[7] = new Property("CVS",7, Color.MAGENTA);
-        tiles[8] = new Property("Rite Aid",8, Color.MAGENTA);
+            RailRoad railRoad = new RailRoad(
+                obj.get(RailRoad.JSON_NAME).getAsString(),
+                g.fromJson(obj.get(RailRoad.JSON_OWNER),Player.class),
+                obj.get(RailRoad.JSON_PURCHASE_COST).getAsInt(),
+                obj.get(RailRoad.JSON_MORTGAGE).getAsInt(),
+                g.fromJson(obj.get(RailRoad.JSON_RENT),int[].class),
+                obj.get(RailRoad.JSON_IS_MONOPOLY).getAsBoolean(),
+                obj.get(RailRoad.JSON_TILE_POSITION).getAsInt()
+            );
 
-        tiles[9] = new ActionTile("Market",9);
+            tiles[obj.get(RailRoad.JSON_TILE_POSITION).getAsInt()] = railRoad;
+        }
 
-        tiles[10] = new Property("Hemingway's",10, Color.BLACK);
-        tiles[11] = new Property("Peter's Pub",11, Color.BLACK);
-        tiles[12] = new ActionTile("PNC Bank",12);
-        tiles[13] = new Property("G-Door",13, Color.BLACK);
-        tiles[14] = new Property("The Pete",14, Color.BLUE);
-        tiles[15] = new Property("Trees",15, Color.BLUE);
-        tiles[16] = new Property("Pamela's",16, Color.RED);
-        tiles[17] = new Property("Brueggers",17, Color.RED);
+        JsonArray actionTiles = parent.getAsJsonArray(JSON_ACTION_TILES);
+        for(JsonElement a : actionTiles){
+            JsonObject obj = a.getAsJsonObject();
+            int[] pos =  g.fromJson(obj.get(ActionTile.JSON_TILE_POSITIONS),int[].class);
+            for(Integer i : pos){
+                tiles[i] = new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(), i);
+            }
 
-        tiles[18] = new ActionTile("Soldiers and Sailors",18);
+        }
 
-        tiles[19] = new Property("Starbucks",19, Color.YELLOW);
-        tiles[20] = new Property("Dunkin Donuts",20, Color.YELLOW);
-        tiles[21] = new ActionTile("PNC Bank",21);
-        tiles[22] = new Property("Einsteins",22, Color.YELLOW);
-        tiles[23] = new Property("Shenley Plaza",23, Color.ORANGE);
-        tiles[24] = new Property("Flagstaff Hill",24, Color.ORANGE);
-        tiles[25] = new ActionTile("PNC Bank",25);
-        tiles[26] = new Property("Frenchies Subs",26, Color.GREEN);
+        JsonArray corners = parent.getAsJsonArray(JSON_CORNERS);
+        for(JsonElement c : corners){
+            JsonObject obj = c.getAsJsonObject();
+            tiles[obj.get(ActionTile.JSON_TILE_POSITION).getAsInt()] =
+                    new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(),
+                    obj.get(ActionTile.JSON_TILE_POSITION).getAsInt());
+        }
 
-        tiles[27] = new ActionTile("Go To Market",27);
-
-        tiles[28] = new Property("Campus Deli",28, Color.GREEN);
-        tiles[29] = new ActionTile("PNC Bank",29);
-        tiles[30] = new Property("Hillman",30, Color.LIGHT_GRAY);
-        tiles[31] = new Property("Cathy",31, Color.LIGHT_GRAY);
-        tiles[32] = new Property("Posvar",32, Color.LIGHT_GRAY);
-        tiles[33] = new Property("Forbes",33, Color.PINK);
-        tiles[34] = new ActionTile("PNC Bank",34);
-        tiles[35] = new Property("Fifth",35, Color.PINK);
-
-
-        for(int i = 0; i < SIZE; i++){
+        for (int i = 0; i < SIZE; i++){
             setTile(i,tiles[i]);
         }
+
 
         for (Player p : players){
             tiles[0].addPlayer(p);
         }
-
     }
+
 
     /**
      * Sets or Updates any Tile on the board
