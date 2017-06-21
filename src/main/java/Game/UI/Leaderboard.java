@@ -147,7 +147,9 @@ public class Leaderboard extends JPanel implements PlayerListener {
 
     @Override
     public void onRentPayed(Player owner, Player rente) {
-
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        model.nodeChanged(owner.getNode());
+        model.nodeChanged(rente.getNode());
     }
 
     @Override

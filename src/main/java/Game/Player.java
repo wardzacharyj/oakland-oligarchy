@@ -179,7 +179,6 @@ public class Player {
     public void payRent(Player receivingPlayer, int rent) {
         subtractCash(rent);
         receivingPlayer.addCash(rent);
-
         listener.onRentPayed(receivingPlayer,this);
     }
 

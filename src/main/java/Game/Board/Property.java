@@ -161,17 +161,17 @@ public class Property extends Tile {
             }
         }
         else {
+            if(this.owner != p)
+            {
+                JOptionPane.showMessageDialog(null, "Thank you "
+                        +p.getName() +" we hope you enjoy your stay here, that'll be $"+getRent());
 
-            JOptionPane.showMessageDialog(null, "Thank you "
-                    +p.getName() +" we hope you enjoy your stay here, that'll be $"+getRent());
-
-            if (p.hasEnoughCash(this.getPurchaseCost())) {
-                p.payRent(p, getRent());
-            } else {
-                JOptionPane.showMessageDialog(null, "You don't have enough money!");
+                if (p.hasEnoughCash(this.getPurchaseCost())) {
+                    p.payRent(owner, getRent());
+                } else {
+                    JOptionPane.showMessageDialog(null, "You don't have enough money!");
+                }
             }
-
-
 
         }
     }
