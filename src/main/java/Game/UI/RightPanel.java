@@ -18,6 +18,9 @@ public class RightPanel extends JPanel implements PlayerListener {
         For online Games
         Add Chat Panel
      */
+    /**
+     * right panel contructor for online version
+     */
     public RightPanel(Player localPlayer, Player[] otherPlayers){
         this.localPlayer = localPlayer;
         this.gamePlayers = gamePlayers;
@@ -30,6 +33,9 @@ public class RightPanel extends JPanel implements PlayerListener {
     /*
         For local Games
         No Chat Panel
+     */
+    /**
+     * right panel constructor for local version
      */
     public RightPanel(Player[] gamePlayers, Board gameBoard){
         this.gamePlayers = gamePlayers;
@@ -45,6 +51,10 @@ public class RightPanel extends JPanel implements PlayerListener {
     }
 
 
+    /**
+     * Updates player objects position
+     * @param p
+     */
     @Override
     public void onPlayerMove(Player p) {
         int moveBy = turnPanel.getDiceSum();

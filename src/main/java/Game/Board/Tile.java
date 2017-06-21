@@ -33,12 +33,18 @@ public abstract class Tile {
 
     }
 
+    /**
+     *notify if player lands on tile
+     */
     public abstract void notifyPlayerLanded(Player p);
 
+    /**
+     *adds player to tile location
+     */
     // Check i
     public void addPlayer(Player p){
         activePlayers.add(p);
-        notifyPlayerLanded(p);
+        //notifyPlayerLanded(p);
     }
 
     public void removePlayer(Player p){
