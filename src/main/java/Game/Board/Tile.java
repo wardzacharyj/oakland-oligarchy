@@ -47,10 +47,16 @@ public abstract class Tile {
         //notifyPlayerLanded(p);
     }
 
+    /**
+     *removes player from tile
+     */
     public void removePlayer(Player p){
         activePlayers.remove(p);
     }
 
+    /**
+     *tile constructor
+     */
     protected Tile(String name, int position) {
         this.name = name;
         this.position = position;
@@ -58,27 +64,46 @@ public abstract class Tile {
         activePlayers = new ArrayList<Player>();
     }
 
+    /**
+     *gets players currently on tile
+     */
     protected ArrayList<Player> getActivePlayers(){
         return activePlayers;
     }
 
+    /**
+     *gets name of tile
+     */
     public String getName(){
         return name;
     }
 
+    /**
+     *gets position on tile
+     */
     public int getBoardPosition(){
         return position;
     }
 
+    /**
+     *gets tile panel
+     */
     public JPanel getTilePanel(){
         return tilePanel;
     }
 
+    /**
+     *gets tile panel according to orientation
+     * @param orientation
+     */
     public TilePanel getTilePanel(int orientation){
         tilePanel.setOrientation(orientation);
         return tilePanel;
     }
 
+    /**
+     *stringify tile info
+     */
     @Override
     public String toString() {
         return "Tile{" +

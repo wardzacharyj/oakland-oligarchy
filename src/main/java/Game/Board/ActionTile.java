@@ -12,10 +12,16 @@ public class ActionTile extends Tile {
     public static final String JSON_TILE_POSITIONS = "tilePositions";
 
 
+    /**
+     * Action time constructor
+     */
     ActionTile(String name, int position){
         super(name,position);
     }
 
+    /**
+     * notfies player they have landed on the tile
+     */
     @Override
     public void notifyPlayerLanded(Player p) {
         // Called when tiles player count is increased

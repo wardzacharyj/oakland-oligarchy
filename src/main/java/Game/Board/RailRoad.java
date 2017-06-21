@@ -37,48 +37,86 @@ public class RailRoad extends Tile {
     }
 
 
+    /**
+     *Notify player they have landed on property
+     */
     @Override
     public void notifyPlayerLanded(Player p) {
         // Called when tiles player count is increased
     }
 
+    /**
+     *gets owner of property
+     */
     public Player getOwner() {
         return owner;
     }
 
+    /**
+     *sets owner of property
+     * @param owner
+     */
     public void setOwner(Player owner) {
         this.owner = owner;
     }
 
+    /**
+     *gets property cost
+     */
     public int getPurchaseCost() {
         return purchaseCost;
     }
 
+    /**
+     *sets purchase price
+     * @param purchaseCost
+     */
     public void setPurchaseCost(int purchaseCost) {
         this.purchaseCost = purchaseCost;
     }
 
+    /**
+     *gets mortgage value
+     */
     public int getMortgage() {
         return mortgage;
     }
 
+    /**
+     *sets mortgage value
+     * @param mortgage
+     */
     public void setMortgage(int mortgage) {
         this.mortgage = mortgage;
     }
 
+    /**
+     *gets rent value
+     *
+     */
     public int getRent() {
         return rent[0];
     }
 
+    /**
+     *sets rent value
+     * @param rent
+     */
     public void setRent(int[] rent) {
         this.rent = rent;
     }
 
+    /**
+     *gets tile position on tile
+     */
     @Override
     public int getBoardPosition(){
         return tilePosition;
     }
 
+    /**
+     *stringify property info
+     */
     @Override
     public String toString() {
         return "RailRoad{" +

@@ -134,6 +134,9 @@ public class Leaderboard extends JPanel implements PlayerListener {
 
     }
 
+    /**
+     *update tree with updated player object
+     */
     @Override
     public void onPurchase(Player p) {
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
