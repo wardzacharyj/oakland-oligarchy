@@ -2,11 +2,13 @@ package Game;
 
 import Game.Board.Board;
 import Game.Board.Property;
+import Game.UI.PlayerListener;
 
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Player{
+public class Player {
 
     public static final int SHAPE_CIRCLE = 0;
     public static final int SHAPE_SQUARE = 1;
@@ -18,10 +20,9 @@ public class Player{
     private ArrayList<Property> properties;
     private int shape;
     private Color color;
+    PlayerListener listener;
+    private DefaultMutableTreeNode playerNode;
 
-    /**
-     * Creates Player Object
-     */
     public Player(String name, Color color, int cash, int currentPosition) {
         this.name = name;
         this.properties = new ArrayList<>();
@@ -32,6 +33,9 @@ public class Player{
         this.previousPosition = currentPosition;
     }
 
+    public void addListener(PlayerListener listener) {
+        this.listener = listener;
+    }
     /**
      * Sets Color of player
      */
@@ -87,6 +91,10 @@ public class Player{
         this.name = name;
     }
 
+    public void setNode(DefaultMutableTreeNode node) {
+        this.playerNode = node;
+    }
+
     @Override
     public String toString() {
         return name+" | Cash: $"+cash;
@@ -101,10 +109,13 @@ public class Player{
     }
 
     public boolean buyProperty(Property property) {
-        int cost = property.getPrice();
+        int cost = property.getCost();
         if (hasEnoughCash(cost)) {
             this.cash -= cost;
             this.addProperty(property);
+            property.setBought(this);
+            this.updateNode(property);
+            listener.onPurchase();
             return true;
         } else {
             return false;
@@ -113,7 +124,19 @@ public class Player{
 
     private void addProperty(Property property) {
         this.properties.add(property);
-        property.setBought(this);
     }
 
+    private void updateNode(Property property) {
+        DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) playerNode.getFirstChild();
+        propertyNode.add(new DefaultMutableTreeNode(property.getName()));
+
+    }
+
+    public String[] getProperties() {
+        String[] retArray = new String[properties.size()];
+        for (int i = 0; i < properties.size(); i++) {
+            retArray[i] = properties.get(i).getName();
+        }
+        return retArray;
+    }
 }

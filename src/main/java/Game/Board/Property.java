@@ -1,16 +1,16 @@
 package Game.Board;
 
 import Game.Player;
+import Game.UI.PlayerListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.math.BigDecimal;
 import java.util.Arrays;
 
 /**
  * Created by Zach on 6/1/17.
  */
-public class Property extends Tile {
+public class Property extends Tile implements PlayerListener {
 
     public final static String JSON_NAME = "name";
     public final static String JSON_OWNER = "owner";
@@ -36,6 +36,7 @@ public class Property extends Tile {
     private int purchaseCost;
     private String tileGroup;
     private int tilePosition;
+    private boolean isForSale;
 
 
     private Color tileColor;
@@ -56,6 +57,7 @@ public class Property extends Tile {
         this.tileGroup = tileGroup;
         this.tileColor = Color.decode(tileGroup);
         this.tilePosition = tilePosition;
+        this.isForSale = true;
     }
 
     public Player getOwner() {
@@ -90,9 +92,31 @@ public class Property extends Tile {
         return tileColor;
     }
 
+    public int getCost() {
+        return this.purchaseCost;
+    }
+
+    public void setBought(Player newOwner) {
+        this.isForSale = false;
+        this.owner = newOwner;
+    }
+
     @Override
     public void notifyPlayerLanded(Player p) {
-        System.out.print(p.getName());
+
+        if (this.isForSale) {
+            int dialogResult = JOptionPane.showConfirmDialog(null,
+                    this.getName() + " is for sale. Would you like to purchase it?");
+
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                if (p.hasEnoughCash(this.getCost())) {
+                    p.buyProperty(this);
+                    onPurchase();
+                } else {
+                    JOptionPane.showMessageDialog(null, "You don't have enough money!");
+                }
+            }
+        }
     }
 
     @Override
@@ -111,5 +135,25 @@ public class Property extends Tile {
                 ", tilePosition=" + tilePosition +
                 ", tileColor=" + tileColor +
                 '}';
+    }
+
+    @Override
+    public void onPlayerMove(Player p) {
+
+    }
+
+    @Override
+    public void onTrade() {
+
+    }
+
+    @Override
+    public void onPurchase() {
+
+    }
+
+    @Override
+    public void onLose() {
+
     }
 }
