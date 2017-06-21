@@ -135,9 +135,11 @@ public class Leaderboard extends JPanel implements PlayerListener {
     }
 
     @Override
-    public void onPurchase() {
+    public void onPurchase(Player p) {
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-        model.nodeChanged(root);
+        DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) p.getNode().getFirstChild();
+
+        model.nodesWereInserted(propertyNode, new int[]{propertyNode.getChildCount() - 1});
     }
 
     @Override

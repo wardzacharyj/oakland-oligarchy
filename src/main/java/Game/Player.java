@@ -115,7 +115,7 @@ public class Player {
             this.addProperty(property);
             property.setBought(this);
             this.updateNode(property);
-            listener.onPurchase();
+            listener.onPurchase(this);
             return true;
         } else {
             return false;
@@ -130,6 +130,10 @@ public class Player {
         DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) playerNode.getFirstChild();
         propertyNode.add(new DefaultMutableTreeNode(property.getName()));
 
+    }
+
+    public DefaultMutableTreeNode getNode() {
+        return this.playerNode;
     }
 
     public String[] getProperties() {

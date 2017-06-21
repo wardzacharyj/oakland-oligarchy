@@ -111,7 +111,6 @@ public class Property extends Tile implements PlayerListener {
             if (dialogResult == JOptionPane.YES_OPTION) {
                 if (p.hasEnoughCash(this.getCost())) {
                     p.buyProperty(this);
-                    onPurchase();
                 } else {
                     JOptionPane.showMessageDialog(null, "You don't have enough money!");
                 }
@@ -148,7 +147,7 @@ public class Property extends Tile implements PlayerListener {
     }
 
     @Override
-    public void onPurchase() {
+    public void onPurchase(Player p) {
 
     }
 

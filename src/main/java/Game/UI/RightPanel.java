@@ -57,7 +57,7 @@ public class RightPanel extends JPanel implements PlayerListener {
     }
 
     @Override
-    public void onPurchase() {
+    public void onPurchase(Player p) {
 
     }
 

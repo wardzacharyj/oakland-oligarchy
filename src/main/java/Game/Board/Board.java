@@ -296,7 +296,7 @@ public class Board extends JPanel implements PlayerListener{
     }
 
     @Override
-    public void onPurchase() {
+    public void onPurchase(Player p) {
 
     }
 

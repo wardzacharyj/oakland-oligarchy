@@ -8,6 +8,7 @@ import Game.Player;
 public interface PlayerListener {
     void onPlayerMove(Player p);
     void onTrade();
-    void onPurchase();
+
+    void onPurchase(Player p);
     void onLose();
 }
