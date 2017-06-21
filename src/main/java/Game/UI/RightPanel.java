@@ -62,6 +62,11 @@ public class RightPanel extends JPanel implements PlayerListener {
     }
 
     @Override
+    public void onRentPayed(Player owner, Player rente) {
+
+    }
+
+    @Override
     public void onTrade() {
 
     }

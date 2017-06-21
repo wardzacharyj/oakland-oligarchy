@@ -44,7 +44,6 @@ public abstract class Tile {
     // Check i
     public void addPlayer(Player p){
         activePlayers.add(p);
-        //notifyPlayerLanded(p);
     }
 
     /**

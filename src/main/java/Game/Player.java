@@ -154,7 +154,7 @@ public class Player {
      * @return true if can buy property
      */
     public boolean buyProperty(Property property) {
-        int cost = property.getCost();
+        int cost = property.getPurchaseCost();
         if (hasEnoughCash(cost)) {
             this.cash -= cost;
             this.addProperty(property);
@@ -166,6 +166,49 @@ public class Player {
             return false;
         }
     }
+
+
+    /**
+     * Pays rent to specific player
+     * @param receivingPlayer the player
+     * @param rent
+     * @return
+     */
+
+    // CURRENTLY NO LOSING CHECK
+    public void payRent(Player receivingPlayer, int rent) {
+        subtractCash(rent);
+        receivingPlayer.addCash(rent);
+
+        listener.onRentPayed(receivingPlayer,this);
+    }
+
+    /**
+     *
+     * @return the players amount of cash
+     */
+    public int getCash(){
+        return cash;
+    }
+
+
+        /**
+         * Adds cash to player's bank
+         * @param amount number of dollars to add
+         */
+    public void addCash(int amount){
+        cash = cash + amount;
+    }
+
+
+    /**
+     * Removes cash to player's bank
+     * @param amount number of dollars to subtract
+     */
+    public void subtractCash(int amount){
+        cash = cash - amount;
+    }
+
 
     /**
      * adds property to player object
@@ -195,11 +238,18 @@ public class Player {
     /**
      * returns a string array of players properties
      */
-    public String[] getProperties() {
+    public String[] getOwnedProperties() {
         String[] retArray = new String[properties.size()];
         for (int i = 0; i < properties.size(); i++) {
             retArray[i] = properties.get(i).getName();
         }
         return retArray;
+    }
+
+    /**
+     * returns a list of owned property objects
+     */
+    public ArrayList<Property> getProperties() {
+        return properties;
     }
 }

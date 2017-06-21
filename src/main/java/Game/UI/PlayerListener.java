@@ -7,6 +7,8 @@ import Game.Player;
  */
 public interface PlayerListener {
     void onPlayerMove(Player p);
+    void onRentPayed(Player owner, Player rente);
+
     void onTrade();
 
     void onPurchase(Player p);

@@ -9,9 +9,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 
-/**
- * Created by Zach on 6/6/17.
- */
+
 public class Leaderboard extends JPanel implements PlayerListener {
 
     private Player[] players;
@@ -53,6 +51,8 @@ public class Leaderboard extends JPanel implements PlayerListener {
 
         tree.setCellRenderer(new LeaderBoardRenderer());
         tree.setRootVisible(false);
+
+
         JPanel content = new JPanel();
         content.setLayout(new BorderLayout());
         content.add(tree,BorderLayout.CENTER);
@@ -143,6 +143,11 @@ public class Leaderboard extends JPanel implements PlayerListener {
         DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) p.getNode().getFirstChild();
 
         model.nodesWereInserted(propertyNode, new int[]{propertyNode.getChildCount() - 1});
+    }
+
+    @Override
+    public void onRentPayed(Player owner, Player rente) {
+
     }
 
     @Override
