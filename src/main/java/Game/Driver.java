@@ -15,7 +15,10 @@ public class Driver extends JFrame implements GameCreatedListener {
         Splash splash = new Splash(this);
     }
 
-
+    /**
+     * Initializes UI based off players entered on Start Screen
+     * @param players array of players that are in the current game.
+     */
     @Override
     public void onGameCreated(Player[] players) {
 

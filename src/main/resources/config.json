@@ -1,0 +1,602 @@
+{
+
+  "properties": [
+    {
+      "name": "Oishi Bento",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 50,
+      "rent": [2,10,30,90,160, 250],
+      "mortgage":30,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 60,
+      "tileGroup": "#795548",
+      "tilePosition": 1
+    },
+    {
+      "name": "Schezwan",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 50,
+      "rent": [4,20,60,180,320,450],
+      "mortgage":30,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 60,
+      "tileGroup": "#795548",
+      "tilePosition": 3
+    },
+    {
+      "name": "Antoons",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 50,
+      "rent": [6,30,90,270,400,550],
+      "mortgage":50,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 100,
+      "tileGroup": "#03A9F4",
+      "tilePosition": 5
+    },
+    {
+      "name": "Sorentos",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 50,
+      "rent": [6,30,90,270,400,550],
+      "mortgage":50,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 100,
+      "tileGroup": "#03A9F4",
+      "tilePosition": 7
+    },
+    {
+      "name": "Pizza Romano",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 50,
+      "rent": [8,40,100,300,450,600],
+      "mortgage":60,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 120,
+      "tileGroup": "#03A9F4",
+      "tilePosition": 8
+    },
+    {
+      "name": "CVS",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 100,
+      "rent": [10,50,150,450,625,750],
+      "mortgage": 70,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 140,
+      "tileGroup": "#E91E63",
+      "tilePosition": 10
+    },
+    {
+      "name": "Rite Aid",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 70,
+      "rent": [10,50,150,450,625,750],
+      "mortgage":70,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 140,
+      "tileGroup": "#E91E63",
+      "tilePosition": 12
+    },
+    {
+      "name": "Pitt Pharmacy",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 50,
+      "rent": [12,60,180,500,700,900],
+      "mortgage":80,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 160,
+      "tileGroup": "#E91E63",
+      "tilePosition": 13
+    },
+    {
+      "name": "Hemingway's",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 100,
+      "rent": [14,70,200,550,750,950],
+      "mortgage":90,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 180,
+      "tileGroup": "#FF5722",
+      "tilePosition": 15
+    },
+    {
+      "name": "Peter's Pub",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 50,
+      "rent": [14,70,200,550,750,950],
+      "mortgage":90,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 180,
+      "tileGroup": "#FF5722",
+      "tilePosition": 16
+    },
+    {
+      "name": "G-Door",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 100,
+      "rent": [16,80,220,600,800,1000],
+      "mortgage":80,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 200,
+      "tileGroup": "#FF5722",
+      "tilePosition": 17
+    },
+    {
+      "name": "The Pete",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 150,
+      "rent": [18,90,250,700,875,1050],
+      "mortgage": 110,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 220,
+      "tileGroup": "#f44336",
+      "tilePosition": 19
+    },
+    {
+      "name": "Trees Hall",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 150,
+      "rent": [18,90,250,700,875,1050],
+      "mortgage": 110,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 220,
+      "tileGroup": "#f44336",
+      "tilePosition": 21
+    },
+    {
+      "name": "Bellfield Basketball Court",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 150,
+      "rent": [20,100,300,750,925,1100],
+      "mortgage":120,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 240,
+      "tileGroup": "#f44336",
+      "tilePosition": 22
+    },
+    {
+      "name": "Brueggers",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 150,
+      "rent": [22,110,330,800,975,1150],
+      "mortgage": 130,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 260,
+      "tileGroup": "#FFEB3B",
+      "tilePosition": 24
+    },
+    {
+      "name": "Red Oak Cafe",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 150,
+      "rent": [22,100,330,800,975,1150],
+      "mortgage": 130,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 260,
+      "tileGroup": "#FFEB3B",
+      "tilePosition": 25
+    },
+    {
+      "name": "Pamela's",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 150,
+      "rent": [24,120,360,850,1025,1200],
+      "mortgage":140,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 280,
+      "tileGroup": "#FFEB3B",
+      "tilePosition": 26
+    },
+    {
+      "name": "Starbucks",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 200,
+      "rent": [26,130,390,900,1100,1275],
+      "mortgage": 150,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 300,
+      "tileGroup": "#4CAF50",
+      "tilePosition": 28
+    },
+    {
+      "name": "Einsteins",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 200,
+      "rent": [26,130,390,900,1100,1275],
+      "mortgage": 150,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 300,
+      "tileGroup": "#4CAF50",
+      "tilePosition": 30
+    },
+    {
+      "name": "Dunkin Donuts",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 150,
+      "rent": [28,150,450,1000,1200,1400],
+      "mortgage":160,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 320,
+      "tileGroup": "#4CAF50",
+      "tilePosition": 31
+    },
+    {
+      "name": "Forbes",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 200,
+      "rent": [35,175,500,1100,1300,1500],
+      "mortgage": 175,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 350,
+      "tileGroup": "#3F51B5",
+      "tilePosition": 33
+    },
+    {
+      "name": "Fifth Ave",
+      "owner": null,
+      "houseCount": 0,
+      "improvementCost": 200,
+      "rent": [50,200,600,1400,1700,2000],
+      "mortgage": 200,
+      "isImproved": false,
+      "isMonopoly": false,
+      "purchaseCost": 400,
+      "tileGroup": "#3F51B5",
+      "tilePosition": 35
+    }
+  ],
+  "rail_roads": [
+    {
+      "name": "Key Bank",
+      "owner": null,
+      "cost": 200,
+      "mortgage": 100,
+      "rent": [25,50,100,200],
+      "isMonopoly": false,
+      "tilePosition": 4
+    },
+    {
+      "name": "Citizens Bank",
+      "owner": null,
+      "cost": 200,
+      "mortgage": 100,
+      "rent": [25,50,100,200],
+      "isMonopoly": false,
+      "tilePosition": 14
+
+    },
+    {
+      "name": "Dollar Bank",
+      "owner": null,
+      "cost": 200,
+      "mortgage": 100,
+      "rent": [25,50,100,200],
+      "isMonopoly": false,
+      "tilePosition": 23
+    },
+    {
+      "name": "PNC Bank",
+      "owner": null,
+      "cost": 200,
+      "mortgage": 100,
+      "rent": [25,50,100,200],
+      "isMonopoly": false,
+      "tilePosition": 32
+    }
+  ],
+  "action_tiles": [
+    {
+      "name": "Community Chest",
+      "tilePositions" : [2,11,29],
+      "deck": [
+        {
+          "message": "Advance to Go (Collect $200)",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "Bank error in your favor – Collect $200",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        },
+        {
+          "message": "Doctor's fees {fee} – Pay $50",
+          "income": 0,
+          "expense": 50,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        },
+        {
+          "message": "From sale of stock you get $50",
+          "income": 50,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        },
+        {
+          "message": "Go to Jail",
+          "new_player_position": 10
+        },
+        {
+          "message": "Grand Opera Night Opening – Collect $50 from every player for opening night seats",
+          "income": 0,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 50,
+          "new_player_position": -1
+        },
+        {
+          "message": "Holiday Fund matures -- Collect $100",
+          "income": 100,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        },
+        {
+          "message": "Income tax refund – Collect $20",
+          "income": 20,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        },
+        {
+          "message": "It is your birthday - Collect $10 from each player",
+          "income": 0,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 10,
+          "new_player_position": -1
+        },
+        {
+          "message": "Life insurance matures – Collect $100",
+          "income": 100,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        },
+        {
+          "message": "Pay hospital fees of $100",
+          "income": 0,
+          "expense": 100,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        },
+        {
+          "message": "Pay school fees of $150 ",
+          "income": 150,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        },
+        {
+          "message": "Receive $25 consultancy fee",
+          "income": 25,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        },
+        {
+          "message": "You are assessed for street repairs – $40 per house – $115 per hotel"
+        },
+        {
+          "message": "You have won second prize in a beauty contest – Collect $10",
+          "income": 10,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        },
+        {
+          "message": "You inherit $100",
+          "income": 100,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": -1
+        }
+      ]
+    },
+    {
+      "name": "Chance",
+      "tilePositions" : [6,20,34],
+      "deck": [
+        {
+          "message": "Advance to Go (Collect $200)",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "Bellfield Basketball Court. - If you pass Go, collect $200",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 24
+        },
+        {
+          "message": "Advance to Pitt Pharmacy – If you pass Go, collect $200",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 14
+        },
+        {
+          "message": "Advance token to nearest Utility",
+          "new_player_position": []
+        },
+        {
+          "message": "Advance token to the nearest Railroad and pay owner twice the rental to which he/she {he} is otherwise entitled.",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": []
+        },
+        {
+          "message": "Bank pays you dividend of $50",
+          "income": 50,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "Get out of Jail Free"
+        },
+        {
+          "message": "Go Back 3 Spaces",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "Go to Jail – Go directly to Jail – Do not pass Go, do not collect $200",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "Make general repairs on all your property – For each house pay $25 – For each hotel $100",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "Pay poor tax of $15",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "Take a trip to Reading Railroad",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "Take a walk on the Boardwalk",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "You have been elected Chairman of the Board – Pay each player $50",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "Your building {and} loan matures – Collect $150",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        },
+        {
+          "message": "You have won a crossword competition - Collect $100",
+          "income": 200,
+          "expense": 0,
+          "other_player_income": 0,
+          "other_player_expense": 0,
+          "new_player_position": 0
+        }
+      ]
+    }
+  ],
+  "corners": [
+    {
+      "name": "Pitt Start",
+      "tilePosition": 0
+
+    },
+    {
+      "name": "Jail",
+      "tilePosition": 9
+    },
+    {
+      "name": "Free Parking",
+      "tilePosition": 18
+    },
+    {
+      "name": "Go to Jail",
+      "tilePosition": 27
+    }
+
+  ]
+}
