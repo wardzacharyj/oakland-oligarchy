@@ -1,13 +1,10 @@
 package Game.UI;
 
-import Game.Player;
 import Game.Board.Board;
-import Game.UI.Chat.ChatPanel;
+import Game.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class RightPanel extends JPanel implements PlayerListener {
@@ -38,7 +35,11 @@ public class RightPanel extends JPanel implements PlayerListener {
         this.gamePlayers = gamePlayers;
         this.board = gameBoard;
         setLayout(new BorderLayout());
-        add(new Leaderboard(gamePlayers),BorderLayout.CENTER);
+        Leaderboard leaderboard = new Leaderboard(gamePlayers);
+        add(leaderboard, BorderLayout.CENTER);
+        for (int i = 0; i < gamePlayers.length; i++) {
+            gamePlayers[i].addListener(leaderboard);
+        }
         turnPanel = new TurnPanel(this, gamePlayers, gameBoard);
         add(turnPanel, BorderLayout.SOUTH);
     }
@@ -56,7 +57,7 @@ public class RightPanel extends JPanel implements PlayerListener {
     }
 
     @Override
-    public void onPurchase() {
+    public void onPurchase(Player p) {
 
     }
 

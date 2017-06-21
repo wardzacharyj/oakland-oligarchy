@@ -1,11 +1,11 @@
 package Game.UI;
 
 import Game.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -110,6 +110,7 @@ public class TurnPanel extends JPanel implements ActionListener {
             return false;
         }
     }
+
 
     private void notifyPlayer() {
         while(players[currentPlayer].hasLost()) {

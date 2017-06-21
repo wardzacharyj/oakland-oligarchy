@@ -280,10 +280,14 @@ public class Board extends JPanel implements PlayerListener{
 
     @Override
     public void onPlayerMove(Player p) {
-        tiles[p.getPreviousPosition()].removePlayer(p);
-        tiles[p.getPosition()].addPlayer(p);
-        tiles[p.getPosition()].getTilePanel().repaint();
-        tiles[p.getPreviousPosition()].getTilePanel().repaint();
+        int oldPosition = p.getPreviousPosition();
+        int newPosition = p.getPosition();
+
+        tiles[oldPosition].removePlayer(p);
+        tiles[newPosition].addPlayer(p);
+        tiles[newPosition].getTilePanel().repaint();
+        tiles[oldPosition].getTilePanel().repaint();
+
     }
 
     @Override
@@ -292,7 +296,7 @@ public class Board extends JPanel implements PlayerListener{
     }
 
     @Override
-    public void onPurchase() {
+    public void onPurchase(Player p) {
 
     }
 

@@ -6,16 +6,18 @@ import Game.Player;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
-import java.util.HashMap;
 
 /**
  * Created by Zach on 6/6/17.
  */
-public class Leaderboard extends JPanel {
+public class Leaderboard extends JPanel implements PlayerListener {
 
     private Player[] players;
+    private DefaultMutableTreeNode root;
+    private JTree tree;
+
 
     /**
      * Initializes the Leaderboard panel to display information on all of the players.
@@ -25,11 +27,12 @@ public class Leaderboard extends JPanel {
         this.players = players;
 
         setLayout(new BorderLayout());
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("LeaderBoards");
+        root = new DefaultMutableTreeNode("LeaderBoards");
 
         for(Player p : players){
             DefaultMutableTreeNode playerFolder = new DefaultMutableTreeNode(p);
             root.add(playerFolder);
+            p.setNode(playerFolder);
 
             DefaultMutableTreeNode propertyFolder = new DefaultMutableTreeNode("Properties");
             DefaultMutableTreeNode sellingFolder = new DefaultMutableTreeNode("Selling");
@@ -42,7 +45,7 @@ public class Leaderboard extends JPanel {
 
 
         //create the tree by passing in the root node
-        JTree tree = new JTree(root);
+        tree = new JTree(root);
 
         for(int i = 0; i < tree.getRowCount(); i++){
             tree.expandRow(i);
@@ -91,15 +94,13 @@ public class Leaderboard extends JPanel {
 
             if(nodeInfo instanceof Player){
                 setIcon(player);
-            }
-            else if (nodeInfo instanceof String){
+            } else if (nodeInfo instanceof String){
                 String title = (String) nodeInfo;
                 if (title.equals("Properties"))
                     setIcon(propertyFolder);
                 else
                     setIcon(sellFolder);
-            }
-            else if (nodeInfo instanceof Property){
+            } else if (nodeInfo instanceof Property){
                 setIcon(property);
             }
 
@@ -120,6 +121,29 @@ public class Leaderboard extends JPanel {
             }
         }
 
+
+    }
+
+
+    public void onPlayerMove(Player p) {
+
+    }
+
+    @Override
+    public void onTrade() {
+
+    }
+
+    @Override
+    public void onPurchase(Player p) {
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) p.getNode().getFirstChild();
+
+        model.nodesWereInserted(propertyNode, new int[]{propertyNode.getChildCount() - 1});
+    }
+
+    @Override
+    public void onLose() {
 
     }
 }
