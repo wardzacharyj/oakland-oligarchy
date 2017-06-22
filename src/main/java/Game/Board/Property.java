@@ -7,10 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 
-/**
- * Created by Zach on 6/1/17.
- */
-public class Property extends Tile implements PlayerListener {
+public class Property extends Tile {
 
     public final static String JSON_NAME = "name";
     public final static String JSON_OWNER = "owner";
@@ -41,6 +38,20 @@ public class Property extends Tile implements PlayerListener {
 
     private Color tileColor;
 
+    /**
+     * constructor for property
+     * @param houseCount
+     * @param improvementCost
+     * @param isImproved
+     * @param isMonopoly
+     * @param mortgage
+     * @param name
+     * @param owner
+     * @param purchaseCost
+     * @param rent
+     * @param tileGroup
+     * @param tilePosition
+     */
     public Property(String name, Player owner, int houseCount, int improvementCost,
                     int[] rent, int mortgage, boolean isImproved, boolean isMonopoly,
                     int purchaseCost, String tileGroup, int tilePosition) {
@@ -60,47 +71,80 @@ public class Property extends Tile implements PlayerListener {
         this.isForSale = true;
     }
 
+    /**
+     * gets owner
+     */
     public Player getOwner() {
         return owner;
     }
 
+    /**
+     *get house count
+     */
     public int getHouseCount() {
         return houseCount;
     }
 
+    /**
+     * checks if improved by player
+     */
     public boolean isImproved() {
         return isImproved;
     }
 
+    /**
+     *checks monopoly
+     */
     public boolean isMonopoly() {
         return isMonopoly;
     }
 
+    /**
+     *gets purchase cost
+     */
     public int getPurchaseCost() {
         return purchaseCost;
     }
 
+    /**
+     *gets tile group
+     */
     public String getTileGroup() {
         return tileGroup;
     }
 
+    /**
+     *gets tile position on board
+     */
     public int getTilePosition() {
         return tilePosition;
     }
 
+    /**
+     *gets tile color
+     */
     public Color getTileColor() {
         return tileColor;
     }
 
-    public int getCost() {
-        return this.purchaseCost;
+    public int getRent(){
+        return rent[houseCount];
     }
 
+
+    /**
+     *sets the property to being bought
+     * @param newOwner
+     */
     public void setBought(Player newOwner) {
         this.isForSale = false;
         this.owner = newOwner;
     }
 
+    /**
+     *notifies player to either buy property or pay rent
+     * @param p
+     */
     @Override
     public void notifyPlayerLanded(Player p) {
 
@@ -109,12 +153,26 @@ public class Property extends Tile implements PlayerListener {
                     this.getName() + " is for sale. Would you like to purchase it?");
 
             if (dialogResult == JOptionPane.YES_OPTION) {
-                if (p.hasEnoughCash(this.getCost())) {
+                if (p.hasEnoughCash(this.getPurchaseCost())) {
                     p.buyProperty(this);
                 } else {
                     JOptionPane.showMessageDialog(null, "You don't have enough money!");
                 }
             }
+        }
+        else {
+            if(this.owner != p)
+            {
+                JOptionPane.showMessageDialog(null, "Thank you "
+                        +p.getName() +" we hope you enjoy your stay here, that'll be $"+getRent());
+
+                if (p.hasEnoughCash(this.getPurchaseCost())) {
+                    p.payRent(owner, getRent());
+                } else {
+                    JOptionPane.showMessageDialog(null, "You don't have enough money!");
+                }
+            }
+
         }
     }
 
@@ -136,23 +194,4 @@ public class Property extends Tile implements PlayerListener {
                 '}';
     }
 
-    @Override
-    public void onPlayerMove(Player p) {
-
-    }
-
-    @Override
-    public void onTrade() {
-
-    }
-
-    @Override
-    public void onPurchase(Player p) {
-
-    }
-
-    @Override
-    public void onLose() {
-
-    }
 }

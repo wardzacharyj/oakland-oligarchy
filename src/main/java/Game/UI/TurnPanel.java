@@ -26,6 +26,12 @@ public class TurnPanel extends JPanel implements ActionListener {
     private Player[] players;
     private int currentPlayer;
 
+    /**
+     * TurnPanel constructor
+     * @param panel
+     * @param board
+     * @param players
+     */
     public TurnPanel(PlayerListener panel, Player[] players, PlayerListener board){
         Dimension dimension = new Dimension(TURN_PANEL_DIMENSION);
         setLayout(new BorderLayout());
@@ -58,11 +64,17 @@ public class TurnPanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * reset game dice
+     */
     public void resetDice(){
         leftDie.setState(0);
         rightDie.setState(0);
     }
 
+    /**
+     * roll game dice
+     */
     public void rollDice(){
         leftDie.roll();
         rightDie.roll();
@@ -70,11 +82,18 @@ public class TurnPanel extends JPanel implements ActionListener {
         boardListeners.onPlayerMove(players[currentPlayer]);
     }
 
+    /**
+     * get sum of dice values
+     */
     public int getDiceSum(){
         return leftDie.getState()+rightDie.getState();
     }
 
 
+    /**
+     * Sets dice text and calls dice functionality on button click
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(mode == ROLL_MODE){
@@ -94,6 +113,9 @@ public class TurnPanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * returns true if there is only 1 player left in the game
+     */
     private boolean winCondition() {
         int outCount = 0;
         for (int i = 0; i < players.length; i++) {
@@ -112,6 +134,9 @@ public class TurnPanel extends JPanel implements ActionListener {
     }
 
 
+    /**
+     * notifies player it is their turn to move
+     */
     private void notifyPlayer() {
         while(players[currentPlayer].hasLost()) {
             currentPlayer = (currentPlayer + 1) % players.length;
@@ -120,24 +145,40 @@ public class TurnPanel extends JPanel implements ActionListener {
     }
 
 
+    /**
+     * The button that controls dice functionality
+     */
     private class DiceButton extends JButton{
 
         private Random r = new Random();
         private int state = 0;
 
+        /**
+         * Dice button constructor
+         */
         DiceButton(){
             setEnabled(false);
             setPreferredSize(new Dimension(76,76));
         }
 
+        /**
+         * sets the value of the dice
+         * @param newState
+         */
         public void setState(int newState){
             this.state = newState;
         }
 
+        /**
+         *gets the value of the dice
+         */
         public int getState(){
             return state;
         }
 
+        /**
+         *updates dice values randomly
+         */
         private void roll(){
             state = r.nextInt(6) + 1;
             revalidate();
@@ -146,6 +187,9 @@ public class TurnPanel extends JPanel implements ActionListener {
         }
 
 
+        /**
+         *paints values onto dice UI
+         */
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);

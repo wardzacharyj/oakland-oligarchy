@@ -25,6 +25,9 @@ public class TilePanel extends JPanel {
     private JLabel costLabel;
 
 
+    /**
+     *tile panel constructor
+     */
     public TilePanel(Tile tile,int orientation){
         this.tile = tile;
         this.orientation = orientation;
@@ -33,6 +36,9 @@ public class TilePanel extends JPanel {
 
     }
 
+    /**
+     *set tilepanel orientation
+     */
     protected void setOrientation(int orientation){
         removeAll();
         this.orientation = orientation;

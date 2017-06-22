@@ -7,6 +7,9 @@ import java.awt.event.KeyEvent;
  * Created by Zach on 6/7/17.
  */
 public class GameToolbar extends JMenuBar {
+    /**
+     * toolbar for saving and loading game
+     */
     public GameToolbar(){
 
         // File Menu, F - Mnemonic

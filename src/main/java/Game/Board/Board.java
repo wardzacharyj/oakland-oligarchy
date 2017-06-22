@@ -278,6 +278,10 @@ public class Board extends JPanel implements PlayerListener{
                 || pos == CORNER_TOP_RIGHT || pos == CORNER_TOP_LEFT;
     }
 
+    /**
+     * Updates player objects position on board
+     * @param p
+     */
     @Override
     public void onPlayerMove(Player p) {
         int oldPosition = p.getPreviousPosition();
@@ -287,6 +291,12 @@ public class Board extends JPanel implements PlayerListener{
         tiles[newPosition].addPlayer(p);
         tiles[newPosition].getTilePanel().repaint();
         tiles[oldPosition].getTilePanel().repaint();
+        tiles[newPosition].notifyPlayerLanded(p);
+
+    }
+
+    @Override
+    public void onRentPayed(Player owner, Player rente) {
 
     }
 

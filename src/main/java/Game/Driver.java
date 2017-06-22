@@ -10,6 +10,10 @@ import java.awt.*;
 
 public class Driver extends JFrame implements GameCreatedListener {
 
+    /**
+     * Driver constructor
+     * Creates splash screen
+     */
     Driver(){
         setLayout(new BorderLayout());
         Splash splash = new Splash(this);
@@ -38,6 +42,10 @@ public class Driver extends JFrame implements GameCreatedListener {
         JOptionPane.showMessageDialog(null, players[0].getName() + ", it is your turn to move.");
     }
 
+    /**
+     * runs driver, initiates start of game
+     * @param args
+     */
     public static void main(String[] args){
         SwingUtilities.invokeLater(new Runnable(){
             public void run() {
