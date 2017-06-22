@@ -1,19 +1,20 @@
 package Game.Board;
 
 import Game.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
 
 public class TilePanel extends JPanel {
 
-    private final Dimension BTN_NORTH_SOUTH = new Dimension(60,20);
+    private final Dimension BTN_NORTH_SOUTH = new Dimension(60, 20);
     private final Dimension LABEL_NORTH_SOUTH = new Dimension(120, 20);
 
-    private final Dimension BTN_EAST_WEST = new Dimension(20,60);
+    private final Dimension BTN_EAST_WEST = new Dimension(20, 60);
     private final Dimension LABEL_EAST_WEST = new Dimension(20, 120);
 
-    private final Dimension CORNER = new Dimension(40,40);
+    private final Dimension CORNER = new Dimension(40, 40);
 
 
     private int orientation;
@@ -26,23 +27,28 @@ public class TilePanel extends JPanel {
 
 
     /**
-     *tile panel constructor
+     * Constructor for TilePanel.
+     *
+     * @param tile        The tile this TilePanel will contain.
+     * @param orientation The orientation of the tile panel.
      */
-    public TilePanel(Tile tile,int orientation){
+    public TilePanel(Tile tile, int orientation) {
         this.tile = tile;
         this.orientation = orientation;
 
-        initLayout();
+        this.initLayout();
 
     }
 
     /**
-     *set tilepanel orientation
+     * Sets the orientation of the panel.
+     *
+     * @param orientation An integer representation the orientation of the panel.
      */
-    protected void setOrientation(int orientation){
-        removeAll();
+    protected void setOrientation(int orientation) {
+        this.removeAll();
         this.orientation = orientation;
-        initLayout();
+        this.initLayout();
     }
 
 
@@ -50,120 +56,114 @@ public class TilePanel extends JPanel {
      * EDIT THIS METHOD TO ADD DISPLAY INFORMATION TO TILES.
      * Initializes the layout of this tile.  This includes adding Layouts, JButtons, and JLabels, depending on the type of Tile, to this TilePanel.
      */
-    private void initLayout(){
-        setLayout(new BorderLayout());
+    private void initLayout() {
+        this.setLayout(new BorderLayout());
 
-        if(tile instanceof Property){
+        if (tile instanceof Property) {
             Property p = (Property) tile;
-            tileButton = new JButton();
-            tileButton.setBackground(p.getTileColor());
-            tileButton.setOpaque(true);
-            tileButton.setBorderPainted(false);
+            this.tileButton = new JButton();
+            this.tileButton.setBackground(p.getTileColor());
+            this.tileButton.setOpaque(true);
+            this.tileButton.setBorderPainted(false);
 
-            JPanel holder = new JPanel(new GridLayout(2,1));
-            nameLabel = new JLabel(p.getName());
-            nameLabel.setHorizontalAlignment(JLabel.CENTER);
-            costLabel = new JLabel("$"+p.getPurchaseCost());
-            costLabel.setHorizontalAlignment(JLabel.CENTER);
+            JPanel holder = new JPanel(new GridLayout(2, 1));
+            this.nameLabel = new JLabel(p.getName());
+            this.nameLabel.setHorizontalAlignment(JLabel.CENTER);
+            this.costLabel = new JLabel("$" + p.getPurchaseCost());
+            this.costLabel.setHorizontalAlignment(JLabel.CENTER);
 
-            holder.add(nameLabel);
-            holder.add(costLabel);
+            holder.add(this.nameLabel);
+            holder.add(this.costLabel);
 
-            switch (orientation){
+            switch (this.orientation) {
                 case Tile.ORIENTATION_CORNER:
                     // Property in Corner?
                     break;
                 case Tile.ORIENTATION_NORTH:
                     holder.setPreferredSize(LABEL_NORTH_SOUTH);
-                    tileButton.setPreferredSize(BTN_NORTH_SOUTH);
-                    add(tileButton,BorderLayout.SOUTH);
+                    this.tileButton.setPreferredSize(BTN_NORTH_SOUTH);
+                    add(this.tileButton, BorderLayout.SOUTH);
                     break;
                 case Tile.ORIENTATION_EAST:
                     holder.setPreferredSize(LABEL_EAST_WEST);
-                    tileButton.setPreferredSize(BTN_EAST_WEST);
-                    add(tileButton,BorderLayout.WEST);
+                    this.tileButton.setPreferredSize(BTN_EAST_WEST);
+                    add(this.tileButton, BorderLayout.WEST);
                     break;
                 case Tile.ORIENTATION_SOUTH:
                     holder.setPreferredSize(LABEL_NORTH_SOUTH);
-                    tileButton.setPreferredSize(BTN_NORTH_SOUTH);
-                    add(tileButton,BorderLayout.NORTH);
+                    this.tileButton.setPreferredSize(BTN_NORTH_SOUTH);
+                    add(this.tileButton, BorderLayout.NORTH);
                     break;
                 case Tile.ORIENTATION_WEST:
                     holder.setPreferredSize(LABEL_EAST_WEST);
-                    tileButton.setPreferredSize(BTN_EAST_WEST);
-                    add(tileButton,BorderLayout.EAST);
+                    this.tileButton.setPreferredSize(BTN_EAST_WEST);
+                    add(this.tileButton, BorderLayout.EAST);
                     break;
                 default:
                     break;
             }
 
-            add(holder,BorderLayout.CENTER);
+            add(holder, BorderLayout.CENTER);
 
         }
-        if(tile instanceof RailRoad){
-            RailRoad p = (RailRoad) tile;
+        if (tile instanceof RailRoad) {
+            RailRoad p = (RailRoad) this.tile;
 
-            nameLabel = new JLabel(tile.getName());
-            nameLabel.setOpaque(false);
-            nameLabel.setHorizontalAlignment(JLabel.CENTER);
+            this.nameLabel = new JLabel(this.tile.getName());
+            this.nameLabel.setOpaque(false);
+            this.nameLabel.setHorizontalAlignment(JLabel.CENTER);
 
-            switch (orientation){
+            switch (this.orientation) {
                 case Tile.ORIENTATION_CORNER:
                     // Property in Corner?
 
                     break;
                 case Tile.ORIENTATION_NORTH:
-                    nameLabel.setPreferredSize(LABEL_NORTH_SOUTH);
+                    this.nameLabel.setPreferredSize(LABEL_NORTH_SOUTH);
                     break;
                 case Tile.ORIENTATION_EAST:
-                    nameLabel.setPreferredSize(LABEL_EAST_WEST);
+                    this.nameLabel.setPreferredSize(LABEL_EAST_WEST);
                     break;
                 case Tile.ORIENTATION_SOUTH:
-                    nameLabel.setPreferredSize(LABEL_NORTH_SOUTH);
+                    this.nameLabel.setPreferredSize(LABEL_NORTH_SOUTH);
                     break;
                 case Tile.ORIENTATION_WEST:
-                    nameLabel.setPreferredSize(LABEL_EAST_WEST);
+                    this.nameLabel.setPreferredSize(LABEL_EAST_WEST);
                     break;
                 default:
                     break;
             }
 
-            add(nameLabel,BorderLayout.CENTER);
+            add(this.nameLabel, BorderLayout.CENTER);
 
-        }
-        else if(tile instanceof ActionTile){
-            nameLabel = new JLabel(tile.getName());
-            nameLabel.setOpaque(false);
-            nameLabel.setHorizontalAlignment(JLabel.CENTER);
+        } else if (this.tile instanceof ActionTile) {
+            this.nameLabel = new JLabel(tile.getName());
+            this.nameLabel.setOpaque(false);
+            this.nameLabel.setHorizontalAlignment(JLabel.CENTER);
 
-            switch (orientation){
+            switch (this.orientation) {
                 case Tile.ORIENTATION_CORNER:
                     // Property in Corner?
 
                     break;
                 case Tile.ORIENTATION_NORTH:
-                    nameLabel.setPreferredSize(LABEL_NORTH_SOUTH);
+                    this.nameLabel.setPreferredSize(LABEL_NORTH_SOUTH);
                     break;
                 case Tile.ORIENTATION_EAST:
-                    nameLabel.setPreferredSize(LABEL_EAST_WEST);
+                    this.nameLabel.setPreferredSize(LABEL_EAST_WEST);
                     break;
                 case Tile.ORIENTATION_SOUTH:
-                    nameLabel.setPreferredSize(LABEL_NORTH_SOUTH);
+                    this.nameLabel.setPreferredSize(LABEL_NORTH_SOUTH);
                     break;
                 case Tile.ORIENTATION_WEST:
-                    nameLabel.setPreferredSize(LABEL_EAST_WEST);
+                    this.nameLabel.setPreferredSize(LABEL_EAST_WEST);
                     break;
                 default:
                     break;
             }
 
-            add(nameLabel,BorderLayout.CENTER);
+            add(this.nameLabel, BorderLayout.CENTER);
         }
-
-
-
-
-
 
 
         setBorder(BorderFactory.createLineBorder(Color.black));
@@ -171,7 +171,8 @@ public class TilePanel extends JPanel {
 
     /**
      * This method is being overridden to show the player icons on the board.
-     * @param g
+     *
+     * @param g The Graphics to paint.
      */
     @Override
     public void paint(Graphics g) {
@@ -183,19 +184,19 @@ public class TilePanel extends JPanel {
 
 
         int markerSize = 12;
-        int[] x0 = new int[]{(getWidth()/4)-6, 3*(getWidth()/4)-6, (getWidth()/4)-6, 3*(getWidth()/4)-6};
-        int[] y0 = new int[]{(getHeight()/4)-6, (getHeight()/4)-6, 3*(getHeight()/4)-6, 3*(getHeight()/4)-6};
+        int[] x0 = new int[]{(getWidth() / 4) - 6, 3 * (getWidth() / 4) - 6, (getWidth() / 4) - 6, 3 * (getWidth() / 4) - 6};
+        int[] y0 = new int[]{(getHeight() / 4) - 6, (getHeight() / 4) - 6, 3 * (getHeight() / 4) - 6, 3 * (getHeight() / 4) - 6};
 
 
-        for (int i = 0; i < tile.getActivePlayers().size(); i++){
+        for (int i = 0; i < tile.getActivePlayers().size(); i++) {
             Player p = tile.getActivePlayers().get(i);
             g2D.setColor(p.getColor());
-            g.fillOval(x0[i],y0[i],markerSize,markerSize);
+            g.fillOval(x0[i], y0[i], markerSize, markerSize);
         }
     }
 
 
-    public void drawPlayer(){
+    public void drawPlayer() {
 
     }
 }

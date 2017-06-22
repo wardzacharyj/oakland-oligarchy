@@ -1,12 +1,14 @@
 package Game;
 
-import Game.Board.Board;
 import Game.UI.GameCreatedListener;
 import Utilities.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,25 +33,22 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
     Splash(GameCreatedListener listener) {
         super("Welcome to Oakland Oligarchy");
         this.gameCreatedListener = listener;
-        setLayout(new GridLayout(3,1));
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        setPreferredSize(new Dimension(640, 480));
+        this.setLayout(new GridLayout(3, 1));
+        this.setPreferredSize(new Dimension(640, 480));
 
-        //int x = (int) ((dimension.getWidth() - getWidth()) / 2);
-        //int y = (int) ((dimension.getHeight() - getHeight()) / 2);
 
         //Sets up all three panels and adds them to the window.
-        add(setupTopPane());
-        add(setupMiddlePane());
-        add(setupBottomPane());
+        this.add(this.setupTopPane());
+        this.add(this.setupMiddlePane());
+        this.add(this.setupBottomPane());
 
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setResizable(false);
 
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
 
     }
 
@@ -85,24 +84,26 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
         numPlayersPane.add(numPlayersLabel);
         numPlayersPane.add(numPlayersBox);
 
-        topPane = numPlayersPane;
+        this.topPane = numPlayersPane;
         return numPlayersPane;
 
     }
 
     /**
      * Sets up a blank panel as a canvas for name input boxes.
+     *
      * @return Blank panel.
      */
     private JPanel setupMiddlePane() {
         JPanel middlePanel = new JPanel();
-        middlePane = middlePanel;
+        this.middlePane = middlePanel;
 
         return middlePanel;
     }
 
     /**
      * Sets up a panel for a start button.
+     *
      * @return Panel with start button and action listener attached.
      */
     private JPanel setupBottomPane() {
@@ -121,13 +122,14 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
 
         bottomPanel.add(startButton);
 
-        bottomPane = bottomPanel;
+        this.bottomPane = bottomPanel;
         return bottomPanel;
     }
 
     /**
      * An item event listener for the number of players combo box. Alters the middle panel to display a number
-     * of textboxes corresponding to the number of players selected.
+     * of combo boxes corresponding to the number of players selected.
+     *
      * @param e The fired item event.
      * @see #setupTopPane()
      * @see #setupMiddlePane()
@@ -142,9 +144,9 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
                 numPlayers = Integer.parseInt((String) e.getItem());
             }
 
-            playerNameFields = new ArrayList<>();
+            this.playerNameFields = new ArrayList<>();
 
-            middlePane.removeAll();
+            this.middlePane.removeAll();
 
             for (int i = 0; i < numPlayers; i++) {
                 JTextField nameInput = new JTextField();
@@ -152,14 +154,14 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
                 nameInput.setPreferredSize(new Dimension(150, 20));
                 nameInput.setText("Player " + (i + 1));
                 nameInput.setHorizontalAlignment(SwingConstants.CENTER);
-                playerNameFields.add(nameInput);
-                middlePane.add(nameInput);
+                this.playerNameFields.add(nameInput);
+                this.middlePane.add(nameInput);
             }
 
-            SpringUtilities.makeGrid(middlePane, 1, numPlayers, SwingConstants.CENTER,
+            SpringUtilities.makeGrid(this.middlePane, 1, numPlayers, SwingConstants.CENTER,
                     SwingConstants.CENTER, 3, 3);
 
-            middlePane.updateUI();
+            this.middlePane.updateUI();
         }
     }
 
@@ -167,23 +169,25 @@ public class Splash extends JFrame implements ItemListener, ActionListener {
     /**
      * Action event listener for the start button. Checks to see that the number of players selected is valid
      * before starting the game.
+     *
      * @param e Fired action event.
      * @see #setupBottomPane()
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (playerNameFields == null) {
-            //ERROR HERE
+        if (this.playerNameFields == null) {
+            JOptionPane.showMessageDialog(null, "ERROR! Must select a number of players between" +
+                    " 2 and 4.");
         } else {
-            Player[] players = new Player[playerNameFields.size()];
+            Player[] players = new Player[this.playerNameFields.size()];
 
-            Color[] colors = {Color.RED,Color.BLUE,Color.CYAN,Color.GREEN};
+            Color[] colors = {Color.RED, Color.BLUE, Color.CYAN, Color.GREEN};
 
             for (int i = 0; i < players.length; i++) {
-                players[i] = new Player(playerNameFields.get(i).getText(),colors[i], 1200, 0);
+                players[i] = new Player(this.playerNameFields.get(i).getText(), colors[i], 1200, 0);
             }
 
-            gameCreatedListener.onGameCreated(players);
+            this.gameCreatedListener.onGameCreated(players);
             this.dispose();
         }
 

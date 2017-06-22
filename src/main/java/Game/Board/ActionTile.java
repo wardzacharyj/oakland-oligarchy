@@ -4,7 +4,6 @@ package Game.Board;
 import Game.Player;
 
 
-
 public class ActionTile extends Tile {
 
     public static final String JSON_NAME = "name";
@@ -13,14 +12,17 @@ public class ActionTile extends Tile {
 
 
     /**
-     * Action time constructor
+     * Constructor
+     * @param name  A string containing the name of the tile.
+     * @param position  An integer containing the position of the tile on the board.
      */
-    ActionTile(String name, int position){
-        super(name,position);
+    ActionTile(String name, int position) {
+        super(name, position);
     }
 
     /**
-     * notfies player they have landed on the tile
+     * Notification that a player has landed on this tile.
+     * @param p The player that has landed on the tile.
      */
     @Override
     public void notifyPlayerLanded(Player p) {

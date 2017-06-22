@@ -1,7 +1,6 @@
 package Game.Board;
 
 import Game.Player;
-import Game.UI.PlayerListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,18 +38,18 @@ public class Property extends Tile {
     private Color tileColor;
 
     /**
-     * constructor for property
-     * @param houseCount
-     * @param improvementCost
-     * @param isImproved
-     * @param isMonopoly
-     * @param mortgage
-     * @param name
-     * @param owner
-     * @param purchaseCost
-     * @param rent
-     * @param tileGroup
-     * @param tilePosition
+     * Constructor.
+     * @param houseCount        Number of houses the property has.
+     * @param improvementCost   The cost to build an improvement.
+     * @param isImproved        If the property is improved or not.
+     * @param isMonopoly        If the property is part of a monopoly.
+     * @param mortgage          Mortgage value of the property.
+     * @param name              Property Name
+     * @param owner             Property Owner.
+     * @param purchaseCost      Cost to purchase the property.
+     * @param rent              Rent cost.
+     * @param tileGroup         Which tilegroup the property is in.
+     * @param tilePosition      Where on the board the property is.
      */
     public Property(String name, Player owner, int houseCount, int improvementCost,
                     int[] rent, int mortgage, boolean isImproved, boolean isMonopoly,
@@ -72,69 +71,82 @@ public class Property extends Tile {
     }
 
     /**
-     * gets owner
+     * Getter for owner.
+     * @return Player object who currently owns property.
      */
     public Player getOwner() {
-        return owner;
+        return this.owner;
     }
 
     /**
-     *get house count
+     * Getter for number of improvements.
+     * @return 0 to Max number of houses (improvements)
      */
     public int getHouseCount() {
-        return houseCount;
+        return this.houseCount;
     }
 
     /**
-     * checks if improved by player
+     * Check to see if property is improved.
+     * @return True if property is improved. False otherwise.
      */
     public boolean isImproved() {
-        return isImproved;
+        return this.isImproved;
     }
 
     /**
-     *checks monopoly
+     * Check to see if current owner also owns all other properties of the same color.
+     * @return True if owner owns all properties associated with color. False otherwise.
      */
     public boolean isMonopoly() {
-        return isMonopoly;
+        return this.isMonopoly;
     }
 
     /**
-     *gets purchase cost
+     *  Gets the cost associated with the property.
+     *  @return Non-negative integer amount.
      */
     public int getPurchaseCost() {
-        return purchaseCost;
+        return this.purchaseCost;
     }
 
     /**
-     *gets tile group
+     *  Gets the tile group this property belongs in.
+     *  @return The tilegroup String.
      */
     public String getTileGroup() {
-        return tileGroup;
+        return this.tileGroup;
     }
 
     /**
-     *gets tile position on board
+     * Gets where on the board this property resides.
+     * @return An integer value detailing the properties position
      */
     public int getTilePosition() {
-        return tilePosition;
+        return this.tilePosition;
     }
 
     /**
-     *gets tile color
+     * Gets what color this tile is.
+     * @return The tile's Color.
      */
     public Color getTileColor() {
-        return tileColor;
+        return this.tileColor;
     }
 
-    public int getRent(){
-        return rent[houseCount];
+    /**
+     * Gets the rent cost. Rent cost depends on the number of improvements and if it is a monopoly or not.
+     *
+     * @return An integer value
+     */
+    public int getRent() {
+        return this.rent[houseCount];
     }
 
 
     /**
      *sets the property to being bought
-     * @param newOwner
+     * @param newOwner The new owner of the property
      */
     public void setBought(Player newOwner) {
         this.isForSale = false;
@@ -143,14 +155,15 @@ public class Property extends Tile {
 
     /**
      *notifies player to either buy property or pay rent
-     * @param p
+     * @param p The player who has landed on the property
      */
     @Override
     public void notifyPlayerLanded(Player p) {
 
         if (this.isForSale) {
             int dialogResult = JOptionPane.showConfirmDialog(null,
-                    this.getName() + " is for sale. Would you like to purchase it?");
+                    this.getName() + " is for sale. Would you like to purchase it?",
+                    null, JOptionPane.YES_NO_OPTION);
 
             if (dialogResult == JOptionPane.YES_OPTION) {
                 if (p.hasEnoughCash(this.getPurchaseCost())) {
@@ -159,10 +172,8 @@ public class Property extends Tile {
                     JOptionPane.showMessageDialog(null, "You don't have enough money!");
                 }
             }
-        }
-        else {
-            if(this.owner != p)
-            {
+        } else {
+            if(this.owner != p) {
                 JOptionPane.showMessageDialog(null, "Thank you "
                         +p.getName() +" we hope you enjoy your stay here, that'll be $"+getRent());
 
@@ -176,6 +187,10 @@ public class Property extends Tile {
         }
     }
 
+    /**
+     * Returns a string representation of the property.
+     * @return A string that contains all properties of the Property.
+     */
     @Override
     public String toString() {
         return "Property{" +
