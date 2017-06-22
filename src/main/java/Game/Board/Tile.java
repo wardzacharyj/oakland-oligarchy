@@ -6,9 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by Zach on 6/1/17.
- */
 public abstract class Tile {
 
 
@@ -29,79 +26,103 @@ public abstract class Tile {
     private ArrayList<Player> activePlayers;
 
 
-    protected Tile(){
+    /**
+     * Default constructor of Tile.
+     */
+    protected Tile() {
 
     }
 
     /**
-     *notify if player lands on tile
-     */
-    public abstract void notifyPlayerLanded(Player p);
-
-    /**
-     *adds player to tile location
-     */
-    // Check i
-    public void addPlayer(Player p){
-        activePlayers.add(p);
-    }
-
-    /**
-     *removes player from tile
-     */
-    public void removePlayer(Player p){
-        activePlayers.remove(p);
-    }
-
-    /**
-     *tile constructor
+     * Constructor for Tile.
+     *
+     * @param name     The tile name.
+     * @param position The position of the tile on the board
      */
     protected Tile(String name, int position) {
         this.name = name;
         this.position = position;
-        tilePanel = new TilePanel(this,ORIENTATION_DEFAULT);
-        activePlayers = new ArrayList<Player>();
+        this.tilePanel = new TilePanel(this, ORIENTATION_DEFAULT);
+        this.activePlayers = new ArrayList<>();
     }
 
     /**
-     *gets players currently on tile
+     * notify if player lands on
+     *
+     * @param p The player that has landed on the tile.
      */
-    protected ArrayList<Player> getActivePlayers(){
-        return activePlayers;
-    }
+    public abstract void notifyPlayerLanded(Player p);
 
     /**
-     *gets name of tile
+     * Add a player to the tile.
+     *
+     * @param p The player that now resides on the tile.
      */
-    public String getName(){
-        return name;
+    // Check i
+    public void addPlayer(Player p) {
+        this.activePlayers.add(p);
     }
 
     /**
-     *gets position on tile
+     * removes player from tile
+     *
+     * @param p The player that no longer resides on the tile.
      */
-    public int getBoardPosition(){
-        return position;
+    public void removePlayer(Player p) {
+        this.activePlayers.remove(p);
     }
 
     /**
-     *gets tile panel
+     * Get the active players on the tile.
+     *
+     * @return An ArrayList containing all active players currently residing on the tile.
      */
-    public JPanel getTilePanel(){
-        return tilePanel;
+    protected ArrayList<Player> getActivePlayers() {
+        return this.activePlayers;
     }
 
     /**
-     *gets tile panel according to orientation
-     * @param orientation
+     * Get the name of the tile.
+     *
+     * @return A string containing the name of the tile.
      */
-    public TilePanel getTilePanel(int orientation){
-        tilePanel.setOrientation(orientation);
-        return tilePanel;
+    public String getName() {
+        return this.name;
     }
 
     /**
-     *stringify tile info
+     * Get the position of the tile on the board.
+     *
+     * @return An integer defining where the tile resides on the board.
+     */
+    public int getBoardPosition() {
+        return this.position;
+    }
+
+    /**
+     * Get the panel that the tile resides on.
+     *
+     * @return The JPanel the tile has been added to.
+     */
+    public JPanel getTilePanel() {
+        return this.tilePanel;
+    }
+
+    /**
+     * Get the Tile Panel this tile resides on.
+     *
+     * @param orientation The desired orientation of the tile panel.
+     * @return A tile panel that contains this tile.
+     */
+    public TilePanel getTilePanel(int orientation) {
+        this.tilePanel.setOrientation(orientation);
+        return this.tilePanel;
+    }
+
+    /**
+     * A string representation of the tile.
+     *
+     * @return A string containing associated properties of the tile.
      */
     @Override
     public String toString() {
