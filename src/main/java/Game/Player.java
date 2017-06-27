@@ -20,8 +20,19 @@ public class Player {
     private ArrayList<Property> properties;
     private int shape;
     private Color color;
-    PlayerListener listener;
+    private PlayerListener listener;
     private DefaultMutableTreeNode playerNode;
+
+    /**
+     * Player constructor
+     * @param name
+     * @param color
+     */
+    public Player(String name, Color color) {
+        this.name = name;
+        this.properties = new ArrayList<>();
+        this.color = color;
+    }
 
     /**
      * Player constructor

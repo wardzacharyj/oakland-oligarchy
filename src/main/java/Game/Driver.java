@@ -16,7 +16,8 @@ public class Driver extends JFrame implements GameCreatedListener {
      */
     Driver(){
         setLayout(new BorderLayout());
-        Splash splash = new Splash(this);
+        //Splash splash = new Splash(this);
+        GameSetup gameSetup = new GameSetup(this);
     }
 
     /**
@@ -36,7 +37,7 @@ public class Driver extends JFrame implements GameCreatedListener {
         // For OSX
         //FullScreenUtilities.setWindowCanFullScreen(this,true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
         setVisible(true);
         JOptionPane.showMessageDialog(null, players[0].getName() + ", it is your turn to move.");
@@ -50,7 +51,7 @@ public class Driver extends JFrame implements GameCreatedListener {
         SwingUtilities.invokeLater(new Runnable(){
             public void run() {
                 try{
-                    UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
+                    //UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
                     new Driver();
                 }catch (Exception e){
                     e.printStackTrace();

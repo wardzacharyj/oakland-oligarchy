@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 public class Board extends JPanel implements PlayerListener{
 
+    private final int STARTING_MONEY_MULTIPLIER = 20;
 
     private final String JSON_PROPERTIES = "properties";
     private final String JSON_RAIL_ROADS = "rail_roads";
@@ -63,7 +64,6 @@ public class Board extends JPanel implements PlayerListener{
         boardPanel.setLayout(gridBagLayout);
 
         initBoardFromJson();
-        //initBoard();
 
         add(boardPanel, BorderLayout.CENTER);
         setPreferredSize(BOARD_DIMENSIONS);
@@ -144,6 +144,7 @@ public class Board extends JPanel implements PlayerListener{
 
         for (Player p : players){
             tiles[0].addPlayer(p);
+            p.addCash(((Property) tiles[1]).getPurchaseCost() * STARTING_MONEY_MULTIPLIER);
         }
     }
 
