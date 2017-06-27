@@ -93,7 +93,8 @@ public class Board extends JPanel implements PlayerListener {
                     obj.get(Property.JSON_IS_MONOPOLY).getAsBoolean(),
                     obj.get(Property.JSON_PURCHASE_COST).getAsInt(),
                     obj.get(Property.JSON_TILE_GROUP).getAsString(),
-                    obj.get(Property.JSON_TILE_POSITION).getAsInt()
+                    obj.get(Property.JSON_TILE_POSITION).getAsInt(),
+                    players
             );
             tiles[obj.get(Property.JSON_TILE_POSITION).getAsInt()] = property;
         }

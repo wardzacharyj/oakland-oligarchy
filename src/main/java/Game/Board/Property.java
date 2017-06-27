@@ -1,10 +1,12 @@
 package Game.Board;
 
 import Game.Player;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Property extends Tile {
 
@@ -33,6 +35,7 @@ public class Property extends Tile {
     private String tileGroup;
     private int tilePosition;
     private boolean isForSale;
+    private Player[] player;
 
 
     private Color tileColor;
@@ -53,7 +56,7 @@ public class Property extends Tile {
      */
     public Property(String name, Player owner, int houseCount, int improvementCost,
                     int[] rent, int mortgage, boolean isImproved, boolean isMonopoly,
-                    int purchaseCost, String tileGroup, int tilePosition) {
+                    int purchaseCost, String tileGroup, int tilePosition, Player[] players) {
         super(name,tilePosition);
         this.name = name;
         this.owner = owner;
@@ -68,6 +71,7 @@ public class Property extends Tile {
         this.tileColor = Color.decode(tileGroup);
         this.tilePosition = tilePosition;
         this.isForSale = true;
+        this.player = players;
     }
 
     /**
@@ -154,7 +158,29 @@ public class Property extends Tile {
     }
 
     /**
-     *notifies player to either buy property or pay rent
+     *gets which player put in the highest auction
+     * @param map Map of players and their auction inputs
+     */
+    public int getMax(Map map){
+        int maxKey = -1;
+        if(map.size() > 0){
+            Map.Entry<Integer,Integer> entry = (Map.Entry<Integer, Integer>) map.entrySet().iterator().next();
+            Integer key = entry.getKey();
+            maxKey = key;
+            for(int i = 0; i < player.length; i++) {
+                if(map.containsKey(i)) {
+                    int input = (int) map.get(i);
+                    if(input > (int) map.get(maxKey)){
+                        maxKey = i;
+                    }
+                }
+            }
+        }
+        return maxKey;
+    }
+
+    /**
+     *notifies player to either buy property, pay rent, or auction for property
      * @param p The player who has landed on the property
      */
     @Override
@@ -170,6 +196,51 @@ public class Property extends Tile {
                     p.buyProperty(this);
                 } else {
                     JOptionPane.showMessageDialog(null, "You don't have enough money!");
+                }
+            } else {
+                //auction
+                Map<Integer, Integer> map = new HashMap<>();
+                for(int i = 0; i < player.length; i++)
+                {
+                    if(!player[i].hasLost() && player[i] != p)
+                    {
+                        JPasswordField amount = new JPasswordField();
+                        final JComponent[] inputs = new JComponent[] {
+                                new JLabel(player[i].getName() + " enter Auction Price:"),
+                                amount,
+                                new JLabel("Just enter integer value of cash"),
+                                new JLabel("No Symbols ($%&*.,)")
+                        };
+                        int result = JOptionPane.showConfirmDialog(null, inputs, "Auction", JOptionPane.PLAIN_MESSAGE);
+                        if (result == JOptionPane.OK_OPTION) {
+                            try{
+                                String amountStr = new String(amount.getPassword());
+                                if(amountStr.length() > 0){
+                                    map.put(i, Integer.parseInt(amountStr));
+                                }
+                            }
+                            catch (Exception ex){
+                                JOptionPane.showMessageDialog(null, player[i].getName() + ", you did not enter a valid input. Your auction will be voided.");
+                            }
+                        }
+                    }
+                }
+                //Find Max from Map
+                while(true){
+                    int auctionWinner = getMax(map);
+                    if(auctionWinner != -1){
+                        if (player[auctionWinner].hasEnoughCash(map.get(auctionWinner))) {
+                            player[auctionWinner].buyProperty(this, map.get(auctionWinner));
+                            JOptionPane.showMessageDialog(null, player[auctionWinner].getName() + " won the auction!");
+                            break;
+                        } else {
+                            JOptionPane.showMessageDialog(null, player[auctionWinner].getName() + " You don't have that much money! Your auction will be voided.");
+                            map.remove(auctionWinner);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No one wants " + name + "? OK, it'll go back in the pile..." );
+                        break;
+                    }
                 }
             }
         } else {
