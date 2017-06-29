@@ -190,6 +190,27 @@ public class Player {
     }
 
     /**
+     * player purchases property from auction
+     * adds property to player object
+     * sets property to be owned
+     *
+     * @param property  The property that the player is attempting to auction.
+     * @return true if can buy property. False otherwise.
+     */
+    public boolean buyProperty(Property property, int auction) {
+        if (hasEnoughCash(auction)) {
+            this.subtractCash(auction);
+            this.addProperty(property);
+            property.setBought(this);
+            this.updateNode(property);
+            this.listener.onPurchase(this);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Pays rent to specific player
      *
      * @param receivingPlayer the player
