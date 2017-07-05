@@ -1,6 +1,9 @@
 package Game.Board;
 
 import Game.Player;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +27,7 @@ public class RailRoad extends Tile {
     private int[] rent;
     private int tilePosition;
     private boolean isMonopoly;
+    private String tileGroup;
 
 
     public RailRoad(String name, Player owner, int purchaseCost, int mortgage, int[] rent, boolean isMonopoly, int tilePosition) {
@@ -112,6 +116,29 @@ public class RailRoad extends Tile {
     @Override
     public int getBoardPosition(){
         return tilePosition;
+    }
+
+
+    @Override
+    public JsonObject toJSONObject() {
+
+        JsonArray rents = new JsonArray();
+        for (Integer element : rent) {
+            rents.add(new JsonPrimitive(element));
+        }
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("purchaseCost", purchaseCost);
+        jsonObject.addProperty("mortgage", mortgage);
+        jsonObject.add("rent", rents);
+        jsonObject.addProperty("tileGroup","railroad");
+        jsonObject.addProperty("mortgage", mortgage);
+        jsonObject.addProperty("isMonopoly", isMonopoly);
+        jsonObject.addProperty("purchaseCost", purchaseCost);
+        jsonObject.addProperty("tilePosition", tilePosition);
+
+
+        return jsonObject;
     }
 
     /**

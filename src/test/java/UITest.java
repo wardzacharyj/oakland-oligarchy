@@ -5,6 +5,9 @@ import Game.Board.Property;
 import Game.UI.RightPanel;
 import Game.UI.TurnPanel;
 import Game.Player;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import junit.framework.TestCase;
 import org.junit.*;
 
@@ -103,4 +106,6 @@ public class UITest extends TestCase {
         // Write test that checks if leaderboard reflects purchase
 
     }
+
+
 }

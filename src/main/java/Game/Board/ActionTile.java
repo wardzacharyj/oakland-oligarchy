@@ -2,7 +2,7 @@ package Game.Board;
 
 
 import Game.Player;
-
+import com.google.gson.JsonObject;
 
 
 public class ActionTile extends Tile {
@@ -17,6 +17,11 @@ public class ActionTile extends Tile {
      */
     ActionTile(String name, int position){
         super(name,position);
+    }
+
+    @Override
+    public JsonObject toJSONObject() {
+        return null;
     }
 
     /**

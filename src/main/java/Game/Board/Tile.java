@@ -1,14 +1,13 @@
 package Game.Board;
 
 import Game.Player;
+import com.google.gson.JsonObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by Zach on 6/1/17.
- */
+
 public abstract class Tile {
 
 
@@ -34,27 +33,31 @@ public abstract class Tile {
     }
 
     /**
-     *notify if player lands on tile
+     *      notify if player lands on tile
      */
     public abstract void notifyPlayerLanded(Player p);
 
+
+    public abstract JsonObject toJSONObject();
+
     /**
-     *adds player to tile location
+     *      adds player to tile location
      */
-    // Check i
     public void addPlayer(Player p){
         activePlayers.add(p);
     }
 
+
     /**
-     *removes player from tile
+     *      removes player from tile
      */
     public void removePlayer(Player p){
         activePlayers.remove(p);
     }
 
+
     /**
-     *tile constructor
+     *      tile constructor
      */
     protected Tile(String name, int position) {
         this.name = name;
@@ -63,36 +66,41 @@ public abstract class Tile {
         activePlayers = new ArrayList<Player>();
     }
 
+
     /**
-     *gets players currently on tile
+     *      gets players currently on tile
      */
     protected ArrayList<Player> getActivePlayers(){
         return activePlayers;
     }
 
+
     /**
-     *gets name of tile
+     *      gets name of tile
      */
     public String getName(){
         return name;
     }
 
+
     /**
-     *gets position on tile
+     *      gets position on tile
      */
     public int getBoardPosition(){
         return position;
     }
 
+
     /**
-     *gets tile panel
+     *      gets tile panel
      */
     public JPanel getTilePanel(){
         return tilePanel;
     }
 
+
     /**
-     *gets tile panel according to orientation
+     *      gets tile panel according to orientation
      * @param orientation
      */
     public TilePanel getTilePanel(int orientation){
@@ -100,8 +108,9 @@ public abstract class Tile {
         return tilePanel;
     }
 
+
     /**
-     *stringify tile info
+     *      stringify tile info
      */
     @Override
     public String toString() {

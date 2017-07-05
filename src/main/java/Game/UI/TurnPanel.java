@@ -82,6 +82,15 @@ public class TurnPanel extends JPanel implements ActionListener {
         boardListeners.onPlayerMove(players[currentPlayer]);
     }
 
+    public void setCurrentPlayer(int currentPlayer){
+        this.currentPlayer = currentPlayer;
+    }
+
+    public int getCurrentPlayer(){
+        return currentPlayer;
+    }
+
+
     /**
      * get sum of dice values
      */

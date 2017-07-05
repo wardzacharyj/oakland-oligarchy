@@ -3,25 +3,31 @@ package Game;
 import Game.Board.Board;
 import Game.Board.Property;
 import Game.UI.PlayerListener;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player {
 
-    public static final int SHAPE_CIRCLE = 0;
-    public static final int SHAPE_SQUARE = 1;
 
     private String name;
     private int currentPosition;
     private int previousPosition;
     private int cash;
     private ArrayList<Property> properties;
-    private int shape;
     private Color color;
     private PlayerListener listener;
     private DefaultMutableTreeNode playerNode;
+
+    public Player(){
+        this.properties = new ArrayList<>();
+    }
 
     /**
      * Player constructor
@@ -44,7 +50,6 @@ public class Player {
     public Player(String name, Color color, int cash, int currentPosition) {
         this.name = name;
         this.properties = new ArrayList<>();
-        this.shape = (int)(Math.random() * 1);
         this.color = color;
         this.cash = cash;
         this.currentPosition = currentPosition;
@@ -58,18 +63,24 @@ public class Player {
     public void addListener(PlayerListener listener) {
         this.listener = listener;
     }
+
+
     /**
      * Sets Color of player
      */
     public void setColor(Color color){
         this.color = color;
     }
+
+
     /**
      * Gets Color of player
      */
     public Color getColor(){
         return color;
     }
+
+
     /**
      * Sets position of player
      */
@@ -77,6 +88,7 @@ public class Player {
         this.previousPosition = this.currentPosition;
         this.currentPosition = newPosition;
     }
+
 
     /**
      * Updates player objects positions
@@ -94,23 +106,20 @@ public class Player {
         }
     }
 
+
     /**
      * Gets position of player
      */
     public int getPosition(){
         return currentPosition;
     }
+
+
     /**
      * gets previous position of player
      */
     public int getPreviousPosition(){ return previousPosition; }
 
-    /**
-     * Gets shape of player object
-     */
-    public int getShape() {
-        return shape;
-    }
 
     /**
      * Gets name of player object
@@ -118,6 +127,7 @@ public class Player {
     public String getName() {
         return name;
     }
+
 
     /**
      * Sets name of player object
@@ -127,12 +137,18 @@ public class Player {
         this.name = name;
     }
 
+
     /**
      * Sets player node in tree
      * @param node
      */
     public void setNode(DefaultMutableTreeNode node) {
         this.playerNode = node;
+    }
+
+
+    public void setProperties(Property[] props){
+        this.properties = new ArrayList<>(Arrays.asList(props));
     }
 
     /**
@@ -143,6 +159,7 @@ public class Player {
         return name+" | Cash: $"+cash;
     }
 
+
     /**
      * returns True if the player is no longer in the game
      */
@@ -150,12 +167,14 @@ public class Player {
         return properties.isEmpty() && cash <= 0;
     }
 
+
     /**
      * checks to make sure the player can buy a property and pay rent
      */
     public boolean hasEnoughCash(int amount) {
         return this.cash >= amount;
     }
+
 
     /**
      * player purchases property
@@ -191,6 +210,10 @@ public class Player {
         subtractCash(rent);
         receivingPlayer.addCash(rent);
         listener.onRentPayed(receivingPlayer,this);
+    }
+
+    public void setCash(int amount){
+        cash = amount;
     }
 
     /**
@@ -261,5 +284,24 @@ public class Player {
      */
     public ArrayList<Property> getProperties() {
         return properties;
+    }
+
+
+    public JsonObject toJSONObject(){
+        JsonObject player = new JsonObject();
+        player.addProperty("name", name);
+        player.addProperty("currentPosition", currentPosition);
+        player.addProperty("cash", cash);
+        player.addProperty("color", String.format("#%06x", color.getRGB() & 0x00FFFFFF));
+
+        JsonArray prop = new JsonArray();
+
+        for (Property property : properties) {
+            prop.add(property.toJSONObject());
+        }
+
+        player.add("properties", prop);
+        return player;
+
     }
 }

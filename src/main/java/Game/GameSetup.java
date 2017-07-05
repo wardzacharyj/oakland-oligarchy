@@ -1,7 +1,13 @@
 package Game;
 
 
+import Game.Board.Board;
+import Game.Board.Property;
 import Game.UI.GameCreatedListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,9 +20,14 @@ import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.prefs.Preferences;
 
 
 public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.GameCell>, MouseListener{
@@ -30,23 +41,24 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
 
     private JLabel errorBanner;
     private JLabel gameNameLabel;
-
     private JButton startGame;
-
 
     private JList<GameCell> gameList;
 
     private ArrayList<PlayerRowPanel> playerPanels;
-
     private GameCreatedListener gameCreatedListener;
 
     private int DEV_PLAYER_COUNT = 4;
     private Color[] DEV_PLAYER_COLORS = {Color.BLUE, Color.DARK_GRAY, Color.GREEN, Color.CYAN};
 
-    public GameSetup(GameCreatedListener listener){
+    private JTextField gameNameField;
+    private JsonArray games;
+
+    public GameSetup(GameCreatedListener listener, JsonArray games){
         super("Welcome To Oakland Oligarchy");
 
         this.gameCreatedListener = listener;
+        this.games = games;
 
         setPreferredSize(new Dimension(665, 460));
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -65,14 +77,6 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-    }
-
-
-    /**
-     * Loads Games from saved directory file in resources
-     */
-    private void loadRecentGames(){
-
     }
 
 
@@ -170,51 +174,64 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
      */
     private void buildLocatedGamesPanel(){
 
-
-        DefaultListModel<GameCell> listModel = new DefaultListModel<GameCell>();
-
-
-        for(int i = 0; i < 5; i++){
-            String gameName = "<html><b>Game "+i+" </b></html>";
-            String fileLocation ="Location Here";
-            GameCell gameCell = new GameCell(gameName,fileLocation);
-            listModel.addElement(gameCell);
-
+        if(games == null || games.size() == 0){
+            JPanel noRecentHolder = new JPanel(new BorderLayout());
+            noRecentHolder.setPreferredSize(new Dimension(245,460));
+            noRecentHolder.setBackground(Color.WHITE);
+            JLabel noRecentLabel = new JLabel("There are no recent games");
+            noRecentLabel.setHorizontalAlignment(JLabel.CENTER);
+            noRecentLabel.setVerticalAlignment(JLabel.CENTER);
+            noRecentHolder.add(noRecentLabel, BorderLayout.CENTER);
+            add(noRecentHolder,BorderLayout.WEST);
         }
+        else {
 
-        gameList = new JList<GameCell>(listModel);
-        gameList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            DefaultListModel<GameCell> listModel = new DefaultListModel<GameCell>();
 
-        gameList.setCellRenderer(this);
+            for(int i = 0; i < games.size(); i++){
+                JsonObject game = games.get(i).getAsJsonObject();
 
-        gameList.addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
+                String gameName = "<html><b>"+game.get("gameName").getAsString()+"</b></html>";
+                String fileLocation = game.get("fileLocation").getAsString();
+                GameCell gameCell = new GameCell(gameName,fileLocation);
+                listModel.addElement(gameCell);
+
             }
 
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                Point p = new Point(e.getX(),e.getY());
-                hoverIndex = gameList.locationToIndex(p);
-                gameList.repaint();
-            }
-        });
+            gameList = new JList<GameCell>(listModel);
+            gameList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        gameList.addMouseListener(this);
+            gameList.setCellRenderer(this);
+
+            gameList.addMouseMotionListener(new MouseMotionListener() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                }
+
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    Point p = new Point(e.getX(),e.getY());
+                    hoverIndex = gameList.locationToIndex(p);
+                    gameList.repaint();
+                }
+            });
+
+            gameList.addMouseListener(this);
 
 
-        JScrollPane jScrollPane = new JScrollPane(gameList);
+            JScrollPane jScrollPane = new JScrollPane(gameList);
 
-        jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        jScrollPane.setBorder(BorderFactory.createEmptyBorder());
-        jScrollPane.setBackground(Color.WHITE);
+            jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+            jScrollPane.setBorder(BorderFactory.createEmptyBorder());
+            jScrollPane.setBackground(Color.WHITE);
 
 
-        jScrollPane.setPreferredSize(new Dimension(245,460));
-        jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            jScrollPane.setPreferredSize(new Dimension(245,460));
+            jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        add(jScrollPane,BorderLayout.WEST);
+            add(jScrollPane,BorderLayout.WEST);
+        }
 
     }
 
@@ -278,7 +295,7 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
         CompoundBorder compoundBorder = new CompoundBorder(matteBorder,emptyBorder);
         gameEntryPanel.setBorder(compoundBorder);
 
-        JTextField gameNameField = new JTextField(15);
+        gameNameField = new JTextField(15);
         gameEntryPanel.add(gameNameLabel);
         gameEntryPanel.add(gameNameField);
 
@@ -370,6 +387,8 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
      */
     @Override
     public void mouseClicked(MouseEvent e) {
+
+
         Object src = e.getSource();
         if(src == btnNewGame){
             loadGameConfigurationScreen();
@@ -383,7 +402,6 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                System.out.println(selectedFile.getName());
             }
         }
         else if(src == btnDevStart){
@@ -391,6 +409,13 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
         }
         else if(src == gameList){
             // Load game files here
+            try {
+                GameCell selectedGame = gameList.getSelectedValue();
+                parseGameFile(selectedGame.getFileLocation());
+            }catch (Exception e1){
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this,"That file could not be loaded");
+            }
         }
         else if(src == backBtn){
             getContentPane().removeAll();
@@ -404,6 +429,68 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
         }
     }
 
+
+    /**
+     *  Loads Game and Parse From File
+     */
+    public void parseGameFile(String path){
+
+        try{
+            // Read in entire file as a string
+            InputStream inputStream = new FileInputStream(path);
+            Scanner s = new Scanner(inputStream).useDelimiter("\\A");
+            String result = s.hasNext() ? s.next() : "";
+
+            // Parse  General Game information
+            JsonObject game = new JsonParser().parse(result).getAsJsonObject();
+            String gameName = game.get("gameName").getAsString();
+            long timeElapsed = game.get("timeElapsed").getAsLong();
+            int playerTurn = game.get("playerTurn").getAsInt();
+            JsonArray rawPlayer = game.get("players").getAsJsonArray();
+
+            // Parse Players
+            Player[] players = new Player[rawPlayer.size()];
+
+            for(int i = 0; i < rawPlayer.size(); i++){
+                JsonObject p = rawPlayer.get(i).getAsJsonObject();
+                players[i] = new Player();
+                players[i].setName(p.get("name").getAsString());
+                players[i].setPosition(p.get("currentPosition").getAsInt());
+                players[i].setCash(p.get("cash").getAsInt());
+                players[i].setColor(Color.decode(p.get("color").getAsString()));
+
+                // Parse Players Properties
+                JsonArray props = p.get("properties").getAsJsonArray();
+                Property[] properties = new Property[props.size()];
+                for (int z = 0; z < properties.length; z++){
+                    JsonObject pr = props.get(z).getAsJsonObject();
+                    properties[z] = new Property();
+                    //isForSale
+                    properties[z].setOwner(players[i]);
+                    properties[z].setName(pr.get(Property.JSON_NAME).getAsString());
+                    properties[z].setHouseCount(pr.get(Property.JSON_HOUSE_COUNT).getAsInt());
+                    properties[z].setImprovementCost(pr.get(Property.JSON_IMPROVEMENT_COST).getAsInt());
+                    properties[z].setRent(new Gson().fromJson(pr.get(Property.JSON_RENT),int[].class));
+                    properties[z].setForSale(pr.get(Property.JSON_IS_FOR_SALE).getAsBoolean());
+                    properties[z].setMortgage(pr.get(Property.JSON_MORTGAGE).getAsInt());
+                    properties[z].setImproved(pr.get(Property.JSON_IS_IMPROVED).getAsBoolean());
+                    properties[z].setMonopoly(pr.get(Property.JSON_IS_MONOPOLY).getAsBoolean());
+                    properties[z].setPurchaseCost(pr.get(Property.JSON_PURCHASE_COST).getAsInt());
+                    properties[z].setTileGroup(pr.get(Property.JSON_TILE_GROUP).getAsString());
+                    properties[z].setTilePosition(pr.get(Property.JSON_TILE_POSITION).getAsInt());
+                    properties[z].setTileColor(Color.decode(pr.get(Property.JSON_TILE_COLOR).getAsString()));
+                }
+                players[i].setProperties(properties);
+
+            }
+            // Notify Game Created
+            gameCreatedListener.onGameLoaded(gameName, timeElapsed, playerTurn, players);
+            this.dispose();
+        }catch (IOException e1){
+            e1.printStackTrace();
+        }
+
+    }
 
     /**
      * Checks validity of form
@@ -452,7 +539,7 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
             players[i] = new Player("Player "+i, DEV_PLAYER_COLORS[i]);
         }
 
-        gameCreatedListener.onGameCreated(players);
+        gameCreatedListener.onGameCreated("DEV GAME",players);
         this.dispose();
     }
 
@@ -469,7 +556,8 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
             players[i] = new Player(name, playerColor);
         }
 
-        gameCreatedListener.onGameCreated(players);
+
+        gameCreatedListener.onGameCreated(gameNameField.getText(), players);
         this.dispose();
     }
 
@@ -686,6 +774,7 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
          */
         @Override
         public void mouseClicked(MouseEvent e) {
+
             if(circle.contains(e.getPoint()) || circleOutline.contains(e.getPoint())){
                 int n = random.nextInt(colors.length);
                 if(n == colorIndex && n == colors.length-1){
@@ -788,9 +877,13 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
      */
     class GameCell extends JPanel{
         private final EmptyBorder TITLE_MARGIN = new EmptyBorder(10,10,10,10);
+        private String gameName;
+        private String fileLocation;
         GameCell(String gameName, String fileLocation){
             setOpaque(true);
             setBackground(Color.WHITE);
+            this.gameName = gameName;
+            this.fileLocation = fileLocation;
 
             setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
@@ -806,9 +899,15 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
 
             add(label1);
             add(fLocation);
-
         }
 
+        private String getGameName(){
+            return gameName;
+        }
+
+        private String getFileLocation(){
+            return fileLocation;
+        }
 
     }
 

@@ -7,8 +7,11 @@ import com.google.gson.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.prefs.Preferences;
 
 
 public class Board extends JPanel implements PlayerListener{
@@ -41,11 +44,20 @@ public class Board extends JPanel implements PlayerListener{
 
     private Player[] players;
 
+    private long lastStartTime;
+
+    private Preferences prefs;
+
+
     /**
      * Sets up the basics of the game board, and calls initBoard to display the game board to the UI.
      * @param players list of players that are in the current game.
      */
-    public Board(Player[] players) {
+    public Board(Player[] players, boolean newGame) {
+
+        prefs = Preferences.userRoot().node(Board.class.getName());
+        prefs.put("Here","Hey");
+
 
         this.players = players;
 
@@ -63,17 +75,18 @@ public class Board extends JPanel implements PlayerListener{
 
         boardPanel.setLayout(gridBagLayout);
 
-        initBoardFromJson();
+        initBoardFromJson(newGame);
 
         add(boardPanel, BorderLayout.CENTER);
         setPreferredSize(BOARD_DIMENSIONS);
 
     }
 
+
     /**
      * Loads All tiles and information based on configuration file
      */
-    private void initBoardFromJson(){
+    private void initBoardFromJson(boolean newGame){
         ClassLoader classLoader = Board.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("config.json");
         Scanner s = new Scanner(inputStream).useDelimiter("\\A");
@@ -141,13 +154,41 @@ public class Board extends JPanel implements PlayerListener{
             setTile(i,tiles[i]);
         }
 
+        if(newGame){
+            for (Player p : players){
+                tiles[0].addPlayer(p);
+                p.addCash(((Property) tiles[1]).getPurchaseCost() * STARTING_MONEY_MULTIPLIER);
+            }
+        }
+        else {
+            for (Player p : players){
+                tiles[p.getPosition()].addPlayer(p);
+            }
+        }
 
-        for (Player p : players){
-            tiles[0].addPlayer(p);
-            p.addCash(((Property) tiles[1]).getPurchaseCost() * STARTING_MONEY_MULTIPLIER);
+
+    }
+
+    private void loadGame(String savedFilePath){
+
+        try {
+            InputStream inputStream = new FileInputStream(savedFilePath);
+            Scanner s = new Scanner(inputStream).useDelimiter("\\A");
+            String result = s.hasNext() ? s.next() : "";
+
+
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
+    public void setLastStartTime(long lastStartTime){
+        this.lastStartTime = lastStartTime;
+    }
+
+    public long getLastStartTime() {
+        return lastStartTime;
+    }
 
     /**
      * Sets or Updates any Tile on the board

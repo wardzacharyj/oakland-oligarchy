@@ -3,12 +3,22 @@ package Game;
 import Game.Board.Board;
 import Game.UI.GameCreatedListener;
 import Game.UI.RightPanel;
-//import com.apple.eawt.FullScreenUtilities;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 
 public class Driver extends JFrame implements GameCreatedListener {
+
+
+    private Preferences prefs;
+
 
     /**
      * Driver constructor
@@ -16,8 +26,60 @@ public class Driver extends JFrame implements GameCreatedListener {
      */
     Driver(){
         setLayout(new BorderLayout());
-        //Splash splash = new Splash(this);
-        GameSetup gameSetup = new GameSetup(this);
+
+
+        prefs = Preferences.userRoot();
+
+
+
+        JsonParser parser = new JsonParser();
+        String rawJson = prefs.get("filenames", null);
+
+
+        if(rawJson != null){
+            JsonObject g = parser.parse(rawJson).getAsJsonObject();
+            JsonArray games = g.getAsJsonArray("games");
+            new GameSetup(this, games);
+        }
+        else {
+            JsonObject emptyGameObject = new JsonObject();
+            JsonArray games = new JsonArray();
+            emptyGameObject.add("games", games);
+            prefs.put("filenames", emptyGameObject.toString());
+            new GameSetup(this, null);
+        }
+
+
+
+
+    }
+
+
+    @Override
+    public void onGameLoaded(String gameTitle, long timeElapsed, int playerTurn, Player[] players) {
+        Board board = new Board(players, false);
+        board.setLastStartTime(timeElapsed);
+
+        RightPanel rightPanel = new RightPanel(players, board, playerTurn);
+
+        GameToolbar gameToolbar = new GameToolbar(players,
+                rightPanel.getTurnPanel(),
+                rightPanel.getClockPanel(),
+                gameTitle, prefs);
+
+        add(board,BorderLayout.CENTER);
+        add(rightPanel,BorderLayout.EAST);
+        add(gameToolbar,BorderLayout.NORTH);
+
+        setPreferredSize(new Dimension(1920,1080));
+
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
+
+        JOptionPane.showMessageDialog(null, players[playerTurn].getName() + ", it is your turn to move.");
+
     }
 
     /**
@@ -25,19 +87,24 @@ public class Driver extends JFrame implements GameCreatedListener {
      * @param players array of players that are in the current game.
      */
     @Override
-    public void onGameCreated(Player[] players) {
+    public void onGameCreated(String gameTitle,Player[] players) {
 
-        Board board = new Board(players);
+        Board board = new Board(players, true);
         RightPanel rightPanel = new RightPanel(players, board);
 
-        add(new GameToolbar(),BorderLayout.NORTH);
+        GameToolbar gameToolbar = new GameToolbar(players,
+                rightPanel.getTurnPanel(),
+                rightPanel.getClockPanel(),
+                gameTitle, prefs);
+
         add(board,BorderLayout.CENTER);
         add(rightPanel,BorderLayout.EAST);
+        add(gameToolbar,BorderLayout.NORTH);
+
         setPreferredSize(new Dimension(1920,1080));
-        // For OSX
-        //FullScreenUtilities.setWindowCanFullScreen(this,true);
+
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
         JOptionPane.showMessageDialog(null, players[0].getName() + ", it is your turn to move.");
