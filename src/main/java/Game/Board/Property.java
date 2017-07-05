@@ -283,8 +283,12 @@ public class Property extends Tile {
                         if (result == JOptionPane.OK_OPTION) {
                             try{
                                 String amountStr = new String(amount.getPassword());
-                                if(amountStr.length() > 0){
+                                if(amountStr.length() > 0 && Integer.parseInt(amountStr) >= 0){
                                     map.put(i, Integer.parseInt(amountStr));
+                                }
+                                else {
+                                    JOptionPane.showMessageDialog(null, player[i].getName() + ", you can't enter negative values moving to next player...");
+
                                 }
                             }
                             catch (Exception ex){

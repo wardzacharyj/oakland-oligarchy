@@ -43,6 +43,9 @@ public class ActionTile extends Tile {
     @Override
     public void notifyPlayerLanded(Player p) {
         // Called when tiles player count is increased
+
+        System.out.println();
+
         if(getName().equals("Go to Jail")) {
             JOptionPane.showMessageDialog(new JPanel(), "Oh no, you have to go to jail!");
             p.setPosition(JAIL_TILE);

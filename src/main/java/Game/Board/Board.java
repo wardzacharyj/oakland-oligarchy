@@ -70,9 +70,10 @@ public class Board extends JPanel implements PlayerListener {
 
         boardPanel.setLayout(gridBagLayout);
 
-        this.initBoardFromJson(newGame);
+
         communityChestDeck = new CommunityChestDeck();
         chanceDeck = new ChanceDeck();
+        this.initBoardFromJson(newGame);
 
 
 
