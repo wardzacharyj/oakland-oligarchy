@@ -24,7 +24,7 @@ public class UITest extends TestCase {
 
         Player[] players = new Player[1];
         players[0] = new Player("Test", Color.BLACK, 1200, 0);
-        Board board = new Board(players);
+        Board board = new Board(players, true);
         RightPanel rightPanel = new RightPanel(players, board);
         TurnPanel p = new TurnPanel(rightPanel, players, board);
         p.rollDice();
@@ -59,12 +59,12 @@ public class UITest extends TestCase {
     public void testPropertyRent(){
         Player[] players = new Player[2];
 
-        Player p1 = new Player("Owner", Color.BLACK, 1200, 0);
-        Player p2 = new Player("Rente", Color.BLACK, 1200, 0);
+        Player p1 = new Player("Owner", Color.BLACK, 0, 0);
+        Player p2 = new Player("Rente", Color.BLACK, 0, 0);
         players[0] = p1;
         players[1] = p2;
 
-        Board board = new Board(players);
+        Board board = new Board(players, true);
         RightPanel rightPanel = new RightPanel(players, board);
         TurnPanel p = new TurnPanel(rightPanel, players, board);
 
@@ -87,10 +87,10 @@ public class UITest extends TestCase {
         Player[] players = new Player[1];
 
         int orginalCash = 1200;
-        Player p1 = new Player("Owner", Color.BLACK, orginalCash, 0);
+        Player p1 = new Player("Owner", Color.BLACK, 0, 0);
         players[0] = p1;
 
-        Board board = new Board(players);
+        Board board = new Board(players, true);
         RightPanel rightPanel = new RightPanel(players, board);
         TurnPanel p = new TurnPanel(rightPanel, players, board);
 
