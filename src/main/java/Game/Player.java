@@ -266,7 +266,7 @@ public class Player {
      */
     private void updateNode(Property property) {
         DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) this.playerNode.getFirstChild();
-        propertyNode.add(new DefaultMutableTreeNode(property.getName()));
+        propertyNode.add(new DefaultMutableTreeNode(property));
 
     }
 

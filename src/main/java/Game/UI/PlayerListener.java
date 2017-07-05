@@ -10,7 +10,6 @@ public interface PlayerListener {
     void onRentPayed(Player owner, Player rente);
 
     void onTrade();
-
     void onPurchase(Player p);
     void onLose();
 }

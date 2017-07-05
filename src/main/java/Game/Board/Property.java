@@ -1,10 +1,9 @@
 package Game.Board;
 
 import Game.Player;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -259,25 +258,42 @@ public class Property extends Tile {
     }
 
     /**
-     * Returns a string representation of the property.
-     * @return A string that contains all properties of the Property.
+     * TEMP IMPLEMENTATION OF TOSTRING. This exists because JTree uses toString representation of object
+     * to display it in the JTree. Will replace with commented version at future date when a treecellrender is written
+     * @return Property name
      */
     @Override
     public String toString() {
-        return "Property{" +
-                "name='" + name + '\'' +
-                ", owner=" + owner +
-                ", houseCount=" + houseCount +
-                ", improvementCost=" + improvementCost +
-                ", rent=" + Arrays.toString(rent) +
-                ", mortgage=" + mortgage +
-                ", isImproved=" + isImproved +
-                ", isMonopoly=" + isMonopoly +
-                ", purchaseCost=" + purchaseCost +
-                ", tileGroup='" + tileGroup + '\'' +
-                ", tilePosition=" + tilePosition +
-                ", tileColor=" + tileColor +
-                '}';
+        return this.getName();
     }
+
+    public String propertyInfoToString() {
+
+        return this.getName() + "<br />" + this.getTileColor().toString() + "<br />" + this.getPurchaseCost() + "<br />" +
+                this.getRent();
+
+    }
+
+//    /**
+//     * Returns a string representation of the property.
+//     * @return A string that contains all properties of the Property.
+//     */
+//    @Override
+//    public String toString() {
+//        return "Property{" +
+//                "name='" + name + '\'' +
+//                ", owner=" + owner +
+//                ", houseCount=" + houseCount +
+//                ", improvementCost=" + improvementCost +
+//                ", rent=" + Arrays.toString(rent) +
+//                ", mortgage=" + mortgage +
+//                ", isImproved=" + isImproved +
+//                ", isMonopoly=" + isMonopoly +
+//                ", purchaseCost=" + purchaseCost +
+//                ", tileGroup='" + tileGroup + '\'' +
+//                ", tilePosition=" + tilePosition +
+//                ", tileColor=" + tileColor +
+//                '}';
+//    }
 
 }
