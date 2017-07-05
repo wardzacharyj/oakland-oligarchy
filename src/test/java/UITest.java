@@ -70,7 +70,7 @@ public class UITest extends TestCase {
 
         Property property = new Property("Property", null,0,
                 0, new int[]{300}, 150, false,
-                false, 350,"#123456",1);
+                false, 350,"#123456",1, players);
 
         players[0].buyProperty(property);
         players[1].payRent(players[0],property.getRent());
@@ -96,7 +96,7 @@ public class UITest extends TestCase {
 
         Property property = new Property("Property", null,0,
                 0, new int[]{300}, 150, false,
-                false, 350,"#123456",1);
+                false, 350,"#123456",1, players);
 
         players[0].buyProperty(property);
 

@@ -28,12 +28,31 @@ public abstract class Tile {
     private ArrayList<Player> activePlayers;
 
 
-    protected Tile(){
+    /**
+     * Default constructor of Tile.
+     */
+    protected Tile() {
 
     }
 
     /**
-     *      notify if player lands on tile
+     *
+     * Constructor for Tile.
+     *
+     * @param name     The tile name.
+     * @param position The position of the tile on the board
+     */
+    protected Tile(String name, int position) {
+        this.name = name;
+        this.position = position;
+        this.tilePanel = new TilePanel(this, ORIENTATION_DEFAULT);
+        this.activePlayers = new ArrayList<>();
+    }
+
+    /**
+     * notify if player lands on
+     *
+     * @param p The player that has landed on the tile.
      */
     public abstract void notifyPlayerLanded(Player p);
 
@@ -41,76 +60,82 @@ public abstract class Tile {
     public abstract JsonObject toJSONObject();
 
     /**
-     *      adds player to tile location
+     *
+     * Add a player to the tile.
+     *
+     * @param p The player that now resides on the tile.
      */
-    public void addPlayer(Player p){
+    public void addPlayer(Player p) {
         activePlayers.add(p);
     }
 
-
     /**
-     *      removes player from tile
+     *
+     * removes player from tile
+     *
+     * @param p The player that no longer resides on the tile.
      */
-    public void removePlayer(Player p){
-        activePlayers.remove(p);
+    public void removePlayer(Player p) {
+        this.activePlayers.remove(p);
     }
 
 
     /**
-     *      tile constructor
+     * Get the active players on the tile.
+     *
+     * @return An ArrayList containing all active players currently residing on the tile.
      */
-    protected Tile(String name, int position) {
-        this.name = name;
-        this.position = position;
-        tilePanel = new TilePanel(this,ORIENTATION_DEFAULT);
-        activePlayers = new ArrayList<Player>();
+    protected ArrayList<Player> getActivePlayers() {
+        return this.activePlayers;
     }
 
 
     /**
-     *      gets players currently on tile
+     * Get the name of the tile.
+     *
+     * @return A string containing the name of the tile.
      */
-    protected ArrayList<Player> getActivePlayers(){
-        return activePlayers;
+    public String getName() {
+        return this.name;
     }
 
 
     /**
-     *      gets name of tile
+     * Get the position of the tile on the board.
+     *
+     * @return An integer defining where the tile resides on the board.
      */
-    public String getName(){
-        return name;
+    public int getBoardPosition() {
+        return this.position;
     }
 
 
     /**
-     *      gets position on tile
+     * Get the panel that the tile resides on.
+     *
+     * @return The JPanel the tile has been added to.
      */
-    public int getBoardPosition(){
-        return position;
+    public JPanel getTilePanel() {
+        return this.tilePanel;
     }
 
 
     /**
-     *      gets tile panel
+     * Get the Tile Panel this tile resides on.
+     *
+     * @param orientation The desired orientation of the tile panel.
+     * @return A tile panel that contains this tile.
      */
-    public JPanel getTilePanel(){
-        return tilePanel;
+    public TilePanel getTilePanel(int orientation) {
+        this.tilePanel.setOrientation(orientation);
+        return this.tilePanel;
     }
 
 
     /**
-     *      gets tile panel according to orientation
-     * @param orientation
-     */
-    public TilePanel getTilePanel(int orientation){
-        tilePanel.setOrientation(orientation);
-        return tilePanel;
-    }
-
-
-    /**
-     *      stringify tile info
+     * A string representation of the tile.
+     *
+     * @return A string containing associated properties of the tile.
      */
     @Override
     public String toString() {

@@ -7,7 +7,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.prefs.BackingStoreException;
@@ -21,8 +20,7 @@ public class Driver extends JFrame implements GameCreatedListener {
 
 
     /**
-     * Driver constructor
-     * Creates splash screen
+     * Constructor for the driver.
      */
     Driver(){
         setLayout(new BorderLayout());
@@ -84,6 +82,7 @@ public class Driver extends JFrame implements GameCreatedListener {
 
     /**
      * Initializes UI based off players entered on Start Screen
+     *
      * @param players array of players that are in the current game.
      */
     @Override

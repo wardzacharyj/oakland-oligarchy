@@ -2,13 +2,13 @@
 
 
 ## Sprint 2 Assignments
-Stephen - Property Acquisition, Viewing other player's properties
+Stephen - Trading/Selling, View Property Information
 
-Zach - Property Information, Rent
+Zach - Save State, Clock
 
-Sam - Movement, Starting Money
+Sam - Auction
 
-Rich - Turns, Turn Notifications
+Rich - Action tiles, Win condition
 
 
 ## For User Stories: ("As a User I want.. so that..") 

@@ -5,7 +5,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -20,7 +19,6 @@ public class RailRoad extends Tile {
     public static final String JSON_TILE_POSITION = "tilePosition";
 
 
-
     private Player owner;
     private int purchaseCost;
     private int mortgage;
@@ -30,8 +28,19 @@ public class RailRoad extends Tile {
     private String tileGroup;
 
 
+    /**
+     * Railroad Constructor.
+     *
+     * @param name         Name of the railroad.
+     * @param owner        Owner of the railroad.
+     * @param purchaseCost Cost to purchase the railroad.
+     * @param mortgage     Mortgage value.
+     * @param rent         Rent cost.
+     * @param isMonopoly   If the property is a monopoly or not.
+     * @param tilePosition Position of the railroad on the board.
+     */
     public RailRoad(String name, Player owner, int purchaseCost, int mortgage, int[] rent, boolean isMonopoly, int tilePosition) {
-        super(name,tilePosition);
+        super(name, tilePosition);
         this.owner = owner;
         this.purchaseCost = purchaseCost;
         this.mortgage = mortgage;
@@ -42,7 +51,9 @@ public class RailRoad extends Tile {
 
 
     /**
-     *Notify player they have landed on property
+     * Notification that a player has landed on the railroad.
+     *
+     * @param p Player that has landed on the railroad.
      */
     @Override
     public void notifyPlayerLanded(Player p) {
@@ -50,72 +61,83 @@ public class RailRoad extends Tile {
     }
 
     /**
-     *gets owner of property
+     * Get owner of railroad.
+     *
+     * @return The owner of the railroad.
      */
     public Player getOwner() {
-        return owner;
+        return this.owner;
     }
 
     /**
-     *sets owner of property
-     * @param owner
+     * sets owner of property
+     *
+     * @param owner The new owner of the railroad.
      */
     public void setOwner(Player owner) {
         this.owner = owner;
     }
 
     /**
-     *gets property cost
+     * Get the purchase cost of the railroad.
+     *
+     * @return The cost to purchase the railroad.
      */
     public int getPurchaseCost() {
-        return purchaseCost;
+        return this.purchaseCost;
     }
 
     /**
-     *sets purchase price
-     * @param purchaseCost
+     * sets purchase price
+     *
+     * @param purchaseCost The new purchase cost of the railroad.
      */
     public void setPurchaseCost(int purchaseCost) {
         this.purchaseCost = purchaseCost;
     }
 
     /**
-     *gets mortgage value
+     * gets mortgage value
+     *
+     * @return The mortgage value of the property.
      */
     public int getMortgage() {
-        return mortgage;
+        return this.mortgage;
     }
 
     /**
-     *sets mortgage value
-     * @param mortgage
+     * sets mortgage value
+     *
+     * @param mortgage The new mortgage value of the property.
      */
     public void setMortgage(int mortgage) {
         this.mortgage = mortgage;
     }
 
     /**
-     *gets rent value
+     * gets rent value
      *
+     * @return The rent cost of the property.
      */
     public int getRent() {
-        return rent[0];
+        return this.rent[0];
     }
 
     /**
-     *sets rent value
-     * @param rent
+     * sets rent value
+     *
+     * @param rent The new rent cost of the property.
      */
     public void setRent(int[] rent) {
         this.rent = rent;
     }
 
     /**
-     *gets tile position on tile
+     * gets tile position on tile
      */
     @Override
-    public int getBoardPosition(){
-        return tilePosition;
+    public int getBoardPosition() {
+        return this.tilePosition;
     }
 
 
@@ -142,16 +164,18 @@ public class RailRoad extends Tile {
     }
 
     /**
-     *stringify property info
+     * A string representation of the railroad.
+     *
+     * @return A string containing properties of the railroad.
      */
     @Override
     public String toString() {
         return "RailRoad{" +
-                "owner=" + owner +
-                ", purchaseCost=" + purchaseCost +
-                ", mortgage=" + mortgage +
-                ", rent=" + Arrays.toString(rent) +
-                ", tilePosition=" + tilePosition +
+                "owner=" + this.owner +
+                ", purchaseCost=" + this.purchaseCost +
+                ", mortgage=" + this.mortgage +
+                ", rent=" + Arrays.toString(this.rent) +
+                ", tilePosition=" + this.tilePosition +
                 '}';
     }
 }
