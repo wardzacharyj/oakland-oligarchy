@@ -15,7 +15,6 @@ public class Deck {
      */
     Deck(int num) {
         cards = new Card[num];
-        shuffle();
     }
 
     /**

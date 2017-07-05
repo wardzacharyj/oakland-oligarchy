@@ -12,7 +12,7 @@ public class ActionTile extends Tile {
     public static final String JSON_TILE_POSITIONS = "tilePositions";
     private Deck deck = null;
     private Tile[] tiles = null;
-    private int JAIL_TILE = 8;
+    private int JAIL_TILE = 9;
 
 
     /**
@@ -37,10 +37,10 @@ public class ActionTile extends Tile {
      */
     @Override
     public void notifyPlayerLanded(Player p) {
-        JOptionPane.showMessageDialog(new JPanel(), getName());
         // Called when tiles player count is increased
-        if(getName().equals("Go To Jail")) {
+        if(getName().equals("Go to Jail")) {
             JOptionPane.showMessageDialog(new JPanel(), "Oh no, you have to go to jail!");
+            p.setPosition(JAIL_TILE);
             removePlayer(p);
             tiles[JAIL_TILE].addPlayer(p);
             getTilePanel().repaint();
@@ -49,6 +49,7 @@ public class ActionTile extends Tile {
         else if(getName().equals("Community Chest")) {
             if(!deck.isEmpty()) {
                 Card c = deck.drawCard();
+                c.cardEffectAndNotification(p, tiles);
             }
             else {
                 JOptionPane.showMessageDialog(new JPanel(), "There are no more cards left in the Community Chest deck.");
@@ -57,6 +58,7 @@ public class ActionTile extends Tile {
         else if(getName().equals("Chance")) {
             if(!deck.isEmpty()) {
                 Card c = deck.drawCard();
+                c.cardEffectAndNotification(p, tiles);
             }
             else {
                 JOptionPane.showMessageDialog(new JPanel(), "There are no more cards left in the Chance deck.");
@@ -65,6 +67,7 @@ public class ActionTile extends Tile {
         else if(getName().equals("Pitt Start")) {
             JOptionPane.showMessageDialog(new JPanel(), "You made $200 for landing on Pitt Start.");
             p.addCash(200);
+            //not sure how to update this player's cash on screen.
         }
     }
 
