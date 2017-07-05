@@ -283,12 +283,14 @@ public class Property extends Tile {
                         if (result == JOptionPane.OK_OPTION) {
                             try{
                                 String amountStr = new String(amount.getPassword());
-                                if(amountStr.length() > 0 && Integer.parseInt(amountStr) >= 0){
-                                    map.put(i, Integer.parseInt(amountStr));
-                                }
-                                else {
-                                    JOptionPane.showMessageDialog(null, player[i].getName() + ", you can't enter negative values moving to next player...");
+                                if(amountStr.length() > 0 ) {
+                                     if(Integer.parseInt(amountStr) > 0) {
+                                         map.put(i, Integer.parseInt(amountStr));
+                                     }
+                                     else {
+                                         JOptionPane.showMessageDialog(null, player[i].getName() + ", You cannot enter a 0 or negative value.  Your auction will be voided. ");
 
+                                     }
                                 }
                             }
                             catch (Exception ex){
