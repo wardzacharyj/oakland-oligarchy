@@ -106,7 +106,12 @@ public class TurnPanel extends JPanel implements ActionListener {
             mainButton.setText("Roll");
             mode = ROLL_MODE;
             if(winCondition()) {
-
+                for (int i = 0; i < players.length; i++) {
+                    if(!players[i].hasLost()) {
+                        JOptionPane.showMessageDialog(new JPanel(), players[i].getName() + " has won the game!");
+                        System.exit(0);
+                    }
+                }
             }
             currentPlayer = (currentPlayer + 1) % players.length;
             notifyPlayer();

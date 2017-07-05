@@ -26,6 +26,8 @@ public class Board extends JPanel implements PlayerListener {
     private int CORNER_BOTTOM_RIGHT = SIZE / 4;
     private int CORNER_BOTTOM_LEFT = 2 * (SIZE / 4);
     private int CORNER_TOP_LEFT = 3 * (SIZE / 4);
+    private Deck communityChestDeck = null;
+    private Deck chanceDeck = null;
 
 
     private Tile[] tiles;
@@ -58,6 +60,9 @@ public class Board extends JPanel implements PlayerListener {
         gridBagConstraints.weighty = TILE_WEIGHT;
 
         boardPanel.setLayout(gridBagLayout);
+
+        communityChestDeck = new CommunityChestDeck();
+        chanceDeck = new ChanceDeck();
 
         this.initBoardFromJson();
 
@@ -121,7 +126,14 @@ public class Board extends JPanel implements PlayerListener {
             JsonObject obj = a.getAsJsonObject();
             int[] pos = g.fromJson(obj.get(ActionTile.JSON_TILE_POSITIONS), int[].class);
             for (Integer i : pos) {
-                tiles[i] = new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(), i);
+                if(obj.get(ActionTile.JSON_NAME).getAsString().equals("Chance")) {
+                    tiles[i] = new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(), i, chanceDeck, tiles);
+                }
+                else if(obj.get(ActionTile.JSON_NAME).getAsString().equals("Community Chest")) {
+                    tiles[i] = new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(), i, communityChestDeck, tiles);
+                }
+                else
+                    tiles[i] = new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(), i, tiles);
             }
 
         }
@@ -131,7 +143,7 @@ public class Board extends JPanel implements PlayerListener {
             JsonObject obj = c.getAsJsonObject();
             tiles[obj.get(ActionTile.JSON_TILE_POSITION).getAsInt()] =
                     new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(),
-                            obj.get(ActionTile.JSON_TILE_POSITION).getAsInt());
+                            obj.get(ActionTile.JSON_TILE_POSITION).getAsInt(), tiles);
         }
 
         for (int i = 0; i < SIZE; i++) {
