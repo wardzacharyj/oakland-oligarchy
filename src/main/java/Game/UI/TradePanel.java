@@ -71,6 +71,7 @@ public class TradePanel extends JPanel {
             }
             money = new JComboBox<>(moneyList.toArray());
         } else {
+            this.selectedPlayer = property.getOwner();
             this.label.setText("Please select your offer for the property:");
             if (!currentPlayer.getProperties().isEmpty()) {
                 properties = new JComboBox<>(currentPlayer.getProperties().toArray());
