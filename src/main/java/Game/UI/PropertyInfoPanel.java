@@ -50,12 +50,13 @@ public class PropertyInfoPanel extends JPanel {
             sellButton.addActionListener(e -> {
                 int result = JOptionPane.showConfirmDialog(null,
                         ("<html><div style='text-align: center;'> "
-                        + "Do you want to sell" + property.getName() + "to the bank for $"
+                        + "Do you want to sell " + property.getName() + " to the bank for $"
                         + (property.getPurchaseCost() / 2) + "?</div></html>"));
 
                 if (result == JOptionPane.YES_OPTION) {
                     currentPlayer.addCash(property.getPurchaseCost() / 2);
                     currentPlayer.removeProperty(property);
+                    property.setForSale(true);
                 }
             });
         } else {
