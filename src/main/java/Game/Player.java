@@ -24,6 +24,7 @@ public class Player {
     private Color color;
     private PlayerListener listener;
     private DefaultMutableTreeNode playerNode;
+    private boolean isTurn;
 
     public Player(){
         this.properties = new ArrayList<>();
@@ -55,6 +56,7 @@ public class Player {
         this.cash = cash;
         this.currentPosition = currentPosition;
         this.previousPosition = currentPosition;
+        this.isTurn = false;
     }
 
     /**
@@ -237,6 +239,25 @@ public class Player {
     }
 
     /**
+     * Removes a property from the list of properties the Player owns.
+     * @param property  Property to remove.
+     */
+    public void removeProperty(Property property) {
+        properties.remove(property);
+        DefaultMutableTreeNode propertyFolder = (DefaultMutableTreeNode) this.playerNode.getFirstChild();
+        DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) propertyFolder.getFirstChild();
+
+        while (propertyNode != null) {
+            if (propertyNode.getUserObject().equals(property)) {
+                propertyFolder.remove(propertyNode);
+                break;
+            }
+            propertyNode =  propertyNode.getNextSibling();
+        }
+        this.listener.onTrade(this);
+    }
+
+    /**
      * Pays rent to specific player
      *
      * @param receivingPlayer the player
@@ -295,8 +316,9 @@ public class Player {
      * @param property The property to be added to the player's properties list.
      */
     private void updateNode(Property property) {
+
         DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) this.playerNode.getFirstChild();
-        propertyNode.add(new DefaultMutableTreeNode(property.getName()));
+        propertyNode.add(new DefaultMutableTreeNode(property));
 
     }
 
@@ -359,4 +381,23 @@ public class Player {
         return player;
 
     }
+
+    /**
+     * Returns whether or not it is currently the player's turn
+     *
+     * @return True if it is the player's turn, false otherwise.
+     */
+    public boolean isTurn() {
+        return isTurn;
+    }
+
+    /**
+     * Sets isTurn to the passed in boolean value.
+     *
+     * @param turnVal True if it is the player's turn. False if it is not the player's turn.
+     */
+    public void setTurn(boolean turnVal) {
+        isTurn = turnVal;
+    }
+
 }

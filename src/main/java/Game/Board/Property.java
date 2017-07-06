@@ -7,7 +7,6 @@ import com.google.gson.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -360,14 +359,14 @@ public class Property extends Tile {
     }
 
     /**
-     * Returns a string representation of the property.
-     * @return A string that contains all properties of the Property.
+     * TEMP IMPLEMENTATION OF TOSTRING. This exists because JTree uses toString representation of object
+     * to display it in the JTree. Will replace with commented version at future date when a treecellrender is written
+     * @return Property name
      */
     @Override
-    public String toString(){
-        return name;
+    public String toString() {
+        return this.getName();
     }
-
 
     public String debugToString() {
         return "Property{" +
@@ -385,5 +384,52 @@ public class Property extends Tile {
                 ", tileColor=" + tileColor +
                 '}';
     }
+
+    public String propertyInfoToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getName() + "<br />");
+        if (this.isForSale) {
+            sb.append("FOR SALE<br />");
+        } else {
+            sb.append("Owned by: " + this.getOwner().getName() + "<br />");
+        }
+
+        sb.append("Purchase Cost: " + this.getPurchaseCost() + "<br />"
+                + "Improvement Cost: " + this.getImprovementCost() + "<br />"
+                + "Rent: " + this.getRent() + "<br />");
+
+        return sb.toString();
+    }
+
+    /**
+     * Gets and returns the cost to improve the property.
+     *
+     * @return The dollar value of the improvement in an int
+     */
+    public int getImprovementCost() {
+        return improvementCost;
+    }
+
+//    /**
+//     * Returns a string representation of the property.
+//     * @return A string that contains all properties of the Property.
+//     */
+//    @Override
+//    public String toString() {
+//        return "Property{" +
+//                "name='" + name + '\'' +
+//                ", owner=" + owner +
+//                ", houseCount=" + houseCount +
+//                ", improvementCost=" + improvementCost +
+//                ", rent=" + Arrays.toString(rent) +
+//                ", mortgage=" + mortgage +
+//                ", isImproved=" + isImproved +
+//                ", isMonopoly=" + isMonopoly +
+//                ", purchaseCost=" + purchaseCost +
+//                ", tileGroup='" + tileGroup + '\'' +
+//                ", tilePosition=" + tilePosition +
+//                ", tileColor=" + tileColor +
+//                '}';
+//    }
 
 }

@@ -7,7 +7,11 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 
 public class Leaderboard extends JPanel implements PlayerListener {
@@ -15,6 +19,8 @@ public class Leaderboard extends JPanel implements PlayerListener {
     private Player[] players;
     private DefaultMutableTreeNode root;
     private JTree tree;
+    private JPanel content = new JPanel();
+    private PropertyInfoPanel pip;
 
 
     /**
@@ -63,8 +69,18 @@ public class Leaderboard extends JPanel implements PlayerListener {
         tree.setCellRenderer(new LeaderBoardRenderer());
         tree.setRootVisible(false);
 
-
-        JPanel content = new JPanel();
+        MouseListener ml = new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                int selRow = tree.getRowForLocation(e.getX(), e.getY());
+                TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+                if (selRow != -1) {
+                    if (e.getClickCount() == 2) {
+                        showProperty(selRow, selPath);
+                    }
+                }
+            }
+        };
+        tree.addMouseListener(ml);
         content.setLayout(new BorderLayout());
         content.add(tree,BorderLayout.CENTER);
 
@@ -131,18 +147,35 @@ public class Leaderboard extends JPanel implements PlayerListener {
                 return null;
             }
         }
-
-
     }
 
+    public void showProperty(int row, TreePath path) {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+        Object tempNodeInfo = node.getUserObject();
 
+        if (tempNodeInfo instanceof Property) {
+            Property property = (Property) node.getUserObject();
+            if (pip != null) {
+                pip.setProperty(property);
+            } else {
+                pip = new PropertyInfoPanel(property, this.players);
+            }
+            content.add(pip, BorderLayout.SOUTH);
+
+            content.revalidate();
+        }
+
+    }
     public void onPlayerMove(Player p) {
 
     }
 
     @Override
-    public void onTrade() {
+    public void onTrade(Player p) {
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) p.getNode().getFirstChild();
 
+        model.reload(propertyNode);
     }
 
     /**
