@@ -1,9 +1,12 @@
 package Game.Board;
 
 import Game.Player;
+import Game.UI.PlayerListener;
+import com.google.gson.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +23,8 @@ public class Property extends Tile {
     public final static String JSON_PURCHASE_COST = "purchaseCost";
     public final static String JSON_TILE_GROUP = "tileGroup";
     public final static String JSON_TILE_POSITION = "tilePosition";
+    public final static String JSON_TILE_COLOR = "tileColor";
+    public final static String JSON_IS_FOR_SALE = "isForSale";
 
 
     private String name;
@@ -38,6 +43,13 @@ public class Property extends Tile {
 
 
     private Color tileColor;
+
+    /**
+     *  Constructor
+     */
+    public Property(){
+
+    }
 
     /**
      * Constructor.
@@ -71,6 +83,62 @@ public class Property extends Tile {
         this.tilePosition = tilePosition;
         this.isForSale = true;
         this.player = players;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
+    public void setHouseCount(int houseCount) {
+        this.houseCount = houseCount;
+    }
+
+    public void setImprovementCost(int improvementCost) {
+        this.improvementCost = improvementCost;
+    }
+
+    public void setRent(int[] rent) {
+        this.rent = rent;
+    }
+
+    public void setMortgage(int mortgage) {
+        this.mortgage = mortgage;
+    }
+
+    public void setImproved(boolean improved) {
+        isImproved = improved;
+    }
+
+    public void setMonopoly(boolean monopoly) {
+        isMonopoly = monopoly;
+    }
+
+    public boolean isForSale(){
+        return isForSale;
+    }
+
+    public void setPurchaseCost(int purchaseCost) {
+        this.purchaseCost = purchaseCost;
+    }
+
+    public void setTileGroup(String tileGroup) {
+        this.tileGroup = tileGroup;
+    }
+
+    public void setTilePosition(int tilePosition) {
+        this.tilePosition = tilePosition;
+    }
+
+    public void setForSale(boolean forSale) {
+        isForSale = forSale;
+    }
+
+    public void setTileColor(Color tileColor) {
+        this.tileColor = tileColor;
     }
 
     /**
@@ -214,8 +282,14 @@ public class Property extends Tile {
                         if (result == JOptionPane.OK_OPTION) {
                             try{
                                 String amountStr = new String(amount.getPassword());
-                                if(amountStr.length() > 0){
-                                    map.put(i, Integer.parseInt(amountStr));
+                                if(amountStr.length() > 0 ) {
+                                     if(Integer.parseInt(amountStr) > 0) {
+                                         map.put(i, Integer.parseInt(amountStr));
+                                     }
+                                     else {
+                                         JOptionPane.showMessageDialog(null, player[i].getName() + ", You cannot enter a 0 or negative value.  Your auction will be voided. ");
+
+                                     }
                                 }
                             }
                             catch (Exception ex){
@@ -257,6 +331,33 @@ public class Property extends Tile {
         }
     }
 
+    @Override
+    public JsonObject toJSONObject(){
+
+        JsonArray rents = new JsonArray();
+        for (Integer element : rent) {
+            rents.add(new JsonPrimitive(element));
+        }
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("name", name);
+        jsonObject.addProperty("houseCount", houseCount);
+        jsonObject.addProperty("improvementCost", improvementCost);
+        jsonObject.add("rent", rents);
+        jsonObject.addProperty("mortgage", mortgage);
+        jsonObject.addProperty("isImproved", isImproved);
+        jsonObject.addProperty("isMonopoly", isMonopoly);
+        jsonObject.addProperty("isForSale", isForSale);
+        jsonObject.addProperty("purchaseCost", purchaseCost);
+        jsonObject.addProperty("tileGroup", tileGroup);
+        jsonObject.addProperty("tilePosition", tilePosition);
+        jsonObject.addProperty("tileColor", String.format("#%06x", tileColor.getRGB() & 0x00FFFFFF));
+
+
+        return jsonObject;
+
+    }
+
     /**
      * TEMP IMPLEMENTATION OF TOSTRING. This exists because JTree uses toString representation of object
      * to display it in the JTree. Will replace with commented version at future date when a treecellrender is written
@@ -265,6 +366,23 @@ public class Property extends Tile {
     @Override
     public String toString() {
         return this.getName();
+    }
+
+    public String debugToString() {
+        return "Property{" +
+                "name='" + name + '\'' +
+                ", owner=" + owner +
+                ", houseCount=" + houseCount +
+                ", improvementCost=" + improvementCost +
+                ", rent=" + Arrays.toString(rent) +
+                ", mortgage=" + mortgage +
+                ", isImproved=" + isImproved +
+                ", isMonopoly=" + isMonopoly +
+                ", purchaseCost=" + purchaseCost +
+                ", tileGroup='" + tileGroup + '\'' +
+                ", tilePosition=" + tilePosition +
+                ", tileColor=" + tileColor +
+                '}';
     }
 
     public String propertyInfoToString() {

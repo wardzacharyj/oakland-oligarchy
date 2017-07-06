@@ -3,25 +3,43 @@ package Game;
 import Game.Board.Board;
 import Game.Board.Property;
 import Game.UI.PlayerListener;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player {
 
-    public static final int SHAPE_CIRCLE = 0;
-    public static final int SHAPE_SQUARE = 1;
-    private PlayerListener listener;
+
     private String name;
     private int currentPosition;
     private int previousPosition;
     private int cash;
     private ArrayList<Property> properties;
-    private int shape;
     private Color color;
+    private PlayerListener listener;
     private DefaultMutableTreeNode playerNode;
     private boolean isTurn;
+
+    public Player(){
+        this.properties = new ArrayList<>();
+    }
+
+    /**
+     * Player constructor
+     * @param name
+     * @param color
+     */
+    public Player(String name, Color color) {
+        this.name = name;
+        this.properties = new ArrayList<>();
+        this.color = color;
+    }
 
     /**
      * Player constructor
@@ -34,7 +52,6 @@ public class Player {
     public Player(String name, Color color, int cash, int currentPosition) {
         this.name = name;
         this.properties = new ArrayList<>();
-        this.shape = (int) (Math.random() * 1);
         this.color = color;
         this.cash = cash;
         this.currentPosition = currentPosition;
@@ -50,6 +67,8 @@ public class Player {
     public void addListener(PlayerListener listener) {
         this.listener = listener;
     }
+
+
 
     /**
      * Get the player's color.
@@ -69,6 +88,8 @@ public class Player {
         this.color = color;
     }
 
+
+
     /**
      * Updates player objects positions
      *
@@ -84,6 +105,7 @@ public class Player {
             this.setPosition(loopedPosition);
         }
     }
+
 
     /**
      * Get the player's current position on the board.
@@ -113,14 +135,6 @@ public class Player {
         return this.previousPosition;
     }
 
-    /**
-     * Get the shape of the player on the board.
-     *
-     * @return An integer defining which shape the player should be.
-     */
-    public int getShape() {
-        return this.shape;
-    }
 
     /**
      * Get the player's name.
@@ -131,6 +145,7 @@ public class Player {
         return this.name;
     }
 
+
     /**
      * Sets name of player object
      *
@@ -140,7 +155,15 @@ public class Player {
         this.name = name;
     }
 
+
+
+
+    public void setProperties(Property[] props){
+        this.properties = new ArrayList<>(Arrays.asList(props));
+    }
+
     /**
+     * returns stringified version of player name and cash
      * Get the string representation of the player's name and cash.
      *
      * @return A string containing the player's name and how much money he currently has.
@@ -149,6 +172,7 @@ public class Player {
     public String toString() {
         return this.name + " | Cash: $" + this.cash;
     }
+
 
     /**
      * Check to see if the player has met the conditions for losing the game (No, not that one).
@@ -159,6 +183,7 @@ public class Player {
         return this.properties.isEmpty() && this.cash <= 0;
     }
 
+
     /**
      * Checks to see if the player has enough cash.
      *
@@ -168,6 +193,7 @@ public class Player {
     public boolean hasEnoughCash(int amount) {
         return this.cash >= amount;
     }
+
 
     /**
      * player purchases property
@@ -223,6 +249,10 @@ public class Player {
         subtractCash(rent);
         receivingPlayer.addCash(rent);
         listener.onRentPayed(receivingPlayer, this);
+    }
+
+    public void setCash(int amount){
+        cash = amount;
     }
 
     /**
@@ -311,6 +341,25 @@ public class Player {
      */
     public ArrayList<Property> getProperties() {
         return this.properties;
+    }
+
+
+    public JsonObject toJSONObject(){
+        JsonObject player = new JsonObject();
+        player.addProperty("name", name);
+        player.addProperty("currentPosition", currentPosition);
+        player.addProperty("cash", cash);
+        player.addProperty("color", String.format("#%06x", color.getRGB() & 0x00FFFFFF));
+
+        JsonArray prop = new JsonArray();
+
+        for (Property property : properties) {
+            prop.add(property.toJSONObject());
+        }
+
+        player.add("properties", prop);
+        return player;
+
     }
 
     /**

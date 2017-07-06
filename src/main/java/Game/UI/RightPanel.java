@@ -4,7 +4,9 @@ import Game.Board.Board;
 import Game.Player;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.Arrays;
 
 
 public class RightPanel extends JPanel implements PlayerListener {
@@ -13,41 +15,67 @@ public class RightPanel extends JPanel implements PlayerListener {
     private Player[] gamePlayers;
     private TurnPanel turnPanel;
     private Board board;
+    private ClockPanel clockPanel;
 
-    /*
-        For online Games
-        Add Chat Panel
-     */
+
     /**
-     * right panel contructor for online version
+     *
+     * @param gamePlayers
+     * @param gameBoard
      */
-    public RightPanel(Player localPlayer, Player[] otherPlayers){
-        this.localPlayer = localPlayer;
+    public RightPanel(Player[] gamePlayers, Board gameBoard, int turn){
         this.gamePlayers = gamePlayers;
-
+        this.board = gameBoard;
         setLayout(new BorderLayout());
-        //NOTE GAME PLAYERS ONLY EXPECTED TO BE OTHER PLAYERS
+        setBorder(new EmptyBorder(10,10,10,10));
 
+        clockPanel = new ClockPanel(board.getLastStartTime());
+        add(clockPanel,BorderLayout.NORTH);
+
+        Leaderboard leaderboard = new Leaderboard(gamePlayers);
+
+        add(leaderboard, BorderLayout.CENTER);
+
+        for (Player p : gamePlayers) {
+            p.addListener(leaderboard);
+        }
+
+        turnPanel = new TurnPanel(this, gamePlayers, gameBoard);
+        turnPanel.setCurrentPlayer(turn);
+        add(turnPanel, BorderLayout.SOUTH);
     }
 
-    /*
-        For local Games
-        No Chat Panel
-     */
     /**
-     * right panel constructor for local version
+     *
+     * @param gamePlayers
+     * @param gameBoard
      */
     public RightPanel(Player[] gamePlayers, Board gameBoard){
         this.gamePlayers = gamePlayers;
         this.board = gameBoard;
         setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(10,10,10,10));
+
+        clockPanel = new ClockPanel(board.getLastStartTime());
+        add(clockPanel,BorderLayout.NORTH);
+
         Leaderboard leaderboard = new Leaderboard(gamePlayers);
         add(leaderboard, BorderLayout.CENTER);
-        for (int i = 0; i < gamePlayers.length; i++) {
-            gamePlayers[i].addListener(leaderboard);
+
+        for (Player p : gamePlayers) {
+            p.addListener(leaderboard);
         }
+
         turnPanel = new TurnPanel(this, gamePlayers, gameBoard);
         add(turnPanel, BorderLayout.SOUTH);
+    }
+
+    public ClockPanel getClockPanel(){
+        return clockPanel;
+    }
+
+    public TurnPanel getTurnPanel(){
+        return turnPanel;
     }
 
 
