@@ -50,24 +50,18 @@ public class PropertyInfoPanel extends JPanel {
         tradeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel playerSelectPanel = new JPanel();
-                JLabel selectLabel = new JLabel("Please select the player you would like to trade with:");
-                DefaultComboBoxModel<Player> playerSelection = new DefaultComboBoxModel<>();
-                for (Player p : players) {
-                    if (!p.equals(currentPlayer)) {
-                        playerSelection.addElement(p);
+                TradePanel tradePanel = new TradePanel(currentPlayer, players, property);
+                int playerResult = tradePanel.selectPlayer();
+                if (playerResult == JOptionPane.CANCEL_OPTION) {
+                    JOptionPane.showMessageDialog(null, "CANCELED");
+                } else {
+                    if (propertyOwner.equals(currentPlayer)) {
+
+                    } else {
+
                     }
                 }
-                JComboBox<Player> playerSelectionBox = new JComboBox<>(playerSelection);
-                playerSelectPanel.add(selectLabel);
-                playerSelectPanel.add(playerSelectionBox);
-                int iResult = JOptionPane.showConfirmDialog(null, playerSelectPanel,
-                        "Trade", JOptionPane.OK_CANCEL_OPTION);
-                if (propertyOwner.equals(currentPlayer)) {
 
-                } else {
-
-                }
             }
         });
 
@@ -88,10 +82,18 @@ public class PropertyInfoPanel extends JPanel {
         this.remove(this.tradeButton);
     }
 
+    /**
+     * Adds label to the panel.
+     * TODO: Fix placement
+     */
     public void addLabel() {
         this.add(this.infoLabel, BorderLayout.NORTH);
     }
 
+    /**
+     * Adds button to the panel.
+     * TODO: Fix placement
+     */
     public void addButton() {
         this.add(this.tradeButton, BorderLayout.SOUTH);
     }
