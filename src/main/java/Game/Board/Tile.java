@@ -1,10 +1,12 @@
 package Game.Board;
 
 import Game.Player;
+import com.google.gson.JsonObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+
 
 public abstract class Tile {
 
@@ -34,6 +36,7 @@ public abstract class Tile {
     }
 
     /**
+     *
      * Constructor for Tile.
      *
      * @param name     The tile name.
@@ -53,17 +56,21 @@ public abstract class Tile {
      */
     public abstract void notifyPlayerLanded(Player p);
 
+
+    public abstract JsonObject toJSONObject();
+
     /**
+     *
      * Add a player to the tile.
      *
      * @param p The player that now resides on the tile.
      */
-    // Check i
     public void addPlayer(Player p) {
-        this.activePlayers.add(p);
+        activePlayers.add(p);
     }
 
     /**
+     *
      * removes player from tile
      *
      * @param p The player that no longer resides on the tile.
@@ -71,6 +78,7 @@ public abstract class Tile {
     public void removePlayer(Player p) {
         this.activePlayers.remove(p);
     }
+
 
     /**
      * Get the active players on the tile.
@@ -81,6 +89,7 @@ public abstract class Tile {
         return this.activePlayers;
     }
 
+
     /**
      * Get the name of the tile.
      *
@@ -89,6 +98,7 @@ public abstract class Tile {
     public String getName() {
         return this.name;
     }
+
 
     /**
      * Get the position of the tile on the board.
@@ -99,6 +109,7 @@ public abstract class Tile {
         return this.position;
     }
 
+
     /**
      * Get the panel that the tile resides on.
      *
@@ -107,6 +118,7 @@ public abstract class Tile {
     public JPanel getTilePanel() {
         return this.tilePanel;
     }
+
 
     /**
      * Get the Tile Panel this tile resides on.
@@ -118,6 +130,7 @@ public abstract class Tile {
         this.tilePanel.setOrientation(orientation);
         return this.tilePanel;
     }
+
 
     /**
      * A string representation of the tile.

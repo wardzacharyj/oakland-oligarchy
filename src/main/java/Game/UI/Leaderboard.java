@@ -30,16 +30,27 @@ public class Leaderboard extends JPanel implements PlayerListener {
         for(Player p : players){
             DefaultMutableTreeNode playerFolder = new DefaultMutableTreeNode(p);
             root.add(playerFolder);
+
             p.setNode(playerFolder);
 
             DefaultMutableTreeNode propertyFolder = new DefaultMutableTreeNode("Properties");
             DefaultMutableTreeNode sellingFolder = new DefaultMutableTreeNode("Selling");
 
             playerFolder.add(propertyFolder);
+            for(Property property : p.getProperties()){
+                DefaultMutableTreeNode propertyNode = new DefaultMutableTreeNode(property);
+                propertyFolder.add(propertyNode);
+            }
+
             playerFolder.add(sellingFolder);
+            for(Property property : p.getProperties()){
+                if (property.isForSale()) {
+                    DefaultMutableTreeNode propertyNode = new DefaultMutableTreeNode(property);
+                    sellingFolder.add(propertyNode);
+                }
+            }
 
         }
-
 
 
         //create the tree by passing in the root node

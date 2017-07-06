@@ -2,7 +2,7 @@ package Game.Board;
 
 
 import Game.Player;
-
+import com.google.gson.JsonObject;
 import javax.swing.*;
 
 public class ActionTile extends Tile {
@@ -31,6 +31,11 @@ public class ActionTile extends Tile {
         this.tiles = tiles;
     }
 
+    @Override
+    public JsonObject toJSONObject() {
+        return null;
+    }
+
     /**
      * Notification that a player has landed on this tile.
      * @param p The player that has landed on the tile.
@@ -38,6 +43,9 @@ public class ActionTile extends Tile {
     @Override
     public void notifyPlayerLanded(Player p) {
         // Called when tiles player count is increased
+
+        System.out.println();
+
         if(getName().equals("Go to Jail")) {
             JOptionPane.showMessageDialog(new JPanel(), "Oh no, you have to go to jail!");
             p.setPosition(JAIL_TILE);
