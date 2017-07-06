@@ -28,15 +28,19 @@ public class PropertyInfoPanel extends JPanel {
     public void setProperty(Property property) {
         this.property = property;
         this.propertyOwner = property.getOwner();
+        this.removeLabel();
+        this.removeButton();
         this.setInfoLabel();
     }
 
-
+    /**
+     * Sets up the JLabel and JButton to display the property information
+     * TODO: Add white text outline to JLabel text.
+     */
     private void setInfoLabel() {
         this.infoLabel.setText("<html><div style='text-align: center;  text-shadow: 2px 2px 0px #FFFFFF;'>"
                 + property.propertyInfoToString() + "</div></html>");
         this.setColor();
-        this.addLabel();
 
         if (propertyOwner.equals(currentPlayer)) {
             tradeButton = new JButton("TRADE PROPERTY");
@@ -66,7 +70,9 @@ public class PropertyInfoPanel extends JPanel {
                 }
             }
         });
-        this.add(tradeButton, BorderLayout.SOUTH);
+
+        this.addLabel();
+        this.addButton();
     }
 
     private void setColor() {
@@ -78,8 +84,16 @@ public class PropertyInfoPanel extends JPanel {
         this.remove(this.infoLabel);
     }
 
+    public void removeButton() {
+        this.remove(this.tradeButton);
+    }
+
     public void addLabel() {
-        this.add(this.infoLabel);
+        this.add(this.infoLabel, BorderLayout.NORTH);
+    }
+
+    public void addButton() {
+        this.add(this.tradeButton, BorderLayout.SOUTH);
     }
 
     private Player getCurrentPlayer() {

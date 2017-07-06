@@ -20,6 +20,7 @@ public class Leaderboard extends JPanel implements PlayerListener {
     private DefaultMutableTreeNode root;
     private JTree tree;
     private JPanel content = new JPanel();
+    private PropertyInfoPanel pip;
 
 
     /**
@@ -154,7 +155,11 @@ public class Leaderboard extends JPanel implements PlayerListener {
 
         if (tempNodeInfo instanceof Property) {
             Property property = (Property) node.getUserObject();
-            PropertyInfoPanel pip = new PropertyInfoPanel(property, this.players);
+            if (pip != null) {
+                pip.setProperty(property);
+            } else {
+                pip = new PropertyInfoPanel(property, this.players);
+            }
             content.add(pip, BorderLayout.SOUTH);
 
             content.revalidate();
