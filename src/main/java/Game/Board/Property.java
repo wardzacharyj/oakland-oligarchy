@@ -268,10 +268,28 @@ public class Property extends Tile {
     }
 
     public String propertyInfoToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getName() + "<br />");
+        if (this.isForSale) {
+            sb.append("FOR SALE<br />");
+        } else {
+            sb.append("Owned by: " + this.getOwner().getName() + "<br />");
+        }
 
-        return this.getName() + "<br />" + this.getTileColor().toString() + "<br />" + this.getPurchaseCost() + "<br />" +
-                this.getRent();
+        sb.append("Purchase Cost: " + this.getPurchaseCost() + "<br />"
+                + "Improvement Cost: " + this.getImprovementCost() + "<br />"
+                + "Rent: " + this.getRent() + "<br />");
 
+        return sb.toString();
+    }
+
+    /**
+     * Gets and returns the cost to improve the property.
+     *
+     * @return The dollar value of the improvement in an int
+     */
+    public int getImprovementCost() {
+        return improvementCost;
     }
 
 //    /**

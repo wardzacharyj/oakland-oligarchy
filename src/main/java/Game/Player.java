@@ -21,6 +21,7 @@ public class Player {
     private int shape;
     private Color color;
     private DefaultMutableTreeNode playerNode;
+    private boolean isTurn;
 
     /**
      * Player constructor
@@ -38,6 +39,7 @@ public class Player {
         this.cash = cash;
         this.currentPosition = currentPosition;
         this.previousPosition = currentPosition;
+        this.isTurn = false;
     }
 
     /**
@@ -309,5 +311,23 @@ public class Player {
      */
     public ArrayList<Property> getProperties() {
         return this.properties;
+    }
+
+    /**
+     * Returns whether or not it is currently the player's turn
+     *
+     * @return True if it is the player's turn, false otherwise.
+     */
+    public boolean isTurn() {
+        return isTurn;
+    }
+
+    /**
+     * Sets isTurn to the passed in boolean value.
+     *
+     * @param turnVal True if it is the player's turn. False if it is not the player's turn.
+     */
+    public void setTurn(boolean turnVal) {
+        isTurn = turnVal;
     }
 }

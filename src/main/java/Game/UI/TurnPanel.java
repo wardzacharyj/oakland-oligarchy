@@ -141,7 +141,16 @@ public class TurnPanel extends JPanel implements ActionListener {
         while(players[currentPlayer].hasLost()) {
             currentPlayer = (currentPlayer + 1) % players.length;
         }
-        JOptionPane.showMessageDialog(null, players[currentPlayer].getName() + ", it is your turn to move.");
+
+        for (Player p : players) {
+            if (players[currentPlayer].equals(p)) {
+                p.setTurn(true);
+            } else {
+                p.setTurn(false);
+            }
+        }
+        JOptionPane.showMessageDialog(null, players[currentPlayer].getName()
+                + ", it is your turn to move.");
     }
 
 

@@ -142,10 +142,11 @@ public class Leaderboard extends JPanel implements PlayerListener {
         Object tempNodeInfo = node.getUserObject();
 
         if (tempNodeInfo instanceof Property) {
-            Property p = (Property) node.getUserObject();
-            JLabel propertyInfo = new JLabel();
-            propertyInfo.setText("<html><div style='text-align: center;'>" + p.propertyInfoToString() + "</div></html>");
-            content.add(propertyInfo, BorderLayout.SOUTH);
+            Property property = (Property) node.getUserObject();
+            PropertyInfoPanel pip = new PropertyInfoPanel(property, this.players);
+            content.add(pip, BorderLayout.SOUTH);
+
+            content.revalidate();
         }
 
     }
