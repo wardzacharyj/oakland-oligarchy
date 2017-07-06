@@ -4,6 +4,9 @@ import Game.Board.Property;
 import Game.Player;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PropertyInfoPanel extends JPanel {
     private JLabel infoLabel = new JLabel();
@@ -11,6 +14,7 @@ public class PropertyInfoPanel extends JPanel {
     private Player[] players;
     private Player currentPlayer;
     private Player propertyOwner;
+    private JButton tradeButton;
 
     PropertyInfoPanel(Property property, Player[] players) {
         super();
@@ -33,6 +37,36 @@ public class PropertyInfoPanel extends JPanel {
                 + property.propertyInfoToString() + "</div></html>");
         this.setColor();
         this.addLabel();
+
+        if (propertyOwner.equals(currentPlayer)) {
+            tradeButton = new JButton("TRADE PROPERTY");
+        } else {
+            tradeButton = new JButton("TRADE FOR PROPERTY");
+        }
+        tradeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel playerSelectPanel = new JPanel();
+                JLabel selectLabel = new JLabel("Please select the player you would like to trade with:");
+                DefaultComboBoxModel<Player> playerSelection = new DefaultComboBoxModel<>();
+                for (Player p : players) {
+                    if (!p.equals(currentPlayer)) {
+                        playerSelection.addElement(p);
+                    }
+                }
+                JComboBox<Player> playerSelectionBox = new JComboBox<>(playerSelection);
+                playerSelectPanel.add(selectLabel);
+                playerSelectPanel.add(playerSelectionBox);
+                int iResult = JOptionPane.showConfirmDialog(null, playerSelectPanel,
+                        "Trade", JOptionPane.OK_CANCEL_OPTION);
+                if (propertyOwner.equals(currentPlayer)) {
+
+                } else {
+
+                }
+            }
+        });
+        this.add(tradeButton, BorderLayout.SOUTH);
     }
 
     private void setColor() {

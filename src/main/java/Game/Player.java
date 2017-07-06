@@ -330,4 +330,5 @@ public class Player {
     public void setTurn(boolean turnVal) {
         isTurn = turnVal;
     }
+
 }
