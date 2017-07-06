@@ -41,6 +41,7 @@ public class PropertyInfoPanel extends JPanel {
         this.infoLabel.setText("<html><div style='text-align: center;  text-shadow: 2px 2px 0px #FFFFFF;'>"
                 + property.propertyInfoToString() + "</div></html>");
         this.setColor();
+        currentPlayer = getCurrentPlayer();
 
         if (propertyOwner.equals(currentPlayer)) {
             tradeButton = new JButton("TRADE PROPERTY");
@@ -51,17 +52,17 @@ public class PropertyInfoPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TradePanel tradePanel = new TradePanel(currentPlayer, players, property);
-                int playerResult = tradePanel.selectPlayer();
-                if (playerResult == JOptionPane.CANCEL_OPTION) {
-                    JOptionPane.showMessageDialog(null, "CANCELED");
-                } else {
-                    if (propertyOwner.equals(currentPlayer)) {
-
-                    } else {
-
-                    }
+                int result = 0;
+                if (propertyOwner.equals(currentPlayer)) {
+                    result = tradePanel.selectPlayer();
+                }
+                if (result != JOptionPane.CANCEL_OPTION) {
+                    result = tradePanel.selectOffer();
                 }
 
+                if (result != JOptionPane.CANCEL_OPTION) {
+                    tradePanel.showRequest();
+                }
             }
         });
 

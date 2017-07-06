@@ -239,6 +239,25 @@ public class Player {
     }
 
     /**
+     * Removes a property from the list of properties the Player owns.
+     * @param property  Property to remove.
+     */
+    public void removeProperty(Property property) {
+        properties.remove(property);
+        DefaultMutableTreeNode propertyFolder = (DefaultMutableTreeNode) this.playerNode.getFirstChild();
+        DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) propertyFolder.getFirstChild();
+
+        while (propertyNode != null) {
+            if (propertyNode.getUserObject().equals(property)) {
+                propertyFolder.remove(propertyNode);
+                break;
+            }
+            propertyNode =  propertyNode.getNextSibling();
+        }
+        this.listener.onTrade(this);
+    }
+
+    /**
      * Pays rent to specific player
      *
      * @param receivingPlayer the player
@@ -297,6 +316,7 @@ public class Player {
      * @param property The property to be added to the player's properties list.
      */
     private void updateNode(Property property) {
+
         DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) this.playerNode.getFirstChild();
         propertyNode.add(new DefaultMutableTreeNode(property));
 

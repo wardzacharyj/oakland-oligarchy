@@ -171,8 +171,11 @@ public class Leaderboard extends JPanel implements PlayerListener {
     }
 
     @Override
-    public void onTrade() {
+    public void onTrade(Player p) {
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) p.getNode().getFirstChild();
 
+        model.reload(propertyNode);
     }
 
     /**

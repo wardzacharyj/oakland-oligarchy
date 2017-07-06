@@ -95,7 +95,7 @@ public class RightPanel extends JPanel implements PlayerListener {
     }
 
     @Override
-    public void onTrade() {
+    public void onTrade(Player p) {
 
     }
 

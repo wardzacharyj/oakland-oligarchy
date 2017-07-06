@@ -9,7 +9,7 @@ public interface PlayerListener {
     void onPlayerMove(Player p);
     void onRentPayed(Player owner, Player rente);
 
-    void onTrade();
+    void onTrade(Player p);
     void onPurchase(Player p);
     void onLose();
 }
