@@ -17,7 +17,7 @@ public class PropertyInfoPanel extends JPanel {
     private JButton tradeButton;
 
     PropertyInfoPanel(Property property, Player[] players) {
-        super();
+        super(new BorderLayout());
         this.property = property;
         this.players = players;
         this.currentPlayer = this.getCurrentPlayer();
@@ -28,8 +28,7 @@ public class PropertyInfoPanel extends JPanel {
     public void setProperty(Property property) {
         this.property = property;
         this.propertyOwner = property.getOwner();
-        this.removeLabel();
-        this.removeButton();
+        this.removeAllComponents();
         this.setInfoLabel();
     }
 
@@ -40,34 +39,48 @@ public class PropertyInfoPanel extends JPanel {
     private void setInfoLabel() {
         this.infoLabel.setText("<html><div style='text-align: center;  text-shadow: 2px 2px 0px #FFFFFF;'>"
                 + property.propertyInfoToString() + "</div></html>");
+        infoLabel.setHorizontalAlignment(JLabel.CENTER);
         this.setColor();
         currentPlayer = getCurrentPlayer();
+        JButton sellButton = null;
 
         if (propertyOwner.equals(currentPlayer)) {
             tradeButton = new JButton("TRADE PROPERTY");
+            sellButton = new JButton("SELL TO BANK");
+            sellButton.addActionListener(e -> {
+                int result = JOptionPane.showConfirmDialog(null,
+                        ("<html><div style='text-align: center;'> "
+                        + "Do you want to sell" + property.getName() + "to the bank for $"
+                        + (property.getPurchaseCost() / 2) + "?</div></html>"));
+
+                if (result == JOptionPane.YES_OPTION) {
+                    currentPlayer.addCash(property.getPurchaseCost() / 2);
+                    currentPlayer.removeProperty(property);
+                }
+            });
         } else {
             tradeButton = new JButton("TRADE FOR PROPERTY");
         }
-        tradeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                TradePanel tradePanel = new TradePanel(currentPlayer, players, property);
-                int result = 0;
-                if (propertyOwner.equals(currentPlayer)) {
-                    result = tradePanel.selectPlayer();
-                }
-                if (result != JOptionPane.CANCEL_OPTION) {
-                    result = tradePanel.selectOffer();
-                }
+        tradeButton.addActionListener(e -> {
+            TradePanel tradePanel = new TradePanel(currentPlayer, players, property);
+            int result = 0;
+            if (propertyOwner.equals(currentPlayer)) {
+                result = tradePanel.selectPlayer();
+            }
+            if (result != JOptionPane.CANCEL_OPTION) {
+                result = tradePanel.selectOffer();
+            }
 
-                if (result != JOptionPane.CANCEL_OPTION) {
-                    tradePanel.showRequest();
-                }
+            if (result != JOptionPane.CANCEL_OPTION) {
+                tradePanel.showRequest();
             }
         });
 
         this.addLabel();
-        this.addButton();
+        if (sellButton != null) {
+            this.addSellButton(sellButton);
+        }
+        this.addTradeButton(tradeButton);
     }
 
     private void setColor() {
@@ -83,6 +96,10 @@ public class PropertyInfoPanel extends JPanel {
         this.remove(this.tradeButton);
     }
 
+    public void removeAllComponents() {
+        this.removeAll();
+    }
+
     /**
      * Adds label to the panel.
      * TODO: Fix placement
@@ -95,8 +112,16 @@ public class PropertyInfoPanel extends JPanel {
      * Adds button to the panel.
      * TODO: Fix placement
      */
-    public void addButton() {
-        this.add(this.tradeButton, BorderLayout.SOUTH);
+    public void addSellButton(JButton button) {
+        this.add(button, BorderLayout.CENTER);
+    }
+
+    /**
+     * Adds button to the panel.
+     * TODO: Fix placement
+     */
+    public void addTradeButton(JButton button) {
+        this.add(button, BorderLayout.SOUTH);
     }
 
     private Player getCurrentPlayer() {
@@ -105,7 +130,7 @@ public class PropertyInfoPanel extends JPanel {
                 return p;
             }
         }
-        return null;
+        return players[0];
     }
 
 }
