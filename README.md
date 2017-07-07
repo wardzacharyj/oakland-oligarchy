@@ -1,14 +1,14 @@
 # oakland-oligarchy
 
 
-## Sprint 2 Assignments
-Stephen - Trading/Selling, View Property Information
+## Sprint 4 Assignments
+Stephen - Cleaning up trading/selling
 
-Zach - Save State, Clock
+Zach - Loading
 
-Sam - Auction
+Sam - Cleaning up action tiles, leaderboard update
 
-Rich - Action tiles, Win condition
+Rich - Railroads, writeup
 
 
 ## For User Stories: ("As a User I want.. so that..") 
