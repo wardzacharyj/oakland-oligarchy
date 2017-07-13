@@ -46,9 +46,10 @@ public class Property extends Tile {
 
     /**
      *  Constructor
+     *  @param name  property name
      */
-    public Property(){
-
+    public Property(String name){
+        super(name);
     }
 
     /**

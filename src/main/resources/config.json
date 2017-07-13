@@ -286,45 +286,60 @@
       "purchaseCost": 400,
       "tileGroup": "#3F51B5",
       "tilePosition": 35
-    }
-  ],
-  "rail_roads": [
+    },
     {
       "name": "Key Bank",
       "owner": null,
-      "cost": 200,
+      "purchaseCost": 200,
       "mortgage": 100,
       "rent": [25,50,100,200],
       "isMonopoly": false,
-      "tilePosition": 4
+      "tilePosition": 4,
+      "houseCount": 0,
+      "improvementCost": 0,
+      "isImproved": false,
+      "tileGroup": "#ffffff"
+
     },
     {
       "name": "Citizens Bank",
       "owner": null,
-      "cost": 200,
+      "purchaseCost": 200,
       "mortgage": 100,
       "rent": [25,50,100,200],
       "isMonopoly": false,
-      "tilePosition": 14
+      "tilePosition": 14,
+      "houseCount": 0,
+      "improvementCost": 0,
+      "isImproved": false,
+      "tileGroup": "#ffffff"
 
     },
     {
       "name": "Dollar Bank",
       "owner": null,
-      "cost": 200,
+      "purchaseCost": 200,
       "mortgage": 100,
       "rent": [25,50,100,200],
       "isMonopoly": false,
-      "tilePosition": 23
+      "tilePosition": 23,
+      "houseCount": 0,
+      "improvementCost": 0,
+      "isImproved": false,
+      "tileGroup": "#ffffff"
     },
     {
       "name": "PNC Bank",
       "owner": null,
-      "cost": 200,
+      "purchaseCost": 200,
       "mortgage": 100,
       "rent": [25,50,100,200],
       "isMonopoly": false,
-      "tilePosition": 32
+      "tilePosition": 32,
+      "houseCount": 0,
+      "improvementCost": 0,
+      "isImproved": false,
+      "tileGroup": "#ffffff"
     }
   ],
   "action_tiles": [

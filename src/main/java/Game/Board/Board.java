@@ -116,23 +116,6 @@ public class Board extends JPanel implements PlayerListener {
             tiles[obj.get(Property.JSON_TILE_POSITION).getAsInt()] = property;
         }
 
-        JsonArray railroads = parent.getAsJsonArray(JSON_RAIL_ROADS);
-        for (JsonElement r : railroads) {
-            JsonObject obj = r.getAsJsonObject();
-
-            RailRoad railRoad = new RailRoad(
-                    obj.get(RailRoad.JSON_NAME).getAsString(),
-                    g.fromJson(obj.get(RailRoad.JSON_OWNER), Player.class),
-                    obj.get(RailRoad.JSON_PURCHASE_COST).getAsInt(),
-                    obj.get(RailRoad.JSON_MORTGAGE).getAsInt(),
-                    g.fromJson(obj.get(RailRoad.JSON_RENT), int[].class),
-                    obj.get(RailRoad.JSON_IS_MONOPOLY).getAsBoolean(),
-                    obj.get(RailRoad.JSON_TILE_POSITION).getAsInt()
-            );
-
-            tiles[obj.get(RailRoad.JSON_TILE_POSITION).getAsInt()] = railRoad;
-        }
-
         JsonArray actionTiles = parent.getAsJsonArray(JSON_ACTION_TILES);
         for (JsonElement a : actionTiles) {
             JsonObject obj = a.getAsJsonObject();
