@@ -464,7 +464,7 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
                 Property[] properties = new Property[props.size()];
                 for (int z = 0; z < properties.length; z++){
                     JsonObject pr = props.get(z).getAsJsonObject();
-                    properties[z] = new Property();
+                    properties[z] = new Property(pr.get(Property.JSON_NAME).getAsString());
                     //isForSale
                     properties[z].setOwner(players[i]);
                     properties[z].setName(pr.get(Property.JSON_NAME).getAsString());
