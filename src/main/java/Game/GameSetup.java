@@ -4,10 +4,7 @@ package Game;
 import Game.Board.Board;
 import Game.Board.Property;
 import Game.UI.GameCreatedListener;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,10 +16,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -53,12 +47,14 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
 
     private JTextField gameNameField;
     private JsonArray games;
+    private Preferences prefs;
 
-    public GameSetup(GameCreatedListener listener, JsonArray games){
+    public GameSetup(GameCreatedListener listener, Preferences prefs, JsonArray games){
         super("Welcome To Oakland Oligarchy");
 
         this.gameCreatedListener = listener;
         this.games = games;
+        this.prefs = prefs;
 
         setPreferredSize(new Dimension(665, 460));
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -396,12 +392,13 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
         else if(src == btnOpenGame){
             JFileChooser fileChooser = new JFileChooser();
 
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Oligarchy Files", "oli");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Oligarchy Files", "oll");
             fileChooser.setFileFilter(filter);
             fileChooser.setAcceptAllFileFilterUsed(false);
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
+                parseGameFile(selectedFile.getAbsolutePath());
             }
         }
         else if(src == btnDevStart){
@@ -414,7 +411,9 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
                 parseGameFile(selectedGame.getFileLocation());
             }catch (Exception e1){
                 e1.printStackTrace();
-                JOptionPane.showMessageDialog(this,"That file could not be loaded");
+                JOptionPane.showMessageDialog(this,"An error occured while trying to load that " +
+                        "file");
+                System.out.println(games);
             }
         }
         else if(src == backBtn){
@@ -433,9 +432,9 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
     /**
      *  Loads Game and Parse From File
      */
-    public void parseGameFile(String path){
+    public void parseGameFile(String path) {
 
-        try{
+        try {
             // Read in entire file as a string
             InputStream inputStream = new FileInputStream(path);
             Scanner s = new Scanner(inputStream).useDelimiter("\\A");
@@ -451,7 +450,7 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
             // Parse Players
             Player[] players = new Player[rawPlayer.size()];
 
-            for(int i = 0; i < rawPlayer.size(); i++){
+            for (int i = 0; i < rawPlayer.size(); i++) {
                 JsonObject p = rawPlayer.get(i).getAsJsonObject();
                 players[i] = new Player();
                 players[i].setName(p.get("name").getAsString());
@@ -462,15 +461,15 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
                 // Parse Players Properties
                 JsonArray props = p.get("properties").getAsJsonArray();
                 Property[] properties = new Property[props.size()];
-                for (int z = 0; z < properties.length; z++){
+                for (int z = 0; z < properties.length; z++) {
                     JsonObject pr = props.get(z).getAsJsonObject();
-                    properties[z] = new Property();
+                    properties[z] = new Property(pr.get(Property.JSON_NAME).getAsString());
                     //isForSale
                     properties[z].setOwner(players[i]);
                     properties[z].setName(pr.get(Property.JSON_NAME).getAsString());
                     properties[z].setHouseCount(pr.get(Property.JSON_HOUSE_COUNT).getAsInt());
                     properties[z].setImprovementCost(pr.get(Property.JSON_IMPROVEMENT_COST).getAsInt());
-                    properties[z].setRent(new Gson().fromJson(pr.get(Property.JSON_RENT),int[].class));
+                    properties[z].setRent(new Gson().fromJson(pr.get(Property.JSON_RENT), int[].class));
                     properties[z].setForSale(pr.get(Property.JSON_IS_FOR_SALE).getAsBoolean());
                     properties[z].setMortgage(pr.get(Property.JSON_MORTGAGE).getAsInt());
                     properties[z].setImproved(pr.get(Property.JSON_IS_IMPROVED).getAsBoolean());
@@ -486,10 +485,51 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
             // Notify Game Created
             gameCreatedListener.onGameLoaded(gameName, timeElapsed, playerTurn, players);
             this.dispose();
-        }catch (IOException e1){
-            e1.printStackTrace();
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Oll File no longer exists at location \n"+path,
+                    "File Not Found",
+                    JOptionPane.ERROR_MESSAGE);
+
+            // Removed Invalid File From Recent
+            JsonArray jsonArray = new JsonArray();
+            for(int i = 0; i < games.size(); i++){
+                if(i != gameList.getSelectedIndex()){
+                    jsonArray.add(games.get(i));
+                }
+            }
+            games = jsonArray;
+            updateRecentGames();
+
+        }
+    }
+
+    /**
+     *  Updates Game list model with specified jsonarray
+     *
+     */
+    private void updateRecentGames(){
+        String f = prefs.get("filenames", null);
+        if(f == null) throw new NullPointerException();
+
+        JsonObject emptyGameObject = new JsonObject();
+        emptyGameObject.add("games", games);
+
+        prefs.put("filenames", emptyGameObject.toString());
+
+        DefaultListModel<GameCell> listModel = new DefaultListModel<GameCell>();
+
+        for(int i = 0; i < games.size(); i++){
+            JsonObject game = games.get(i).getAsJsonObject();
+
+            String gameName = "<html><b>"+game.get("gameName").getAsString()+"</b></html>";
+            String fileLocation = game.get("fileLocation").getAsString();
+            GameCell gameCell = new GameCell(gameName,fileLocation);
+            listModel.addElement(gameCell);
+
         }
 
+        gameList.setModel(listModel);
     }
 
     /**

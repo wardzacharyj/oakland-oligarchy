@@ -15,6 +15,7 @@ public class RightPanel extends JPanel implements PlayerListener {
     private Player[] gamePlayers;
     private TurnPanel turnPanel;
     private Board board;
+    private Leaderboard leaderboard;
     private ClockPanel clockPanel;
 
 
@@ -32,7 +33,7 @@ public class RightPanel extends JPanel implements PlayerListener {
         clockPanel = new ClockPanel(board.getLastStartTime());
         add(clockPanel,BorderLayout.NORTH);
 
-        Leaderboard leaderboard = new Leaderboard(gamePlayers);
+        leaderboard = new Leaderboard(gamePlayers);
 
         add(leaderboard, BorderLayout.CENTER);
 
@@ -40,7 +41,7 @@ public class RightPanel extends JPanel implements PlayerListener {
             p.addListener(leaderboard);
         }
 
-        turnPanel = new TurnPanel(this, gamePlayers, gameBoard);
+        turnPanel = new TurnPanel(this, gamePlayers, gameBoard, this);
         turnPanel.setCurrentPlayer(turn);
         add(turnPanel, BorderLayout.SOUTH);
     }
@@ -59,15 +60,19 @@ public class RightPanel extends JPanel implements PlayerListener {
         clockPanel = new ClockPanel(board.getLastStartTime());
         add(clockPanel,BorderLayout.NORTH);
 
-        Leaderboard leaderboard = new Leaderboard(gamePlayers);
+        leaderboard = new Leaderboard(gamePlayers);
         add(leaderboard, BorderLayout.CENTER);
 
         for (Player p : gamePlayers) {
             p.addListener(leaderboard);
         }
 
-        turnPanel = new TurnPanel(this, gamePlayers, gameBoard);
+        turnPanel = new TurnPanel(this, gamePlayers, gameBoard, this);
         add(turnPanel, BorderLayout.SOUTH);
+    }
+
+    public void resetOpenPanels(){
+        leaderboard.resetPanels();
     }
 
     public ClockPanel getClockPanel(){

@@ -30,9 +30,10 @@ public abstract class Tile {
 
     /**
      * Default constructor of Tile.
+     * @param name tile name
      */
-    protected Tile() {
-
+    protected Tile(String name) {
+        this.name = name;
     }
 
     /**

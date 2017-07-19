@@ -6,9 +6,9 @@ Stephen - Cleaning up trading/selling
 
 Zach - Loading
 
-Sam - Cleaning up action tiles, leaderboard update
+Sam - Railroads, writeup
 
-Rich - Railroads, writeup
+Rich - Cleaning up action tiles, leaderboard update
 
 
 ## For User Stories: ("As a User I want.. so that..") 
