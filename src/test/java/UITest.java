@@ -26,7 +26,7 @@ public class UITest extends TestCase {
         players[0] = new Player("Test", Color.BLACK, 1200, 0);
         Board board = new Board(players, true);
         RightPanel rightPanel = new RightPanel(players, board);
-        TurnPanel p = new TurnPanel(rightPanel, players, board);
+        TurnPanel p = new TurnPanel(rightPanel, players, board, rightPanel);
         p.rollDice();
         assertTrue("CHECKING DICE: ",p.getDiceSum() < 13);
 
@@ -66,7 +66,7 @@ public class UITest extends TestCase {
 
         Board board = new Board(players, true);
         RightPanel rightPanel = new RightPanel(players, board);
-        TurnPanel p = new TurnPanel(rightPanel, players, board);
+        TurnPanel p = new TurnPanel(rightPanel, players, board, rightPanel);
 
         Property property = new Property("Property", null,0,
                 0, new int[]{300}, 150, false,
@@ -92,7 +92,7 @@ public class UITest extends TestCase {
 
         Board board = new Board(players, true);
         RightPanel rightPanel = new RightPanel(players, board);
-        TurnPanel p = new TurnPanel(rightPanel, players, board);
+        TurnPanel p = new TurnPanel(rightPanel, players, board, rightPanel);
 
         Property property = new Property("Property", null,0,
                 0, new int[]{300}, 150, false,
