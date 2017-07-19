@@ -129,11 +129,13 @@ public class TradePanel extends JPanel {
 
     public void showRequest() {
         if (propertyOffer != null) {
-            this.label.setText("<html><div style='text-align: center;'> " + currentPlayer.getName() + " is offering you $"
+            this.label.setText("<html><div style='text-align: center;'> " + selectedPlayer.getName()+", "
+                    + currentPlayer.getName() + " is offering you $"
                     + moneyOffer + " and " + propertyOffer.toString()
                     + "<br /> FOR <br />" + property.getName() + "</div></html>");
         } else {
-            this.label.setText("<html><div style='text-align: center;'> " + currentPlayer.getName() + " is offering you $"
+            this.label.setText("<html><div style='text-align: center;'> " + selectedPlayer.getName()+", "
+                    + currentPlayer.getName() + " is offering you $"
                     + moneyOffer + "<br /> FOR <br />" + property.getName() + "</div></html>");
         }
 

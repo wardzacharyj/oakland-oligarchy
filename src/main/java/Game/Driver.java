@@ -28,23 +28,22 @@ public class Driver extends JFrame implements GameCreatedListener {
 
         prefs = Preferences.userRoot();
 
-
-
         JsonParser parser = new JsonParser();
         String rawJson = prefs.get("filenames", null);
+
 
 
         if(rawJson != null){
             JsonObject g = parser.parse(rawJson).getAsJsonObject();
             JsonArray games = g.getAsJsonArray("games");
-            new GameSetup(this, games);
+            new GameSetup(this, prefs, games);
         }
         else {
             JsonObject emptyGameObject = new JsonObject();
             JsonArray games = new JsonArray();
             emptyGameObject.add("games", games);
             prefs.put("filenames", emptyGameObject.toString());
-            new GameSetup(this, null);
+            new GameSetup(this, prefs, null);
         }
 
 

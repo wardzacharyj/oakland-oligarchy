@@ -1,10 +1,7 @@
 package Game;
 
-import Game.Board.Board;
 import Game.UI.ClockPanel;
-import Game.UI.Leaderboard;
 import Game.UI.TurnPanel;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -22,9 +19,7 @@ public class GameToolbar extends JMenuBar implements ActionListener {
 
     private Player[] players;
     private JMenuItem save;
-    private JMenuItem saveAs;
-    private JMenuItem load;
-
+    
     private TurnPanel turnPanel;
     private String gameName;
     private ClockPanel clockPanel;
@@ -46,16 +41,10 @@ public class GameToolbar extends JMenuBar implements ActionListener {
         fileMenu.setMnemonic(KeyEvent.VK_F);
 
         save = new JMenuItem("Save");
-        saveAs = new JMenuItem("Save As");
-        load = new JMenuItem("Load");
 
         fileMenu.add(save);
-        fileMenu.add(saveAs);
-        fileMenu.add(load);
 
         save.addActionListener(this);
-        saveAs.addActionListener(this);
-        load.addActionListener(this);
 
         add(fileMenu);
     }
@@ -135,21 +124,11 @@ public class GameToolbar extends JMenuBar implements ActionListener {
     }
 
 
-    private void saveAs(){
-
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         JMenuItem item = (JMenuItem) e.getSource();
         if(item == save){
             save();
-        }
-        else if(item == saveAs){
-            saveAs();
-        }
-        else if(item == load){
-
         }
     }
 }
