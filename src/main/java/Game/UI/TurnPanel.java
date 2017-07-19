@@ -8,9 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-/**
- * Created by Zach on 6/6/17.
- */
+
 public class TurnPanel extends JPanel implements ActionListener {
     private Dimension TURN_PANEL_DIMENSION = new Dimension(300,75);
 
@@ -19,6 +17,7 @@ public class TurnPanel extends JPanel implements ActionListener {
 
     private PlayerListener boardListeners;
     private PlayerListener panelListeners;
+    private RightPanel parent;
     private JButton mainButton;
     private DiceButton leftDie;
     private DiceButton rightDie;
@@ -32,7 +31,7 @@ public class TurnPanel extends JPanel implements ActionListener {
      * @param board
      * @param players
      */
-    public TurnPanel(PlayerListener panel, Player[] players, PlayerListener board){
+    public TurnPanel(PlayerListener panel, Player[] players, PlayerListener board, RightPanel parent){
         Dimension dimension = new Dimension(TURN_PANEL_DIMENSION);
         setLayout(new BorderLayout());
         this.mode = ROLL_MODE;
@@ -44,6 +43,7 @@ public class TurnPanel extends JPanel implements ActionListener {
         this.panelListeners = panel;
         this.boardListeners = board;
         this.players = players;
+        this.parent = parent;
 
         JPanel diceHolder = new JPanel(new FlowLayout());
         diceHolder.add(leftDie);
@@ -54,6 +54,8 @@ public class TurnPanel extends JPanel implements ActionListener {
 
         setBackground(Color.GREEN);
     }
+
+
 
     public void setTurnButtonMode(int mode) {
         if(mode > 1) {
@@ -68,6 +70,7 @@ public class TurnPanel extends JPanel implements ActionListener {
      * reset game dice
      */
     public void resetDice(){
+        parent.resetOpenPanels();
         leftDie.setState(0);
         rightDie.setState(0);
     }
@@ -263,4 +266,5 @@ public class TurnPanel extends JPanel implements ActionListener {
         }
 
     }
+
 }

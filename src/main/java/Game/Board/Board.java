@@ -7,8 +7,6 @@ import com.google.gson.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 import java.util.prefs.Preferences;

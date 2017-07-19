@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.util.ArrayList;
@@ -255,6 +256,16 @@ public class Player {
             propertyNode =  propertyNode.getNextSibling();
         }
         this.listener.onTrade(this);
+
+        if (hasLost()) loseMessage();
+
+    }
+
+    /**
+     *      Displays initial lost message to user
+     */
+    private void loseMessage(){
+        JOptionPane.showMessageDialog(null, name +", sorry you lost");
     }
 
     /**
@@ -299,6 +310,8 @@ public class Player {
      */
     public void subtractCash(int amount) {
         this.cash = this.cash - amount;
+        if(hasLost()) loseMessage();
+
     }
 
     /**

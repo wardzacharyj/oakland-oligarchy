@@ -166,6 +166,17 @@ public class Leaderboard extends JPanel implements PlayerListener {
         }
 
     }
+
+    /**
+     *      Closes Property info panel
+     */
+    protected void resetPanels(){
+        if(content != null && pip != null){
+            content.remove(pip);
+            content.revalidate();
+        }
+    }
+
     public void onPlayerMove(Player p) {
 
     }
@@ -176,10 +187,11 @@ public class Leaderboard extends JPanel implements PlayerListener {
         DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) p.getNode().getFirstChild();
 
         model.reload(propertyNode);
+        resetPanels();
     }
 
     /**
-     *update tree with updated player object
+     *  update tree with updated player object
      */
     @Override
     public void onPurchase(Player p) {
