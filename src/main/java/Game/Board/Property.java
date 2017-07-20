@@ -361,11 +361,6 @@ public class Property extends Tile {
 
     }
 
-    @Override
-    public void showInfo(Tile tile) {
-
-    }
-
     /**
      * TEMP IMPLEMENTATION OF TOSTRING. This exists because JTree uses toString representation of object
      * to display it in the JTree. Will replace with commented version at future date when a treecellrender is written
@@ -393,8 +388,7 @@ public class Property extends Tile {
                 '}';
     }
 
-    @Override
-    public String tileInfoToString() {
+    public String propertyInfoToString() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getName() + "<br />");
         if (this.isForSale) {
@@ -403,15 +397,9 @@ public class Property extends Tile {
             sb.append("Owned by: " + this.getOwner().getName() + "<br />");
         }
 
-        if (this.getImprovementCost() == 0) {
-            sb.append("Purchase Cost: " + this.getPurchaseCost() + "<br />"
-                    + "Rent: " + this.getRent() + "<br />");
-        } else {
-            sb.append("Purchase Cost: " + this.getPurchaseCost() + "<br />"
-                    + "Improvement Cost: " + this.getImprovementCost() + "<br />"
-                    + "Rent: " + this.getRent() + "<br />");
-        }
-
+        sb.append("Purchase Cost: " + this.getPurchaseCost() + "<br />"
+                + "Improvement Cost: " + this.getImprovementCost() + "<br />"
+                + "Rent: " + this.getRent() + "<br />");
 
         return sb.toString();
     }
@@ -425,34 +413,26 @@ public class Property extends Tile {
         return improvementCost;
     }
 
-    @Override
-    public void onPlayerMove(Player p) {
-
-    }
-
-    @Override
-    public void onRentPayed(Player owner, Player rente) {
-
-    }
-
-    @Override
-    public void onTileClick(Tile tile) {
-
-    }
-
-    @Override
-    public void onTrade(Player p) {
-
-    }
-
-    @Override
-    public void onPurchase(Player p) {
-
-    }
-
-    @Override
-    public void onLose() {
-
-    }
+//    /**
+//     * Returns a string representation of the property.
+//     * @return A string that contains all properties of the Property.
+//     */
+//    @Override
+//    public String toString() {
+//        return "Property{" +
+//                "name='" + name + '\'' +
+//                ", owner=" + owner +
+//                ", houseCount=" + houseCount +
+//                ", improvementCost=" + improvementCost +
+//                ", rent=" + Arrays.toString(rent) +
+//                ", mortgage=" + mortgage +
+//                ", isImproved=" + isImproved +
+//                ", isMonopoly=" + isMonopoly +
+//                ", purchaseCost=" + purchaseCost +
+//                ", tileGroup='" + tileGroup + '\'' +
+//                ", tilePosition=" + tilePosition +
+//                ", tileColor=" + tileColor +
+//                '}';
+//    }
 
 }

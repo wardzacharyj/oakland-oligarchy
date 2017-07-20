@@ -1,68 +1,69 @@
 package Game.UI;
 
 import Game.Board.Property;
-import Game.Board.RailRoad;
-import Game.Board.Tile;
 import Game.Player;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PropertyInfoPanel extends JPanel {
-
-    private PropertyPanel propertyPanel;
+    private JLabel infoLabel = new JLabel();
+    private Property property;
     private Player[] players;
     private Player currentPlayer;
     private Player propertyOwner;
     private JButton tradeButton;
 
-    PropertyInfoPanel(Tile property, Player[] players) {
-        super(new GridBagLayout());
-        this.propertyPanel = new PropertyPanel(property);
+    PropertyInfoPanel(Property property, Player[] players) {
+        super(new BorderLayout());
+        this.property = property;
         this.players = players;
         this.currentPlayer = this.getCurrentPlayer();
         this.propertyOwner = property.getOwner();
         this.setInfoLabel();
     }
 
-    public void setProperty(Tile property) {
-        this.propertyPanel = new PropertyPanel(property);
+    public void setProperty(Property property) {
+        this.property = property;
         this.propertyOwner = property.getOwner();
-        this.removeAll();
-        this.revalidate();
-        this.repaint();
+        this.removeAllComponents();
         this.setInfoLabel();
     }
 
     /**
      * Sets up the JLabel and JButton to display the property information
+     * TODO: Add white text outline to JLabel text.
      */
     private void setInfoLabel() {
+        this.infoLabel.setText("<html><div style='text-align: center;  text-shadow: 2px 2px 0px #FFFFFF;'>"
+                + property.propertyInfoToString() + "</div></html>");
+        infoLabel.setHorizontalAlignment(JLabel.CENTER);
+        this.setColor();
         currentPlayer = getCurrentPlayer();
         JButton sellButton = null;
 
         if (propertyOwner.equals(currentPlayer)) {
-            tradeButton = new JButton("TRADE");
+            tradeButton = new JButton("TRADE PROPERTY");
             sellButton = new JButton("SELL TO BANK");
             sellButton.addActionListener(e -> {
                 int result = JOptionPane.showConfirmDialog(null,
                         ("<html><div style='text-align: center;'> "
-                        + "Do you want to sell " + this.propertyPanel.property.getName() + " to the bank for $"
-                        + (this.propertyPanel.property.getPurchaseCost() / 2) + "?</div></html>"));
+                        + "Do you want to sell " + property.getName() + " to the bank for $"
+                        + (property.getPurchaseCost() / 2) + "?</div></html>"));
 
                 if (result == JOptionPane.YES_OPTION) {
-                    currentPlayer.addCash(this.propertyPanel.property.getPurchaseCost() / 2);
-                    currentPlayer.removeProperty(this.propertyPanel.property);
-                    this.propertyPanel.property.setForSale(true);
+                    currentPlayer.addCash(property.getPurchaseCost() / 2);
+                    currentPlayer.removeProperty(property);
+                    property.setForSale(true);
                 }
             });
         } else {
-            tradeButton = new JButton("TRADE FOR");
+            tradeButton = new JButton("TRADE FOR PROPERTY");
         }
         tradeButton.addActionListener(e -> {
-            TradePanel tradePanel = new TradePanel(currentPlayer, players, this.propertyPanel.property);
+            TradePanel tradePanel = new TradePanel(currentPlayer, players, property);
             int result = 0;
             if (propertyOwner.equals(currentPlayer)) {
                 result = tradePanel.selectPlayer();
@@ -76,27 +77,36 @@ public class PropertyInfoPanel extends JPanel {
             }
         });
 
-        this.addPropertyPanel();
+        this.addLabel();
         if (sellButton != null) {
             this.addSellButton(sellButton);
         }
         this.addTradeButton(tradeButton);
-        this.setVisible(true);
     }
 
+    private void setColor() {
+        this.setOpaque(true);
+        this.setBackground(this.property.getTileColor());
+    }
+
+    public void removeLabel() {
+        this.remove(this.infoLabel);
+    }
+
+    public void removeButton() {
+        this.remove(this.tradeButton);
+    }
+
+    public void removeAllComponents() {
+        this.removeAll();
+    }
 
     /**
-     * Adds button to the panel.
+     * Adds label to the panel.
      * TODO: Fix placement
      */
-    public void addPropertyPanel() {
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.gridheight = 2;
-        constraints.weightx = 0.5;
-
-        this.add(propertyPanel, constraints);
+    public void addLabel() {
+        this.add(this.infoLabel, BorderLayout.NORTH);
     }
 
     /**
@@ -104,12 +114,7 @@ public class PropertyInfoPanel extends JPanel {
      * TODO: Fix placement
      */
     public void addSellButton(JButton button) {
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-        this.add(button, constraints);
+        this.add(button, BorderLayout.CENTER);
     }
 
     /**
@@ -117,12 +122,7 @@ public class PropertyInfoPanel extends JPanel {
      * TODO: Fix placement
      */
     public void addTradeButton(JButton button) {
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 1;
-        constraints.gridy = 1;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-        this.add(button, constraints);
+        this.add(button, BorderLayout.SOUTH);
     }
 
     private Player getCurrentPlayer() {
@@ -132,74 +132,6 @@ public class PropertyInfoPanel extends JPanel {
             }
         }
         return players[0];
-    }
-
-    /**
-     * Nested JPanel class which will display our actual property information in a card shape.
-     */
-    private class PropertyPanel extends JPanel {
-        protected JLabel infoLabel;
-        protected Tile property;
-        protected JPanel colorBar;
-
-        PropertyPanel(Tile property) {
-            super(new GridBagLayout());
-            this.infoLabel = new JLabel();
-            this.property = property;
-            this.colorBar = new JPanel();
-            this.setup();
-        }
-
-        /**
-         * Sets up the entire panel
-         */
-        private void setup() {
-            setupColorBar();
-            setupLabel();
-
-            this.setPreferredSize(new Dimension(140, 160));
-            this.setMaximumSize(this.getPreferredSize());
-
-            this.setBorder(LineBorder.createBlackLineBorder());
-        }
-
-        /**
-         * Sets up the JLabel
-         */
-        private void setupLabel() {
-
-            this.infoLabel.setText("<html><div style='text-align: center;'>" +
-                    this.property.tileInfoToString() + "</div></html>");
-
-
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 1;
-            constraints.weightx = 1.0;
-            constraints.weighty = 1.0;
-
-            this.add(this.infoLabel, constraints);
-        }
-
-        /**
-         * Sets up the color bar for better viewing
-         */
-        private void setupColorBar() {
-            this.colorBar.setBackground(this.property.getTileColor());
-            this.colorBar.setBorder(LineBorder.createBlackLineBorder());
-            this.colorBar.setPreferredSize(new Dimension(140, 20));
-
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
-            constraints.weightx = 1.0;
-            constraints.weighty = 1.0;
-            constraints.fill = GridBagConstraints.BOTH;
-
-            this.add(this.colorBar, constraints);
-        }
-
-
     }
 
 }
