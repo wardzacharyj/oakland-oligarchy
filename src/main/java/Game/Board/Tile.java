@@ -1,6 +1,7 @@
 package Game.Board;
 
 import Game.Player;
+import Game.UI.PlayerListener;
 import com.google.gson.JsonObject;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 
-public abstract class Tile {
+public abstract class Tile implements PlayerListener {
 
 
     public static final Color DEFAULT_TILE_COLOR = new Color(Color.TRANSLUCENT);
@@ -26,7 +27,7 @@ public abstract class Tile {
     private int position;
     private TilePanel tilePanel;
     private ArrayList<Player> activePlayers;
-
+    private PlayerListener listener;
 
     /**
      * Default constructor of Tile.
@@ -60,6 +61,52 @@ public abstract class Tile {
 
     public abstract JsonObject toJSONObject();
 
+    /**
+     * Display the tile information
+     * @param tile the tile to display
+     */
+    public abstract void showInfo(Tile tile);
+
+    /**
+     * Returns whether or not the Tile is for sale.
+     * @return  True if it is for sale, else false.
+     */
+    public abstract boolean isForSale();
+    /**
+     * Sets if the Tile is for sale, if applicable.
+     * @param value The boolean value indicating if the tile is for sale.
+     */
+    public abstract void setForSale(boolean value);
+
+    /**
+     * Sets of the status of the Tile to bought and sets the owner
+     * @param newOwner  The Player who has purchased the Tile
+     */
+    public abstract void setBought(Player newOwner);
+
+    /**
+     * Returns the owner of the tile if applicable.
+     * @return  The player that owns the Tile
+     */
+    public abstract Player getOwner();
+
+    /**
+     * Returns the cost to buy the Tile if purchasable.
+     * @return  The dollar amount in an integer.
+     */
+    public abstract int getPurchaseCost();
+
+    /**
+     * Gets the color associated with the tile.
+     * @return  The Color associated with the tile.
+     */
+    public abstract Color getTileColor();
+
+    /**
+     * Returns the info associated with the tile.
+     * @return  A String containing a formatted version of the tile information.
+     */
+    public abstract String tileInfoToString();
     /**
      *
      * Add a player to the tile.
@@ -132,6 +179,14 @@ public abstract class Tile {
         return this.tilePanel;
     }
 
+    /**
+     * Adds player listener to the tile.
+     *
+     * @param listener The PlayerListener object to attach to the tile.
+     */
+    public void addListener(PlayerListener listener) {
+        this.listener = listener;
+    }
 
     /**
      * A string representation of the tile.

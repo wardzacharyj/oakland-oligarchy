@@ -4,6 +4,8 @@ import Game.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class TilePanel extends JPanel {
@@ -165,7 +167,14 @@ public class TilePanel extends JPanel {
             add(this.nameLabel, BorderLayout.CENTER);
         }
 
-
+        if (!(this.tile instanceof ActionTile)) {
+            this.tileButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    tile.showInfo(tile);
+                }
+            });
+        }
         setBorder(BorderFactory.createLineBorder(Color.black));
     }
 

@@ -1,6 +1,7 @@
 package Game.UI;
 
 import Game.Board.Property;
+import Game.Board.Tile;
 import Game.Player;
 
 import javax.swing.*;
@@ -13,13 +14,13 @@ public class TradePanel extends JPanel {
     private Player currentPlayer;
     private Player selectedPlayer;
     private Player[] players;
-    private Property property;
+    private Tile property;
     private JLabel label;
     private int moneyOffer;
-    private Property propertyOffer;
+    private Tile propertyOffer;
     private boolean isOwner;
 
-    TradePanel(Player currentPlayer, Player[] players, Property property) {
+    TradePanel(Player currentPlayer, Player[] players, Tile property) {
         super();
         this.currentPlayer = currentPlayer;
         this.players = players;
@@ -91,9 +92,9 @@ public class TradePanel extends JPanel {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    if (e.getItem() instanceof Property) {
-                        Property p = (Property) e.getItem();
-                        ArrayList<Property> newPropertyList;
+                    if (e.getItem() instanceof Tile) {
+                        Tile p = (Tile) e.getItem();
+                        ArrayList<Tile> newPropertyList;
                         JComboBox<Object> newComboBox;
                         if (isOwner) {
                             newPropertyList = new ArrayList<>(selectedPlayer.getProperties());
@@ -119,8 +120,8 @@ public class TradePanel extends JPanel {
         int result = JOptionPane.showConfirmDialog(null, this,
                 "Trade", JOptionPane.OK_CANCEL_OPTION);
         this.moneyOffer = (Integer) money.getSelectedItem();
-        if (properties.getSelectedItem() instanceof Property) {
-            this.propertyOffer = (Property) properties.getSelectedItem();
+        if (properties.getSelectedItem() instanceof Tile) {
+            this.propertyOffer = (Tile) properties.getSelectedItem();
         }
 
         this.removeAll();

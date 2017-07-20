@@ -1,6 +1,7 @@
 package Game.UI;
 
 import Game.Board.Board;
+import Game.Board.Tile;
 import Game.Player;
 
 import javax.swing.*;
@@ -96,6 +97,11 @@ public class RightPanel extends JPanel implements PlayerListener {
 
     @Override
     public void onRentPayed(Player owner, Player rente) {
+
+    }
+
+    @Override
+    public void onTileClick(Tile tile) {
 
     }
 

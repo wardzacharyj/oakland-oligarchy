@@ -1,6 +1,8 @@
 package Game.UI;
 
 import Game.Board.Property;
+import Game.Board.RailRoad;
+import Game.Board.Tile;
 import Game.Player;
 
 import javax.swing.*;
@@ -43,13 +45,13 @@ public class Leaderboard extends JPanel implements PlayerListener {
             DefaultMutableTreeNode sellingFolder = new DefaultMutableTreeNode("Selling");
 
             playerFolder.add(propertyFolder);
-            for(Property property : p.getProperties()){
+            for(Tile property : p.getProperties()){
                 DefaultMutableTreeNode propertyNode = new DefaultMutableTreeNode(property);
                 propertyFolder.add(propertyNode);
             }
 
             playerFolder.add(sellingFolder);
-            for(Property property : p.getProperties()){
+            for(Tile property : p.getProperties()){
                 if (property.isForSale()) {
                     DefaultMutableTreeNode propertyNode = new DefaultMutableTreeNode(property);
                     sellingFolder.add(propertyNode);
@@ -70,12 +72,13 @@ public class Leaderboard extends JPanel implements PlayerListener {
         tree.setRootVisible(false);
 
         MouseListener ml = new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 int selRow = tree.getRowForLocation(e.getX(), e.getY());
                 TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
                 if (selRow != -1) {
                     if (e.getClickCount() == 2) {
-                        showProperty(selRow, selPath);
+                        showProperty(selPath);
                     }
                 }
             }
@@ -127,7 +130,7 @@ public class Leaderboard extends JPanel implements PlayerListener {
                     setIcon(propertyFolder);
                 else
                     setIcon(sellFolder);
-            } else if (nodeInfo instanceof Property){
+            } else if (nodeInfo instanceof Property || nodeInfo instanceof RailRoad){
                 setIcon(property);
             }
 
@@ -149,16 +152,20 @@ public class Leaderboard extends JPanel implements PlayerListener {
         }
     }
 
-    public void showProperty(int row, TreePath path) {
+    /**
+     * Show property information from clicking through the leaderboard tree.
+     * @param path  The path in the tree to the clicked property.
+     */
+    public void showProperty(TreePath path) {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
         Object tempNodeInfo = node.getUserObject();
 
-        if (tempNodeInfo instanceof Property) {
-            Property property = (Property) node.getUserObject();
+        if (tempNodeInfo instanceof Property || tempNodeInfo instanceof RailRoad) {
+            Tile tile = (Tile) node.getUserObject();
             if (pip != null) {
-                pip.setProperty(property);
+                pip.setProperty(tile);
             } else {
-                pip = new PropertyInfoPanel(property, this.players);
+                pip = new PropertyInfoPanel(tile, this.players);
             }
             content.add(pip, BorderLayout.SOUTH);
 
@@ -166,6 +173,24 @@ public class Leaderboard extends JPanel implements PlayerListener {
         }
 
     }
+
+    /**
+     * Show the property information when clicking on the property button.
+     * @param tile  The tile that is clicked.
+     */
+    public void showProperty(Tile tile) {
+        if (tile instanceof Property || tile instanceof RailRoad) {
+            if (pip != null) {
+                pip.setProperty(tile);
+            } else {
+                pip = new PropertyInfoPanel(tile, this.players);
+            }
+            content.add(pip, BorderLayout.SOUTH);
+
+            content.revalidate();
+        }
+    }
+
 
     /**
      *      Closes Property info panel
@@ -211,6 +236,11 @@ public class Leaderboard extends JPanel implements PlayerListener {
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
         model.nodeChanged(owner.getNode());
         model.nodeChanged(rente.getNode());
+    }
+
+    @Override
+    public void onTileClick(Tile tile) {
+        showProperty(tile);
     }
 
     @Override

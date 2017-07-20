@@ -2,6 +2,7 @@ package Game;
 
 import Game.Board.Board;
 import Game.Board.Property;
+import Game.Board.Tile;
 import Game.UI.PlayerListener;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -21,7 +22,7 @@ public class Player {
     private int currentPosition;
     private int previousPosition;
     private int cash;
-    private ArrayList<Property> properties;
+    private ArrayList<Tile> properties;
     private Color color;
     private PlayerListener listener;
     private DefaultMutableTreeNode playerNode;
@@ -162,7 +163,7 @@ public class Player {
 
 
 
-    public void setProperties(Property[] props){
+    public void setProperties(Tile[] props){
         this.properties = new ArrayList<>(Arrays.asList(props));
     }
 
@@ -207,7 +208,7 @@ public class Player {
      * @param property  The property that the player is attempting to buy.
      * @return true if can buy property. False otherwise.
      */
-    public boolean buyProperty(Property property) {
+    public boolean buyProperty(Tile property) {
         int cost = property.getPurchaseCost();
         if (hasEnoughCash(cost)) {
             this.subtractCash(cost);
@@ -229,7 +230,7 @@ public class Player {
      * @param property  The property that the player is attempting to auction.
      * @return true if can buy property. False otherwise.
      */
-    public boolean buyProperty(Property property, int auction) {
+    public boolean buyProperty(Tile property, int auction) {
         if (hasEnoughCash(auction)) {
             this.subtractCash(auction);
             this.addProperty(property);
@@ -246,7 +247,7 @@ public class Player {
      * Removes a property from the list of properties the Player owns.
      * @param property  Property to remove.
      */
-    public void removeProperty(Property property) {
+    public void removeProperty(Tile property) {
         properties.remove(property);
         DefaultMutableTreeNode propertyFolder = (DefaultMutableTreeNode) this.playerNode.getFirstChild();
         DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) propertyFolder.getFirstChild();
@@ -322,7 +323,7 @@ public class Player {
      *
      * @param property The property to add to the list of properties the player owns.
      */
-    private void addProperty(Property property) {
+    private void addProperty(Tile property) {
         this.properties.add(property);
     }
 
@@ -331,7 +332,7 @@ public class Player {
      *
      * @param property The property to be added to the player's properties list.
      */
-    private void updateNode(Property property) {
+    private void updateNode(Tile property) {
 
         DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) this.playerNode.getFirstChild();
         propertyNode.add(new DefaultMutableTreeNode(property));
@@ -375,7 +376,7 @@ public class Player {
      *
      * @return An ArrayList containing all properties the player owns.
      */
-    public ArrayList<Property> getProperties() {
+    public ArrayList<Tile> getProperties() {
         return this.properties;
     }
 
@@ -389,7 +390,7 @@ public class Player {
 
         JsonArray prop = new JsonArray();
 
-        for (Property property : properties) {
+        for (Tile property : properties) {
             prop.add(property.toJSONObject());
         }
 
