@@ -315,6 +315,11 @@ public class Board extends JPanel implements PlayerListener {
     }
 
     @Override
+    public void onTileClick(Tile tile) {
+
+    }
+
+    @Override
     public void onTrade(Player p) {
 
     }

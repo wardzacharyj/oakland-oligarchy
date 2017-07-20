@@ -4,6 +4,7 @@ package Game.Board;
 import Game.Player;
 import com.google.gson.JsonObject;
 import javax.swing.*;
+import java.awt.*;
 
 public class ActionTile extends Tile {
 
@@ -33,6 +34,81 @@ public class ActionTile extends Tile {
 
     @Override
     public JsonObject toJSONObject() {
+        return null;
+    }
+
+    @Override
+    public void showInfo(Tile tile) {
+
+    }
+
+    /**
+     * Returns whether or not the Tile is for sale.
+     *
+     * @return True if it is for sale, else false.
+     */
+    @Override
+    public boolean isForSale() {
+        return false;
+    }
+
+    /**
+     * Sets if the Tile is for sale, if applicable.
+     *
+     * @param value The boolean value indicating if the tile is for sale.
+     */
+    @Override
+    public void setForSale(boolean value) {
+
+    }
+
+    /**
+     * Sets of the status of the Tile to bought and sets the owner
+     *
+     * @param newOwner The Player who has purchased the Tile
+     */
+    @Override
+    public void setBought(Player newOwner) {
+
+    }
+
+    /**
+     * Returns the owner of the tile if applicable.
+     *
+     * @return The player that owns the Tile
+     */
+    @Override
+    public Player getOwner() {
+        return null;
+    }
+
+    /**
+     * Returns the cost to buy the Tile if purchasable.
+     *
+     * @return The dollar amount in an integer.
+     */
+    @Override
+    public int getPurchaseCost() {
+        return 0;
+    }
+
+    /**
+     * Gets the color associated with the tile.
+     *
+     * @return The Color associated with the tile.
+     */
+    @Override
+    public Color getTileColor() {
+        return null;
+    }
+
+    /**
+     * Returns the info associated with the tile.
+     *
+     * @return A String containing a formatted version of the tile information.
+     */
+    @Override
+    public String tileInfoToString() {
         return null;
     }
 
@@ -80,4 +156,34 @@ public class ActionTile extends Tile {
     }
 
 
+    @Override
+    public void onPlayerMove(Player p) {
+
+    }
+
+    @Override
+    public void onRentPayed(Player owner, Player rente) {
+
+    }
+
+    @Override
+    public void onTileClick(Tile tile) {
+
+    }
+
+
+    @Override
+    public void onTrade(Player p) {
+
+    }
+
+    @Override
+    public void onPurchase(Player p) {
+
+    }
+
+    @Override
+    public void onLose() {
+
+    }
 }

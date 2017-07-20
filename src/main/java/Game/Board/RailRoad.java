@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import java.awt.*;
 import java.util.Arrays;
 
 
@@ -25,7 +26,9 @@ public class RailRoad extends Tile {
     private int[] rent;
     private int tilePosition;
     private boolean isMonopoly;
+    private boolean isForSale;
     private String tileGroup;
+    private Color color;
 
 
     /**
@@ -47,6 +50,8 @@ public class RailRoad extends Tile {
         this.rent = rent;
         this.isMonopoly = isMonopoly;
         this.tilePosition = tilePosition;
+        this.isForSale = true;
+        this.color = Color.white;
     }
 
 
@@ -85,6 +90,27 @@ public class RailRoad extends Tile {
      */
     public int getPurchaseCost() {
         return this.purchaseCost;
+    }
+
+    @Override
+    public Color getTileColor() {
+        return color;
+    }
+
+    @Override
+    public String tileInfoToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getName() + "<br />");
+        if (this.isForSale) {
+            sb.append("FOR SALE<br />");
+        } else {
+            sb.append("Owned by: " + this.getOwner().getName() + "<br />");
+        }
+
+        sb.append("Purchase Cost: " + this.getPurchaseCost() + "<br />"
+                + "Rent: " + this.getRent() + "<br />");
+
+        return sb.toString();
     }
 
     /**
@@ -163,6 +189,37 @@ public class RailRoad extends Tile {
         return jsonObject;
     }
 
+    @Override
+    public void showInfo(Tile tile) {
+
+    }
+
+    /**
+     * Returns whether or not the Tile is for sale.
+     *
+     * @return True if it is for sale, else false.
+     */
+    @Override
+    public boolean isForSale() {
+        return this.isForSale;
+    }
+
+    @Override
+    public void setForSale(boolean value) {
+        this.isForSale = value;
+    }
+
+    /**
+     * Sets of the status of the Tile to bought and sets the owner
+     *
+     * @param newOwner The Player who has purchased the Tile
+     */
+    @Override
+    public void setBought(Player newOwner) {
+        this.setForSale(false);
+        this.setOwner(newOwner);
+    }
+
     /**
      * A string representation of the railroad.
      *
@@ -177,5 +234,35 @@ public class RailRoad extends Tile {
                 ", rent=" + Arrays.toString(this.rent) +
                 ", tilePosition=" + this.tilePosition +
                 '}';
+    }
+
+    @Override
+    public void onPlayerMove(Player p) {
+
+    }
+
+    @Override
+    public void onRentPayed(Player owner, Player rente) {
+
+    }
+
+    @Override
+    public void onTileClick(Tile tile) {
+
+    }
+
+    @Override
+    public void onTrade(Player p) {
+
+    }
+
+    @Override
+    public void onPurchase(Player p) {
+
+    }
+
+    @Override
+    public void onLose() {
+
     }
 }

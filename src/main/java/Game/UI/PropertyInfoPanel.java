@@ -1,13 +1,14 @@
 package Game.UI;
 
 import Game.Board.Property;
+import Game.Board.RailRoad;
+import Game.Board.Tile;
 import Game.Player;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class PropertyInfoPanel extends JPanel {
 
@@ -17,7 +18,7 @@ public class PropertyInfoPanel extends JPanel {
     private Player propertyOwner;
     private JButton tradeButton;
 
-    PropertyInfoPanel(Property property, Player[] players) {
+    PropertyInfoPanel(Tile property, Player[] players) {
         super(new GridBagLayout());
         this.propertyPanel = new PropertyPanel(property);
         this.players = players;
@@ -26,22 +27,24 @@ public class PropertyInfoPanel extends JPanel {
         this.setInfoLabel();
     }
 
-    public void setProperty(Property property) {
+    public void setProperty(Tile property) {
         this.propertyPanel = new PropertyPanel(property);
         this.propertyOwner = property.getOwner();
         this.removeAll();
+        this.revalidate();
+        this.repaint();
+        this.setInfoLabel();
     }
 
     /**
      * Sets up the JLabel and JButton to display the property information
-     * TODO: Add white text outline to JLabel text.
      */
     private void setInfoLabel() {
         currentPlayer = getCurrentPlayer();
         JButton sellButton = null;
 
         if (propertyOwner.equals(currentPlayer)) {
-            tradeButton = new JButton("TRADE PROPERTY");
+            tradeButton = new JButton("TRADE");
             sellButton = new JButton("SELL TO BANK");
             sellButton.addActionListener(e -> {
                 int result = JOptionPane.showConfirmDialog(null,
@@ -56,7 +59,7 @@ public class PropertyInfoPanel extends JPanel {
                 }
             });
         } else {
-            tradeButton = new JButton("TRADE FOR PROPERTY");
+            tradeButton = new JButton("TRADE FOR");
         }
         tradeButton.addActionListener(e -> {
             TradePanel tradePanel = new TradePanel(currentPlayer, players, this.propertyPanel.property);
@@ -131,12 +134,15 @@ public class PropertyInfoPanel extends JPanel {
         return players[0];
     }
 
+    /**
+     * Nested JPanel class which will display our actual property information in a card shape.
+     */
     private class PropertyPanel extends JPanel {
         protected JLabel infoLabel;
-        protected Property property;
+        protected Tile property;
         protected JPanel colorBar;
 
-        PropertyPanel(Property property) {
+        PropertyPanel(Tile property) {
             super(new GridBagLayout());
             this.infoLabel = new JLabel();
             this.property = property;
@@ -144,6 +150,9 @@ public class PropertyInfoPanel extends JPanel {
             this.setup();
         }
 
+        /**
+         * Sets up the entire panel
+         */
         private void setup() {
             setupColorBar();
             setupLabel();
@@ -154,9 +163,14 @@ public class PropertyInfoPanel extends JPanel {
             this.setBorder(LineBorder.createBlackLineBorder());
         }
 
+        /**
+         * Sets up the JLabel
+         */
         private void setupLabel() {
+
             this.infoLabel.setText("<html><div style='text-align: center;'>" +
-                    this.property.propertyInfoToString() + "</div></html>");
+                    this.property.tileInfoToString() + "</div></html>");
+
 
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
@@ -167,6 +181,9 @@ public class PropertyInfoPanel extends JPanel {
             this.add(this.infoLabel, constraints);
         }
 
+        /**
+         * Sets up the color bar for better viewing
+         */
         private void setupColorBar() {
             this.colorBar.setBackground(this.property.getTileColor());
             this.colorBar.setBorder(LineBorder.createBlackLineBorder());
