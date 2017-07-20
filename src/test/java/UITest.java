@@ -2,6 +2,7 @@
 
 import Game.Board.Board;
 import Game.Board.Property;
+import Game.UI.Leaderboard;
 import Game.UI.RightPanel;
 import Game.UI.TurnPanel;
 import Game.Player;
@@ -24,8 +25,9 @@ public class UITest extends TestCase {
 
         Player[] players = new Player[1];
         players[0] = new Player("Test", Color.BLACK, 1200, 0);
-        Board board = new Board(players, true);
-        RightPanel rightPanel = new RightPanel(players, board);
+        Leaderboard l = new Leaderboard(players);
+        Board board = new Board(players, true, l);
+        RightPanel rightPanel = new RightPanel(players, board, l);
         TurnPanel p = new TurnPanel(rightPanel, players, board, rightPanel);
         p.rollDice();
         assertTrue("CHECKING DICE: ",p.getDiceSum() < 13);
@@ -63,9 +65,9 @@ public class UITest extends TestCase {
         Player p2 = new Player("Rente", Color.BLACK, 0, 0);
         players[0] = p1;
         players[1] = p2;
-
-        Board board = new Board(players, true);
-        RightPanel rightPanel = new RightPanel(players, board);
+        Leaderboard l = new Leaderboard(players);
+        Board board = new Board(players, true, l);
+        RightPanel rightPanel = new RightPanel(players, board, l);
         TurnPanel p = new TurnPanel(rightPanel, players, board, rightPanel);
 
         Property property = new Property("Property", null,0,
@@ -89,9 +91,9 @@ public class UITest extends TestCase {
         int orginalCash = 1200;
         Player p1 = new Player("Owner", Color.BLACK, 0, 0);
         players[0] = p1;
-
-        Board board = new Board(players, true);
-        RightPanel rightPanel = new RightPanel(players, board);
+        Leaderboard l = new Leaderboard(players);
+        Board board = new Board(players, true, l);
+        RightPanel rightPanel = new RightPanel(players, board, l);
         TurnPanel p = new TurnPanel(rightPanel, players, board, rightPanel);
 
         Property property = new Property("Property", null,0,
