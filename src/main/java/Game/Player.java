@@ -27,6 +27,7 @@ public class Player {
     private PlayerListener listener;
     private DefaultMutableTreeNode playerNode;
     private boolean isTurn;
+    private boolean inJail;
 
     public Player(){
         this.properties = new ArrayList<>();
@@ -41,6 +42,7 @@ public class Player {
         this.name = name;
         this.properties = new ArrayList<>();
         this.color = color;
+        this.inJail = false;
     }
 
     /**
@@ -59,6 +61,7 @@ public class Player {
         this.currentPosition = currentPosition;
         this.previousPosition = currentPosition;
         this.isTurn = false;
+        this.inJail = false;
     }
 
     /**
@@ -413,5 +416,11 @@ public class Player {
     public void setTurn(boolean turnVal) {
         isTurn = turnVal;
     }
+
+    public void setInJail(boolean inJail) {
+        this.inJail = inJail;
+    }
+
+    public boolean getInJail() { return inJail; }
 
 }

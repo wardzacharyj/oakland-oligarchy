@@ -81,8 +81,15 @@ public class TurnPanel extends JPanel implements ActionListener {
     public void rollDice(){
         leftDie.roll();
         rightDie.roll();
-        panelListeners.onPlayerMove(players[currentPlayer]);
-        boardListeners.onPlayerMove(players[currentPlayer]);
+        if(players[currentPlayer].getInJail()) {
+            //we notify the player that they are in jail, and can't move that turn.
+            JOptionPane.showMessageDialog(new JPanel(), players[currentPlayer].getName() + " has been sent to jail.  Cannot move this turn.");
+            players[currentPlayer].setInJail(false);
+        }
+        else {
+            panelListeners.onPlayerMove(players[currentPlayer]);
+            boardListeners.onPlayerMove(players[currentPlayer]);
+        }
     }
 
     public void setCurrentPlayer(int currentPlayer){

@@ -25,7 +25,7 @@ public class RightPanel extends JPanel implements PlayerListener {
      * @param gamePlayers
      * @param gameBoard
      */
-    public RightPanel(Player[] gamePlayers, Board gameBoard, int turn){
+    public RightPanel(Player[] gamePlayers, Board gameBoard, int turn, Leaderboard leaderboard){
         this.gamePlayers = gamePlayers;
         this.board = gameBoard;
         setLayout(new BorderLayout());
@@ -34,9 +34,9 @@ public class RightPanel extends JPanel implements PlayerListener {
         clockPanel = new ClockPanel(board.getLastStartTime());
         add(clockPanel,BorderLayout.NORTH);
 
-        leaderboard = new Leaderboard(gamePlayers);
+        this.leaderboard = leaderboard;
 
-        add(leaderboard, BorderLayout.CENTER);
+        add(this.leaderboard, BorderLayout.CENTER);
 
         for (Player p : gamePlayers) {
             p.addListener(leaderboard);
@@ -52,7 +52,7 @@ public class RightPanel extends JPanel implements PlayerListener {
      * @param gamePlayers
      * @param gameBoard
      */
-    public RightPanel(Player[] gamePlayers, Board gameBoard){
+    public RightPanel(Player[] gamePlayers, Board gameBoard, Leaderboard leaderboard){
         this.gamePlayers = gamePlayers;
         this.board = gameBoard;
         setLayout(new BorderLayout());
@@ -61,8 +61,8 @@ public class RightPanel extends JPanel implements PlayerListener {
         clockPanel = new ClockPanel(board.getLastStartTime());
         add(clockPanel,BorderLayout.NORTH);
 
-        leaderboard = new Leaderboard(gamePlayers);
-        add(leaderboard, BorderLayout.CENTER);
+        this.leaderboard = leaderboard;
+        add(this.leaderboard, BorderLayout.CENTER);
 
         for (Player p : gamePlayers) {
             p.addListener(leaderboard);

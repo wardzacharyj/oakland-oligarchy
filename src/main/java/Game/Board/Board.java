@@ -5,6 +5,8 @@ import Game.Player;
 import Game.UI.PlayerListener;
 import com.google.gson.*;
 
+import Game.UI.Leaderboard;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
@@ -30,6 +32,7 @@ public class Board extends JPanel implements PlayerListener {
     private int CORNER_TOP_LEFT = 3 * (SIZE / 4);
     private Deck communityChestDeck = null;
     private Deck chanceDeck = null;
+    private Leaderboard leaderboard = null;
 
 
     private Tile[] tiles;
@@ -50,7 +53,8 @@ public class Board extends JPanel implements PlayerListener {
      *
      * @param players list of players that are in the current game.
      */
-    public Board(Player[] players, boolean newGame) {
+    public Board(Player[] players, boolean newGame, Leaderboard leaderboard) {
+        this.leaderboard = leaderboard;
 
         this.players = players;
 
@@ -78,8 +82,11 @@ public class Board extends JPanel implements PlayerListener {
         this.add(boardPanel, BorderLayout.CENTER);
         this.setPreferredSize(BOARD_DIMENSIONS);
 
-    }
+        for(int i = 0; i < players.length; i++) {
+            this.leaderboard.updatePlayer(players[i]);//need to update all players to show starting cash.
+        }
 
+    }
 
     /**
      * Loads All tiles and information based on configuration file
@@ -120,10 +127,10 @@ public class Board extends JPanel implements PlayerListener {
             int[] pos = g.fromJson(obj.get(ActionTile.JSON_TILE_POSITIONS), int[].class);
             for (Integer i : pos) {
                 if(obj.get(ActionTile.JSON_NAME).getAsString().equals("Chance")) {
-                    tiles[i] = new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(), i, chanceDeck, tiles);
+                    tiles[i] = new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(), i, chanceDeck, tiles, leaderboard);
                 }
                 else if(obj.get(ActionTile.JSON_NAME).getAsString().equals("Community Chest")) {
-                    tiles[i] = new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(), i, communityChestDeck, tiles);
+                    tiles[i] = new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(), i, communityChestDeck, tiles, leaderboard);
                 }
                 else
                     tiles[i] = new ActionTile(obj.get(ActionTile.JSON_NAME).getAsString(), i, tiles);
