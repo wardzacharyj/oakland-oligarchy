@@ -2,6 +2,7 @@ package Game;
 
 import Game.Board.Board;
 import Game.UI.GameCreatedListener;
+import Game.UI.Leaderboard;
 import Game.UI.RightPanel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -54,10 +55,12 @@ public class Driver extends JFrame implements GameCreatedListener {
 
     @Override
     public void onGameLoaded(String gameTitle, long timeElapsed, int playerTurn, Player[] players) {
-        Board board = new Board(players, false);
+        Leaderboard leaderboard = new Leaderboard(players);
+
+        Board board = new Board(players, false, leaderboard);
         board.setLastStartTime(timeElapsed);
 
-        RightPanel rightPanel = new RightPanel(players, board, playerTurn);
+        RightPanel rightPanel = new RightPanel(players, board, playerTurn, leaderboard);
 
         GameToolbar gameToolbar = new GameToolbar(players,
                 rightPanel.getTurnPanel(),
@@ -86,9 +89,10 @@ public class Driver extends JFrame implements GameCreatedListener {
      */
     @Override
     public void onGameCreated(String gameTitle,Player[] players) {
+        Leaderboard leaderboard = new Leaderboard(players);
+        Board board = new Board(players, true, leaderboard);
 
-        Board board = new Board(players, true);
-        RightPanel rightPanel = new RightPanel(players, board);
+        RightPanel rightPanel = new RightPanel(players, board, leaderboard);
 
         GameToolbar gameToolbar = new GameToolbar(players,
                 rightPanel.getTurnPanel(),

@@ -3,6 +3,7 @@ package Game.Board;
 import Game.Player;
 import javax.swing.*;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 
 /**
  * Created by rad85000 on 7/5/2017.
@@ -30,7 +31,7 @@ public class Card {
             tiles[newPosition].getTilePanel().repaint();
             tiles[oldPosition].getTilePanel().repaint();
 
-            p.setPosition(p.getPosition() - 3);
+            p.setPosition(newPosition);
 
             JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Go Back 3 Spaces'");
 
@@ -84,6 +85,62 @@ public class Card {
         else if(name.equals("Hospital Fee")) {
             JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Hospital Fee'.  You broke your leg and need to go to the hospital.  The hospital fee is $100");
             p.subtractCash(100);
+        }
+        else if(name.equals("Go to Jail")) {
+            tiles[9].addPlayer(p);
+            tiles[p.getPosition()].removePlayer(p);
+            tiles[9].getTilePanel().repaint();
+            tiles[p.getPosition()].getTilePanel().repaint();
+            p.setPosition(9);
+            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Go to Jail'.");
+            p.setInJail(true);
+        }
+        else if(name.equals("Go to PNC Bank")) {
+            int old = p.getPosition();
+            int newP = 32;
+
+            tiles[old].removePlayer(p);
+            tiles[newP].addPlayer(p);
+            tiles[newP].getTilePanel().repaint();
+            tiles[old].getTilePanel().repaint();
+
+            p.setPosition(newP);
+
+            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Go to PNC Bank'");
+
+            tiles[newP].notifyPlayerLanded(p);
+        }
+        else if(name.equals("Property Rent Doubles")) {
+            SecureRandom sr = new SecureRandom();
+            ArrayList<Property> props = p.getProperties();
+            if(props != null && props.size() > 0) {
+                int propNum = Math.abs(sr.nextInt()) % props.size();
+                int[] rentArray = props.get(propNum).getRentArray();
+                for(int i = 0; i < rentArray.length; i++) {
+                    rentArray[i] = rentArray[i] * 2;
+                }
+                props.get(propNum).setRent(rentArray);
+                JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Property Rent Doubles'.  Rent for " + p.getProperties().get(propNum).getName() + " has doubled.");
+            }
+            else {
+                JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Property Rent Doubles'.  You don't own any properties, card does not apply.");
+            }
+        }
+        else if(name.equals("Pay the Homeless")) {
+            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Pay the Homeless'.  You lose $50.");
+            p.subtractCash(50);
+        }
+        else if(name.equals("Pay School Fees")) {
+            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Pay School Fees'.  You lose $100.");
+            p.subtractCash(100);
+        }
+        else if(name.equals("Happy Birthday")) {
+            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Happy Birthday'.  You gain $100.");
+            p.addCash(100);
+        }
+        else if(name.equals("Merry Christmas")) {
+            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Merry Christmas'.  You gain $250.");
+            p.addCash(250);
         }
     }
 }
