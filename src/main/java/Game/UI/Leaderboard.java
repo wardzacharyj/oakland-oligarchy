@@ -75,7 +75,7 @@ public class Leaderboard extends JPanel implements PlayerListener {
                 TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
                 if (selRow != -1) {
                     if (e.getClickCount() == 2) {
-                        showProperty(selRow, selPath);
+                        showProperty(selPath);
                     }
                 }
             }
@@ -149,16 +149,20 @@ public class Leaderboard extends JPanel implements PlayerListener {
         }
     }
 
-    public void showProperty(int row, TreePath path) {
+    /**
+     * Show property information from clicking through the leaderboard tree.
+     * @param path  The path in the tree to the clicked property.
+     */
+    private void showProperty(TreePath path) {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
         Object tempNodeInfo = node.getUserObject();
 
         if (tempNodeInfo instanceof Property) {
-            Property property = (Property) node.getUserObject();
+            Property p = (Property) node.getUserObject();
             if (pip != null) {
-                pip.setProperty(property);
+                pip.setProperty(p);
             } else {
-                pip = new PropertyInfoPanel(property, this.players);
+                pip = new PropertyInfoPanel(p, this.players);
             }
             content.add(pip, BorderLayout.SOUTH);
 
@@ -167,16 +171,16 @@ public class Leaderboard extends JPanel implements PlayerListener {
 
     }
 
+
     /**
      *      Closes Property info panel
      */
-    protected void resetPanels(){
+    void resetPanels(){
         if(content != null && pip != null){
             content.remove(pip);
             content.revalidate();
         }
     }
-
     public void updatePlayer(Player p) {
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
         model.nodeChanged(p.getNode());
