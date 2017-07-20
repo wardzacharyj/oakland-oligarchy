@@ -142,6 +142,8 @@ public class Property extends Tile {
         this.tileColor = tileColor;
     }
 
+    public int[] getRentArray() { return rent; }
+
     /**
      * Getter for owner.
      * @return Player object who currently owns property.

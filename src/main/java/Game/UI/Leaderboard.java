@@ -27,7 +27,7 @@ public class Leaderboard extends JPanel implements PlayerListener {
      * Initializes the Leaderboard panel to display information on all of the players.
      * @param players A list of current players.
      */
-    Leaderboard(Player[] players){
+    public Leaderboard(Player[] players){
         this.players = players;
 
         setLayout(new BorderLayout());
@@ -175,6 +175,11 @@ public class Leaderboard extends JPanel implements PlayerListener {
             content.remove(pip);
             content.revalidate();
         }
+    }
+
+    public void updatePlayer(Player p) {
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        model.nodeChanged(p.getNode());
     }
 
     public void onPlayerMove(Player p) {
