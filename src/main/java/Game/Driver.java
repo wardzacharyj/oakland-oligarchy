@@ -22,6 +22,7 @@ public class Driver extends JFrame implements GameCreatedListener {
 
     /**
      * Constructor for the driver.
+     * 
      */
     Driver(){
         setLayout(new BorderLayout());
