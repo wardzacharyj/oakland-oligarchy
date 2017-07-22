@@ -95,7 +95,7 @@ public class Card {
             JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Go to Jail'.");
             p.setInJail(true);
         }
-        else if(name.equals("Go to PNC Bank")) {
+        else if(name.equals("Go to 61 D")) {
             int old = p.getPosition();
             int newP = 32;
 
@@ -106,7 +106,7 @@ public class Card {
 
             p.setPosition(newP);
 
-            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Go to PNC Bank'");
+            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Go to 61 D'");
 
             tiles[newP].notifyPlayerLanded(p);
         }

@@ -13,7 +13,7 @@ public class ChanceDeck extends Deck {
         cards[3] = new Card("Bank Pays");
         cards[4] = new Card("Go to Jail");
         cards[5] = new Card("Go to Jail");
-        cards[6] = new Card("Go to PNC Bank");
+        cards[6] = new Card("Go to 61 D");
         cards[7] = new Card("Property Rent Doubles");
         cards[8] = new Card("Pay the Homeless");
         cards[9] = new Card("Go Back 3 Spaces");
