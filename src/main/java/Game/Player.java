@@ -220,6 +220,75 @@ public class Player {
             return false;
         }
     }
+    /**
+     * player purchases Bus property
+     * adds property to player object
+     * sets property to be owned
+     *
+     * @param property  The property that the player is attempting to buy.
+     * @return true if can buy property. False otherwise.
+     */
+    public boolean buyBusProperty(Property property) {
+        int cost = property.getPurchaseCost();
+        if (hasEnoughCash(cost)) {
+            this.subtractCash(cost);
+            this.addProperty(property);
+            this.addBus();
+            property.setBought(this);
+            this.updateNode(property);
+            this.listener.onPurchase(this);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * player purchases Bus property on auction
+     * adds property to player object
+     * sets property to be owned
+     *
+     * @param property  The property that the player is attempting to auction.
+     * @return true if can buy property. False otherwise.
+     */
+    public boolean buyBusProperty(Property property, int auction) {
+        if (hasEnoughCash(auction)) {
+            this.subtractCash(auction);
+            this.addProperty(property);
+            this.addBus();
+            property.setBought(this);
+            this.updateNode(property);
+            this.listener.onPurchase(this);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checks busses owned by player and adds bus rent
+     * @return true if can buy property. False otherwise.
+     */
+    public void addBus() {
+        int count = -1;
+        for(int i = 0; i < properties.size(); i++) {
+            if(properties.get(i).getName().contains("61"))
+            {
+                count++;
+            }
+        }
+        if(count == 3) {
+            JOptionPane.showMessageDialog(new JPanel(), this.getName() + " has won the game with a Transit Monopoly!");
+            System.exit(0);
+        } else{
+            for(int i = 0; i < properties.size(); i++) {
+                if(properties.get(i).getName().contains("61"))
+                {
+                    properties.get(i).setHouseCount(count);
+                }
+            }
+        }
+
+    }
 
     /**
      * player purchases property from auction

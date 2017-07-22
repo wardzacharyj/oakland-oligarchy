@@ -263,7 +263,14 @@ public class Property extends Tile {
 
             if (dialogResult == JOptionPane.YES_OPTION) {
                 if (p.hasEnoughCash(this.getPurchaseCost())) {
-                    p.buyProperty(this);
+                    if(this.name.contains("61"))
+                    {
+                        p.buyBusProperty(this);
+                    }
+                    else
+                    {
+                        p.buyProperty(this);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "You don't have enough money!");
                 }
@@ -306,7 +313,14 @@ public class Property extends Tile {
                     int auctionWinner = getMax(map);
                     if(auctionWinner != -1){
                         if (player[auctionWinner].hasEnoughCash(map.get(auctionWinner))) {
-                            player[auctionWinner].buyProperty(this, map.get(auctionWinner));
+                            if(this.name.contains("61"))
+                            {
+                                player[auctionWinner].buyBusProperty(this,  map.get(auctionWinner));
+                            }
+                            else
+                            {
+                                player[auctionWinner].buyProperty(this, map.get(auctionWinner));
+                            }
                             JOptionPane.showMessageDialog(null, player[auctionWinner].getName() + " won the auction!");
                             break;
                         } else {

@@ -145,20 +145,52 @@ public class TradePanel extends JPanel {
 
         if (result == JOptionPane.YES_OPTION) {
             if (isOwner) {
-                selectedPlayer.buyProperty(property, moneyOffer);
+                if(property.getName().contains("61"))
+                {
+                    selectedPlayer.buyBusProperty(property, moneyOffer);
+                }
+                else
+                {
+                    selectedPlayer.buyProperty(property, moneyOffer);
+                }
                 currentPlayer.removeProperty(property);
+                currentPlayer.addBus();
                 currentPlayer.addCash(moneyOffer);
                 if (propertyOffer != null) {
-                    currentPlayer.buyProperty(propertyOffer, 0);
+                    if(propertyOffer.getName().contains("61"))
+                    {
+                        currentPlayer.buyBusProperty(propertyOffer, 0);
+                    }
+                    else
+                    {
+                        currentPlayer.buyProperty(propertyOffer, 0);
+                    }
                     selectedPlayer.removeProperty(propertyOffer);
+                    selectedPlayer.addBus();
                 }
             } else {
-                currentPlayer.buyProperty(property, moneyOffer);
+                if(property.getName().contains("61"))
+                {
+                    currentPlayer.buyBusProperty(property, moneyOffer);
+                }
+                else
+                {
+                    currentPlayer.buyProperty(property, moneyOffer);
+                }
                 selectedPlayer.removeProperty(property);
+                selectedPlayer.addBus();
                 selectedPlayer.addCash(moneyOffer);
                 if (propertyOffer != null) {
-                    selectedPlayer.buyProperty(propertyOffer, 0);
+                    if(propertyOffer.getName().contains("61"))
+                    {
+                        selectedPlayer.buyBusProperty(propertyOffer, 0);
+                    }
+                    else
+                    {
+                        selectedPlayer.buyProperty(propertyOffer, 0);
+                    }
                     currentPlayer.removeProperty(propertyOffer);
+                    currentPlayer.addBus();
                 }
             }
 

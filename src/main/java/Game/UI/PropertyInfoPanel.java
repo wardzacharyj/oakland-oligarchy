@@ -53,6 +53,7 @@ public class PropertyInfoPanel extends JPanel {
                 if (result == JOptionPane.YES_OPTION) {
                     currentPlayer.addCash(this.propertyPanel.property.getPurchaseCost() / 2);
                     currentPlayer.removeProperty(this.propertyPanel.property);
+                    currentPlayer.addBus();
                     this.propertyPanel.property.setForSale(true);
                 }
             });
