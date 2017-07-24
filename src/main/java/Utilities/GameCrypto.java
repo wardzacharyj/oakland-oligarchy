@@ -4,24 +4,23 @@ package Utilities;
 import Game.Board.Board;
 
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 
-import java.math.BigInteger;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Scanner;
 
 public class GameCrypto {
 
+    /**
+     * Encrypts string using AES
+     *
+     * @param strToEncrypt
+     * @return encrypted string or null if encryption failed
+     */
     public static String encrypt(String strToEncrypt) {
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
@@ -35,6 +34,12 @@ public class GameCrypto {
         return null;
     }
 
+    /**
+     * Decrypt string using AES
+     *
+     * @param strToDecrypt
+     * @return decrypted string or null if decryption failed
+     */
     public static String decrypt(String strToDecrypt) {
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
@@ -46,6 +51,11 @@ public class GameCrypto {
         }
     }
 
+    /**
+     * Reads the private key from the config file
+     *
+     * @return the AES 16bit Key
+     */
     private static SecretKeySpec getPrivateKey(){
 
         MessageDigest sha = null;
