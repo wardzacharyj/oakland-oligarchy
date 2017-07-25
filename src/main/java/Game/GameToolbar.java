@@ -2,7 +2,9 @@ package Game;
 
 import Game.UI.ClockPanel;
 import Game.UI.TurnPanel;
+import Utilities.GameCrypto;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -35,8 +37,6 @@ public class GameToolbar extends JMenuBar implements ActionListener {
         this.clockPanel = clockPanel;
         this.gameName = gameName;
 
-
-        // File Menu, F - Mnemonic
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
 
@@ -49,6 +49,10 @@ public class GameToolbar extends JMenuBar implements ActionListener {
         add(fileMenu);
     }
 
+
+    /**
+     *
+     */
     private void save(){
 
         JsonArray playerObjects = new JsonArray();
@@ -66,6 +70,12 @@ public class GameToolbar extends JMenuBar implements ActionListener {
 
     }
 
+
+    /**
+     * This encrypts and creates an oll file with respective game state
+     *
+     * @param playerList list of all current players and their respective states
+     */
     private void writeOutOLLFile(JsonObject playerList){
 
         JFileChooser chooser = new JFileChooser();
@@ -86,12 +96,9 @@ public class GameToolbar extends JMenuBar implements ActionListener {
                 logSavedFileLocation(formattedFileName);
                 File f = new File(formattedFileName);
                 FileWriter fw = new FileWriter(f);
-                fw.write(playerList.toString());
-
-                System.out.println(playerList.toString());
+                fw.write(GameCrypto.encrypt(playerList.toString()));
                 fw.close();
 
-                System.out.println();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -100,6 +107,12 @@ public class GameToolbar extends JMenuBar implements ActionListener {
 
     }
 
+
+    /**
+     * This updates local storage with the filepath where the oll was saved
+     *
+     * @param savedFileFilePath
+     */
     private void logSavedFileLocation(String savedFileFilePath){
 
         String f = prefs.get("filenames", null);
@@ -108,6 +121,13 @@ public class GameToolbar extends JMenuBar implements ActionListener {
         JsonParser jsonParser = new JsonParser();
         JsonObject filenames = jsonParser.parse(f).getAsJsonObject();
         JsonArray jsonArray = filenames.getAsJsonArray("games");
+
+        // Avoids double entries to same fileLocation on recent list
+        for (JsonElement j: jsonArray){
+            JsonObject check = j.getAsJsonObject();
+            if(check.get("fileLocation").getAsString().equals(savedFileFilePath))
+                return;
+        }
 
         JsonObject game = new JsonObject();
         game.addProperty("gameName",gameName);
@@ -124,6 +144,11 @@ public class GameToolbar extends JMenuBar implements ActionListener {
     }
 
 
+    /**
+     *  Calls save function on button click
+     *
+     * @param e action event generated when save button is pressed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         JMenuItem item = (JMenuItem) e.getSource();

@@ -1,9 +1,9 @@
 package Game;
 
 
-import Game.Board.Board;
 import Game.Board.Property;
 import Game.UI.GameCreatedListener;
+import Utilities.GameCrypto;
 import com.google.gson.*;
 
 import javax.imageio.ImageIO;
@@ -165,7 +165,7 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
 
 
     /**
-     *      Builds the scroll panel displayed on the right which lists saved
+     *      Builds the scroll panel displayed on the Left which lists saved
      *      games for reopening
      */
     private void buildLocatedGamesPanel(){
@@ -404,7 +404,7 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
         else if(src == btnDevStart){
             buildDevPlayers();
         }
-        else if(src == gameList){
+        else if(src == gameList && games.size() != 0){
             // Load game files here
             try {
                 GameCell selectedGame = gameList.getSelectedValue();
@@ -439,6 +439,17 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
             InputStream inputStream = new FileInputStream(path);
             Scanner s = new Scanner(inputStream).useDelimiter("\\A");
             String result = s.hasNext() ? s.next() : "";
+
+            // Decrypt
+            result = GameCrypto.decrypt(result);
+            if (result == null){
+                JOptionPane.showMessageDialog(null,
+                        "Oll Game File has been corrupted or modified illegally\n"+path,
+                        "File Corrupted",
+                        JOptionPane.ERROR_MESSAGE);
+                removeInvalidFiles();
+                return;
+            }
 
             // Parse  General Game information
             JsonObject game = new JsonParser().parse(result).getAsJsonObject();
@@ -485,27 +496,46 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
             // Notify Game Created
             gameCreatedListener.onGameLoaded(gameName, timeElapsed, playerTurn, players);
             this.dispose();
-        } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Oll File no longer exists at location \n"+path,
-                    "File Not Found",
-                    JOptionPane.ERROR_MESSAGE);
-
-            // Removed Invalid File From Recent
-            JsonArray jsonArray = new JsonArray();
-            for(int i = 0; i < games.size(); i++){
-                if(i != gameList.getSelectedIndex()){
-                    jsonArray.add(games.get(i));
-                }
+        } catch (FileNotFoundException | JsonParseException e) {
+            if(e instanceof FileNotFoundException){
+                JOptionPane.showMessageDialog(null,
+                        "Oll File no longer exists at location \n"+path,
+                        "File Not Found",
+                        JOptionPane.ERROR_MESSAGE);
             }
-            games = jsonArray;
-            updateRecentGames();
+            else {
+                JOptionPane.showMessageDialog(null,
+                        "Oll Game File has been corrupted or modified illegally\n"+path,
+                        "File Corrupted",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            removeInvalidFiles();
 
         }
     }
 
+
     /**
-     *  Updates Game list model with specified jsonarray
+     *  Removes selected index (the corrupted file) from the game list
+     *
+     */
+    private void removeInvalidFiles(){
+        // Removed Invalid File From Recent
+        JsonArray jsonArray = new JsonArray();
+        for(int i = 0; i < games.size(); i++){
+            if(i != gameList.getSelectedIndex()){
+                jsonArray.add(games.get(i));
+            }
+        }
+        games = jsonArray;
+        updateRecentGames();
+
+    }
+
+
+    /**
+     *  Updates Game list model
      *
      */
     private void updateRecentGames(){
@@ -529,8 +559,9 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
 
         }
 
-        gameList.setModel(listModel);
+        if(gameList != null) gameList.setModel(listModel);
     }
+
 
     /**
      * Checks validity of form
@@ -586,6 +617,7 @@ public class GameSetup extends JFrame implements  ListCellRenderer<GameSetup.Gam
 
     /**
      * Builds player objects from form to load into the game
+     *
      */
     private void buildPlayerObjects(){
         Player[] players = new Player[playerPanels.size()];
