@@ -124,6 +124,9 @@ public class TurnPanel extends JPanel implements ActionListener {
             resetDice();
             mainButton.setText("Roll");
             mode = ROLL_MODE;
+            if(players[currentPlayer].hasLost()) {
+                players[currentPlayer].loseMessage();
+            }
             if(winCondition()) {
                 for (int i = 0; i < players.length; i++) {
                     if(!players[i].hasLost()) {

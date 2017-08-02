@@ -144,6 +144,8 @@ public class Property extends Tile {
 
     public int[] getRentArray() { return rent; }
 
+    public int getMortgage() { return mortgage; }
+
     /**
      * Getter for owner.
      * @return Player object who currently owns property.
@@ -338,10 +340,10 @@ public class Property extends Tile {
                 JOptionPane.showMessageDialog(null, "Thank you "
                         +p.getName() +" we hope you enjoy your stay here, that'll be $"+getRent());
 
-                if (p.hasEnoughCash(this.getPurchaseCost())) {
+                if (p.hasEnoughCash(this.getRent())) {
                     p.payRent(owner, getRent());
                 } else {
-                    JOptionPane.showMessageDialog(null, "You don't have enough money!");
+                    p.sellPropertiesFor(getRent());
                 }
             }
 
