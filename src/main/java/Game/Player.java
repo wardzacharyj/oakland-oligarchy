@@ -341,6 +341,7 @@ public class Player {
             this.cash = 0;
             return;
         }
+        JOptionPane.showMessageDialog(new JPanel(), this.name + " does not have enough cash to cover this expense.\nProperties will be automatically mortgaged until there is enough cash.");
         for (int i = 0; i < properties.size(); i++) {
             if(cash >= amount) {
                 //if at any point there is enough cash to cover the amount, then we stop looping.
