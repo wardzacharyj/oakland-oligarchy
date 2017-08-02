@@ -123,6 +123,8 @@ public class Driver extends JFrame implements GameCreatedListener {
             public void run() {
                 try{
                     //UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
+
+
                     new Driver();
                 }catch (Exception e){
                     e.printStackTrace();

@@ -9,6 +9,7 @@ import Game.UI.Leaderboard;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 import java.io.InputStream;
 import java.util.Scanner;
 import java.util.prefs.Preferences;
@@ -36,7 +37,7 @@ public class Board extends JPanel implements PlayerListener {
 
 
     private Tile[] tiles;
-    private JPanel boardPanel;
+    private BoardPanel boardPanel;
 
     private GridBagLayout gridBagLayout;
     private GridBagConstraints gridBagConstraints;
@@ -61,7 +62,7 @@ public class Board extends JPanel implements PlayerListener {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.WHITE);
 
-        boardPanel = new JPanel();
+        boardPanel = new BoardPanel();
         tiles = new Tile[SIZE];
         gridBagLayout = new GridBagLayout();
 
@@ -87,6 +88,8 @@ public class Board extends JPanel implements PlayerListener {
         }
 
     }
+
+
 
     /**
      * Loads All tiles and information based on configuration file
@@ -297,6 +300,46 @@ public class Board extends JPanel implements PlayerListener {
         return pos == CORNER_BOTTOM_LEFT || pos == CORNER_BOTTOM_RIGHT
                 || pos == CORNER_TOP_RIGHT || pos == CORNER_TOP_LEFT;
     }
+
+
+    class BoardPanel extends JPanel{
+        BoardPanel(){
+
+        }
+
+        @Override
+        public void paint(Graphics g) {
+            super.paint(g);
+            Graphics2D g2d = (Graphics2D)g;
+            RenderingHints rh = new RenderingHints(
+                    RenderingHints.KEY_TEXT_ANTIALIASING,
+                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            g2d.setRenderingHints(rh);
+            Font font;
+            try {
+                font = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResource("kabel.ttf").openStream());
+                GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                genv.registerFont(font);
+                font = font.deriveFont(35f);
+            }catch (Exception e){
+                font = g2d.getFont().deriveFont( 35f );;
+            }
+
+            g2d.setFont(font);
+            g2d.setColor(Color.RED);
+            g2d.fill(new RoundRectangle2D.Double(getWidth()/3-7, getHeight()/3+63, 414, 82, 4,4));
+
+            g2d.setColor(Color.WHITE);
+            g2d.fill(new RoundRectangle2D.Double(getWidth()/3-3, getHeight()/3+66, 407, 77, 4,4));
+            g2d.setColor(Color.RED);
+            g2d.fill(new RoundRectangle2D.Double(getWidth()/3, getHeight()/3+70, 400, 70, 4,4));
+            g2d.setColor(Color.WHITE);
+            g2d.drawString("Oakland Oligarchy", getWidth()/3+15, getHeight()/2);
+
+
+        }
+    }
+
 
     /**
      * Updates player objects position on board
