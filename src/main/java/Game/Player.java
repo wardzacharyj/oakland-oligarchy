@@ -316,6 +316,7 @@ public class Player {
      * @param property  Property to remove.
      */
     public void removeProperty(Property property) {
+        property.setOwner(null);
         properties.remove(property);
         DefaultMutableTreeNode propertyFolder = (DefaultMutableTreeNode) this.playerNode.getFirstChild();
         DefaultMutableTreeNode propertyNode = (DefaultMutableTreeNode) propertyFolder.getFirstChild();
@@ -328,15 +329,37 @@ public class Player {
             propertyNode =  propertyNode.getNextSibling();
         }
         this.listener.onTrade(this);
+    }
 
-        if (hasLost()) loseMessage();
-
+    /**
+     *
+     * @param amount
+     */
+    public void sellPropertiesFor(int amount) {
+        int cash = this.cash;
+        if((properties == null || properties.size() == 0) && cash <= amount) {
+            this.cash = 0;
+            return;
+        }
+        JOptionPane.showMessageDialog(new JPanel(), this.name + " does not have enough cash to cover this expense.\nProperties will be automatically mortgaged until there is enough cash.");
+        for (int i = 0; i < properties.size(); i++) {
+            if(cash >= amount) {
+                //if at any point there is enough cash to cover the amount, then we stop looping.
+                cash = cash - amount;
+                this.cash = cash;
+                return;
+            }
+            Property p = properties.get(i);
+            cash += p.getMortgage();
+            removeProperty(p);
+            i--;
+        }
     }
 
     /**
      *      Displays initial lost message to user
      */
-    private void loseMessage(){
+    public void loseMessage(){
         JOptionPane.showMessageDialog(null, name +", sorry you lost");
     }
 
@@ -382,8 +405,6 @@ public class Player {
      */
     public void subtractCash(int amount) {
         this.cash = this.cash - amount;
-        if(hasLost()) loseMessage();
-
     }
 
     /**

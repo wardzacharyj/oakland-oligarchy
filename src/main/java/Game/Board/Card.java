@@ -39,7 +39,18 @@ public class Card {
         }
         else if(name.equals("Make General Repairs")) {
             JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Make General Repairs'.  Pay $25 per property owned.");
-            p.subtractCash(p.getOwnedProperties().length * 25);
+            if(p.getOwnedProperties() == null || p.getOwnedProperties().length == 0) {
+                // There are no properties to make repairs to.  This is intentionally left blank.
+            }
+            else {
+                if(p.hasEnoughCash(p.getOwnedProperties().length * 25)) {
+                    p.subtractCash(p.getOwnedProperties().length * 25);
+                }
+                else {
+                    p.sellPropertiesFor(p.getOwnedProperties().length * 25);
+                }
+            }
+
         }
         else if(name.equals("Advance To Pitt Start")) {
             int pos = p.getPosition();
@@ -76,7 +87,12 @@ public class Card {
         }
         else if(name.equals("Doctor Fee")) {
             JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Doctor's Fee'.  You need to go to the Doctor's office for a checkup.  The copay is $50");
-            p.subtractCash(50);
+            if(p.hasEnoughCash(50)) {
+                p.subtractCash(50);
+            }
+            else {
+                p.sellPropertiesFor(50);
+            }
         }
         else if(name.equals("Tax Refund")) {
             JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Tax Refund'.  The federal government has issued you an income tax refund of $50");
@@ -84,7 +100,12 @@ public class Card {
         }
         else if(name.equals("Hospital Fee")) {
             JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Hospital Fee'.  You broke your leg and need to go to the hospital.  The hospital fee is $100");
-            p.subtractCash(100);
+            if(p.hasEnoughCash(100)) {
+                p.subtractCash(100);
+            }
+            else {
+                p.sellPropertiesFor(100);
+            }
         }
         else if(name.equals("Go to Jail")) {
             tiles[9].addPlayer(p);
@@ -127,20 +148,30 @@ public class Card {
             }
         }
         else if(name.equals("Pay the Homeless")) {
-            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Pay the Homeless'.  You lose $50.");
-            p.subtractCash(50);
+            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Pay the Homeless'.  You lose $100.");
+            if(p.hasEnoughCash(100)) {
+                p.subtractCash(100);
+            }
+            else {
+                p.sellPropertiesFor(100);
+            }
         }
         else if(name.equals("Pay School Fees")) {
             JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Pay School Fees'.  You lose $100.");
-            p.subtractCash(100);
+            if(p.hasEnoughCash(100)) {
+                p.subtractCash(100);
+            }
+            else {
+                p.sellPropertiesFor(100);
+            }
         }
         else if(name.equals("Happy Birthday")) {
             JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Happy Birthday'.  You gain $100.");
             p.addCash(100);
         }
         else if(name.equals("Merry Christmas")) {
-            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Merry Christmas'.  You gain $250.");
-            p.addCash(250);
+            JOptionPane.showMessageDialog(new JPanel(), p.getName() + " drew 'Merry Christmas'.  You gain $150.");
+            p.addCash(150);
         }
     }
 }

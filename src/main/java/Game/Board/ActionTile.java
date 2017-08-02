@@ -77,8 +77,8 @@ public class ActionTile extends Tile {
             }
         }
         else if(getName().equals("Pitt Start")) {
-           JOptionPane.showMessageDialog(new JPanel(), "You made $200 for landing on Pitt Start.");
-            p.addCash(200);
+           JOptionPane.showMessageDialog(new JPanel(), "You made $50 for landing on Pitt Start.");
+            p.addCash(50);
             //not sure how to update this player's cash on screen.
         }
     }
