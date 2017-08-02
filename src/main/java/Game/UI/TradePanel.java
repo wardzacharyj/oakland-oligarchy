@@ -66,7 +66,7 @@ public class TradePanel extends JPanel {
                 properties = new JComboBox<>();
             }
             ArrayList<Integer> moneyList = new ArrayList<>();
-            for (int cash = 0; cash <= selectedPlayer.getCash(); cash += 50) {
+            for (int cash = 0; cash <= selectedPlayer.getCash(); cash++) {
                 moneyList.add(cash);
             }
             money = new JComboBox<>(moneyList.toArray());
@@ -80,7 +80,7 @@ public class TradePanel extends JPanel {
             }
 
             ArrayList<Integer> moneyList = new ArrayList<>();
-            for (int cash = 0; cash <= currentPlayer.getCash(); cash += 50) {
+            for (int cash = 0; cash <= currentPlayer.getCash(); cash++) {
                 moneyList.add(cash);
             }
             money = new JComboBox<>(moneyList.toArray());
@@ -145,6 +145,7 @@ public class TradePanel extends JPanel {
 
         if (result == JOptionPane.YES_OPTION) {
             if (isOwner) {
+                currentPlayer.removeProperty(property);
                 if(property.getName().contains("61"))
                 {
                     selectedPlayer.buyBusProperty(property, moneyOffer);
@@ -153,7 +154,7 @@ public class TradePanel extends JPanel {
                 {
                     selectedPlayer.buyProperty(property, moneyOffer);
                 }
-                currentPlayer.removeProperty(property);
+
                 currentPlayer.addBus();
                 currentPlayer.addCash(moneyOffer);
                 if (propertyOffer != null) {
@@ -166,6 +167,7 @@ public class TradePanel extends JPanel {
                         currentPlayer.buyProperty(propertyOffer, 0);
                     }
                     selectedPlayer.removeProperty(propertyOffer);
+                    propertyOffer.setOwner(currentPlayer);
                     selectedPlayer.addBus();
                 }
             } else {
@@ -178,6 +180,7 @@ public class TradePanel extends JPanel {
                     currentPlayer.buyProperty(property, moneyOffer);
                 }
                 selectedPlayer.removeProperty(property);
+                property.setOwner(currentPlayer);
                 selectedPlayer.addBus();
                 selectedPlayer.addCash(moneyOffer);
                 if (propertyOffer != null) {
@@ -190,6 +193,7 @@ public class TradePanel extends JPanel {
                         selectedPlayer.buyProperty(propertyOffer, 0);
                     }
                     currentPlayer.removeProperty(propertyOffer);
+                    propertyOffer.setOwner(selectedPlayer);
                     currentPlayer.addBus();
                 }
             }
